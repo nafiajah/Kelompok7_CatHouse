@@ -17,7 +17,7 @@ return new class extends Migration
             $table->timestamp('tanggal_saran')->useCurrent();
             $table->text('teks_saran');
             $table->integer('bintang');
-            $table->boolean('status_tampil')->default(true);
+            $table->enum('status_tampil', ['tampil', 'tidak'])->default('tidak');
         });
     }
 

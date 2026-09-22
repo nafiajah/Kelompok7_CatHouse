@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sessions', function (Blueprint $table) {
             $table->id();
-            $table->string('jam_sesi')->unique();
+            $table->string('jam_sesi', 20)->unique();
             $table->integer('token_sesi');
         });
     }

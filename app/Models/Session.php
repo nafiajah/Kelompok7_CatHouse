@@ -6,7 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Session extends Model
 {
-    protected $fillable = ['jam_sesi', 'token_sesi'];
+    protected $table = 'sessions';
+
     public $timestamps = false;
 
+    protected $fillable = [
+        'jam_sesi',
+        'token_sesi',
+    ];
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'id_sesi');
+    }
 }

@@ -2,11 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Catdata extends Model
+class Catdata extends DataKucing
 {
-    protected $fillable = ['id_jenis_kucings', 'nama_kucing', 'deskripsi', 'foto'];
-    public $timestamps = false;
-
+    // Alias to DataKucing
 }
