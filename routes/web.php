@@ -45,6 +45,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 });
 
+Route::get('/Lulu', function () {
+    return view('welcome');
+});
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
