@@ -35,7 +35,7 @@ class AuthController extends Controller
         $user = User::where($loginField, $credentials['login'])->first();
 
         if ($user && Hash::check($credentials['password'], $user->password)) {
-            Auth::login($user, $request->boolean('remember'));
+            Auth::login($user);
             $request->session()->regenerate();
 
             if ($user->role === 'admin') {

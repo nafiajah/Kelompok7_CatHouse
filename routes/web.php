@@ -50,6 +50,13 @@ Route::get('/Lulu', function () {
 });
 
 
+<<<<<<< HEAD
+=======
+Route::get('/faris', function () {
+    return view('welcome');
+});
+
+>>>>>>> fd4e72c28382f305a06460306980878e5b889cb6
 Route::get('/jeje', function () {
     return view('welcome');
 });
@@ -100,4 +107,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::put('/users/{id}', [AdminUserController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('users.destroy');
 
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> fd4e72c28382f305a06460306980878e5b889cb6

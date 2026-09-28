@@ -124,13 +124,7 @@
                     @enderror
                 </div>
 
-                <!-- Remember Me Checkbox -->
-                <div class="form-options-row">
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="remember" class="checkbox-input">
-                        <span>Remember me</span>
-                    </label>
-                </div>
+
 
                 <!-- Submit Button -->
                 <button type="submit" class="btn-login">
