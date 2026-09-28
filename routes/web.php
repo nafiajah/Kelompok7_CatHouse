@@ -54,8 +54,6 @@ Route::get('/faris', function () {
     return view('welcome');
 });
 
-=======
-
 Route::get('/jeje', function () {
     return view('welcome');
 });
@@ -108,4 +106,3 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('users.destroy');
 
 });
->>>>>>> 4a2da1c9392665b6ddb434e4ad5997dce7fef0f6
