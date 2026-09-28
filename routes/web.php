@@ -6,7 +6,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::get('/jeje', function () {
     return view('welcome');
 });
 
+Route::get('/nafi', function () {
+    return view('welcome');
+});
