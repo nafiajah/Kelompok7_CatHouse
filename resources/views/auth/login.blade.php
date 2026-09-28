@@ -143,16 +143,7 @@
                 <p>Belum memiliki akun? <a href="{{ route('register') }}">Daftar di sini</a></p>
             </div>
 
-            <!-- Demo Quick Login Helper -->
-            <div class="demo-badge-container">
-                <div class="demo-badge-header">
-                    <i class="fa-solid fa-key" style="color: #E58396;"></i> Akun Uji Coba:
-                </div>
-                <div class="demo-badge-grid">
-                    <div><strong>Admin:</strong> admin / admin123</div>
-                    <div><strong>User:</strong> user / user123</div>
-                </div>
-            </div>
+
 
         </div>
     </div>
