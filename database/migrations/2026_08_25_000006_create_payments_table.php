@@ -12,15 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->id(); 
-            $table->enum('metode_pembayaran', [
-                'Transfer Bank',
-                'Kartu Kredit',
-                'E-Wallet',
-                'Tunai'
-            ]);
+            $table->id();
+            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
+            $table->integer('jumlah_tamu');
             $table->decimal('total_harga', 10, 2);
-            
+            $table->enum('metode_pembayaran', ['qris', 'bank']);
             $table->timestamp('tanggal_pembayaran')->useCurrent();
         });
     }

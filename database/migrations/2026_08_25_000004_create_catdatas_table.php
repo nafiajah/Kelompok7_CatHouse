@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('catdatas', function (Blueprint $table) {
+        Schema::create('data_kucing', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_jenis_kucings')->constrained('variants')->onDelete('cascade');
+            $table->foreignId('id_variant')->constrained('variants')->onDelete('cascade');
             $table->string('nama_kucing', 50)->unique();
             $table->text('deskripsi');
-            $table->string('foto', 50);
+            $table->string('foto', 255);
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('galleries');
+        Schema::dropIfExists('data_kucing');
     }
 };

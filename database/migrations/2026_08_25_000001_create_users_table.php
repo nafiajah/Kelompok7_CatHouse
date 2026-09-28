@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->enum('role', ['admin', 'user'])->default('user');
             $table->string('username', 50)->unique();
-            $table->string('password', 50);
+            $table->string('password', 255);
             $table->string('nama_pelanggan', 50);
             $table->string('email', 50)->unique();
             $table->string('no_telp', 50);

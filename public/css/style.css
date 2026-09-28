@@ -1,0 +1,486 @@
+/* ==========================================================================
+   Cat House - Login Page Stylesheet (Vanilla CSS)
+   File: public/css/style.css
+   ========================================================================== */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* Color Variables & Design Tokens */
+:root {
+  --bg-main: #FAF7F2;
+  --bg-card: #FAF7F2;
+  --bg-input: #FAF8F5;
+  --text-title: #2E221E;
+  --text-subtitle: #94847A;
+  --text-label: #3D3029;
+  --text-muted: #88776D;
+  --border-input: #5C4D44;
+  --border-focus: #E58396;
+  --btn-primary: #E58396;
+  --btn-primary-hover: #D76E81;
+  --btn-primary-active: #C95E72;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --shadow-btn: 0 4px 14px rgba(229, 131, 150, 0.35);
+  --shadow-btn-hover: 0 6px 18px rgba(229, 131, 150, 0.45);
+}
+
+/* Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Hide ALL layout wrappers (announcement bar, header, flash banners, footer) on login page */
+body:has(.login-container) > div,
+body:has(.login-container) > header,
+body:has(.login-container) > footer,
+body.login-page-body > div,
+body.login-page-body > header,
+body.login-page-body > footer {
+  display: none !important;
+}
+
+/* Ensure main occupies full viewport without any margins or padding */
+body:has(.login-container) > main,
+body.login-page-body > main {
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
+body:has(.login-container),
+body.login-page-body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-main) !important;
+  color: var(--text-title);
+  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Full Screen Login Container Flush to Viewport */
+.login-container {
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  background-color: var(--bg-main);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Back to Home floating action button */
+.login-back-btn {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(92, 77, 68, 0.15);
+  border-radius: 20px;
+  color: var(--text-label);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.login-back-btn:hover {
+  background-color: #FFFFFF;
+  color: var(--btn-primary-hover);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   LEFT COLUMN: Photo Frame Section (Zero Gaps / Flush to Edges)
+   ========================================================================== */
+.login-photo-section {
+  flex: 1.15;
+  position: relative;
+  height: 100vh;
+  max-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--bg-main);
+}
+
+.login-photo-wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* Image inside photo frame - Flush top-left */
+.login-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left top;
+  display: block;
+}
+
+/* Fallback state if image is missing */
+.login-photo-fallback {
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #E6DCCD 0%, #D4C5B2 100%);
+  color: var(--text-label);
+  padding: 40px;
+  text-align: center;
+}
+
+.login-photo-fallback i {
+  font-size: 64px;
+  color: #A39182;
+  margin-bottom: 16px;
+}
+
+.login-photo-fallback p {
+  font-size: 14px;
+  font-weight: 500;
+  color: #78685C;
+}
+
+.login-wave-separator {
+  display: none !important;
+}
+
+
+/* ==========================================================================
+   RIGHT COLUMN: Login Form Section
+   ========================================================================== */
+.login-form-section {
+  flex: 1;
+  height: 100vh;
+  max-height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 36px;
+  position: relative;
+  z-index: 5;
+  background-color: var(--bg-main);
+}
+
+.login-form-content {
+  width: 100%;
+  max-width: 390px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 1. Logo Frame Container */
+.login-logo-frame {
+  width: 130px;
+  max-height: 95px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.login-logo-img {
+  max-width: 100%;
+  max-height: 95px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Fallback Logo Frame (House + Pink Cat shape) */
+.login-logo-fallback {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.logo-icon-house {
+  width: 56px;
+  height: 56px;
+  background: #FAF7F2;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-text-fallback {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 700;
+  color: #8C2B38;
+  letter-spacing: 1.5px;
+  margin-top: 4px;
+}
+
+/* 2. Titles & Headers */
+.login-title {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-title);
+  margin-bottom: 4px;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+.login-subtitle {
+  font-size: 13.5px;
+  font-weight: 400;
+  color: var(--text-subtitle);
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+/* Flash Notification Banners */
+.login-alert {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-size: 12.5px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.login-alert-danger {
+  background-color: #FDF2F2;
+  border: 1px solid #F8B4B4;
+  color: #9B1C1C;
+}
+
+.login-alert-success {
+  background-color: #F0FDF4;
+  border: 1px solid #BBF7D0;
+  color: #166534;
+}
+
+/* 3. Form Layout */
+.login-form {
+  width: 100%;
+}
+
+.form-group {
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.form-label {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-label);
+  margin-bottom: 6px;
+}
+
+/* Input Wrapper & Icon positioning (Right side icon) */
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.form-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 44px 0 16px;
+  background-color: var(--bg-input);
+  border: 1.5px solid var(--border-input);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  color: var(--text-title);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.form-input::placeholder {
+  color: #A3948A;
+}
+
+.form-input:focus {
+  background-color: #FFFFFF;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(229, 131, 150, 0.2);
+}
+
+.form-input.is-invalid {
+  border-color: #E53E3E;
+}
+
+/* Right-aligned Input Icon */
+.input-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-title);
+  font-size: 15px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-message {
+  font-size: 11.5px;
+  color: #E53E3E;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* 4. Checkbox Row */
+.form-options-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-input {
+  width: 15px;
+  height: 15px;
+  border: 1.5px solid var(--border-input);
+  border-radius: 4px;
+  accent-color: var(--btn-primary);
+  cursor: pointer;
+}
+
+/* 5. Login Button */
+.btn-login {
+  width: 100%;
+  height: 48px;
+  background-color: var(--btn-primary);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: var(--shadow-btn);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-login:hover {
+  background-color: var(--btn-primary-hover);
+  box-shadow: var(--shadow-btn-hover);
+  transform: translateY(-1px);
+}
+
+.btn-login:active {
+  background-color: var(--btn-primary-active);
+  transform: translateY(0);
+}
+
+/* 6. Footer Links */
+.login-footer-links {
+  margin-top: 22px;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.login-footer-links a {
+  color: var(--btn-primary-hover);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.login-footer-links a:hover {
+  text-decoration: underline;
+  color: var(--btn-primary-active);
+}
+
+
+/* ==========================================================================
+   RESPONSIVE LAYOUT (Mobile & Tablet Adjustments)
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .login-photo-section {
+    flex: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .login-photo-section {
+    min-height: 240px;
+    height: 240px;
+    flex: none;
+  }
+
+  .login-form-section {
+    min-height: auto;
+    height: auto;
+    flex: 1;
+    padding: 28px 20px 40px 20px;
+  }
+
+  .login-title {
+    font-size: 26px;
+  }
+}
