@@ -56,6 +56,7 @@ Route::get('/jeje', function () {
 
 Route::get('/nafi', function () {
     return view('welcome');
+});
 
 /*
 |--------------------------------------------------------------------------
