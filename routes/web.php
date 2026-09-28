@@ -50,13 +50,11 @@ Route::get('/Lulu', function () {
 });
 
 
-<<<<<<< HEAD
-=======
+
 Route::get('/faris', function () {
     return view('welcome');
 });
 
->>>>>>> fd4e72c28382f305a06460306980878e5b889cb6
 Route::get('/jeje', function () {
     return view('welcome');
 });
