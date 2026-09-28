@@ -66,7 +66,7 @@
 
     <!-- Top Announcement Bar -->
     <div class="bg-cafe-brown text-amber-100 text-xs py-2 px-4 text-center tracking-wide font-medium flex items-center justify-center gap-2">
-        <span>🐾 Nikmati waktu santai bersama 10+ kucing ramah & gemas di <strong>Capyca Pet Cafe</strong>!</span>
+        <span>🐾 Nikmati waktu santai bersama 10+ kucing ramah & gemas di <strong>Cat House</strong>!</span>
         <span class="hidden sm:inline">|</span>
         <a href="{{ route('reservasi.create') }}" class="hidden sm:inline text-amber-300 underline font-semibold hover:text-white transition">Reservasi Sekarang &rarr;</a>
     </div>
