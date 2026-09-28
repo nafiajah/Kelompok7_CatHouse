@@ -54,10 +54,7 @@ Route::get('/Lulu', function () {
 Route::get('/faris', function () {
     return view('welcome');
 });
-<<<<<<< HEAD
 
-=======
->>>>>>> 4742244e545e82c4a28e6eb6c799b42b8ca04114
 Route::get('/jeje', function () {
     return view('welcome');
 });
