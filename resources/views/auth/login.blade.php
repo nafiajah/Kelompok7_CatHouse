@@ -1,44 +1,87 @@
 @extends('layouts.app')
 
-@section('title', 'Masuk ke Akun - Capyca Pet Cafe')
+@section('title', 'Login - CAT HOUSE')
+
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/style.css') }}?v={{ time() }}">
+@endsection
 
 @section('content')
-<div class="py-12 sm:py-16">
-    <div class="max-w-md mx-auto px-4 sm:px-6">
-        <div class="bg-white rounded-3xl shadow-xl border border-amber-100 p-8 sm:p-10 relative overflow-hidden">
-            <!-- Decorative circle -->
-            <div class="absolute -top-12 -right-12 w-32 h-32 bg-amber-100/60 rounded-full blur-2xl pointer-events-none"></div>
+<div class="login-container">
+    <!-- Back to Home Floating Link -->
+    <a href="{{ route('home') }}" class="login-back-btn">
+        <i class="fa-solid fa-arrow-left"></i> Beranda
+    </a>
 
-            <div class="text-center mb-8">
-                <div class="w-16 h-16 rounded-2xl bg-amber-500 text-white text-3xl flex items-center justify-center mx-auto mb-4 shadow-md">
-                    <i class="fa-solid fa-cat"></i>
+    <!-- LEFT COLUMN: Photo Frame Section -->
+    <div class="login-photo-section">
+        <div class="login-photo-wrapper">
+            <!-- Photo Image with fallback to JPG then fallback box -->
+            <img 
+                src="{{ asset('images/cat-photo.png') }}?v={{ time() }}" 
+                alt="Cat House Photo" 
+                class="login-photo-img" 
+                id="loginCatPhoto"
+                onerror="if (this.src.indexOf('.png') !== -1) { this.src='{{ asset('images/cat-photo.jpg') }}?v={{ time() }}'; } else { this.style.display='none'; document.getElementById('catPhotoFallback').style.display='flex'; }"
+            >
+            <!-- Fallback Frame if image missing -->
+            <div id="catPhotoFallback" class="login-photo-fallback">
+                <i class="fa-solid fa-cat"></i>
+                <p>Frame Foto Kucing</p>
+                <span style="font-size: 11px; opacity: 0.7; margin-top: 4px;">Simpan foto Anda di <code>public/images/cat-photo.png</code></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Login Form Section -->
+    <div class="login-form-section">
+        <div class="login-form-content">
+            
+            <!-- Logo Frame -->
+            <div class="login-logo-frame">
+                <img 
+                    src="{{ asset('images/logo.png') }}" 
+                    alt="CAT HOUSE Logo" 
+                    class="login-logo-img" 
+                    id="loginLogoImg"
+                    onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='flex';"
+                >
+                <!-- Fallback Frame for Logo -->
+                <div id="logoFallback" class="login-logo-fallback">
+                    <div class="logo-icon-house">
+                        <i class="fa-solid fa-cat text-2xl text-amber-800"></i>
+                    </div>
+                    <span class="logo-text-fallback">CAT HOUSE</span>
                 </div>
-                <h1 class="text-2xl font-bold font-playfair text-cafe-brown">Selamat Datang</h1>
-                <p class="text-sm text-cafe-muted mt-1">Masuk untuk memesan sesi atau melihat riwayat reservasi</p>
             </div>
 
-            <!-- Demo quick credentials badge -->
-            <div class="mb-6 p-3 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-800">
-                <p class="font-bold flex items-center gap-1.5 mb-1">
-                    <i class="fa-solid fa-key text-amber-600"></i> Akun Uji Coba:
-                </p>
-                <div class="grid grid-cols-2 gap-2 text-[11px]">
-                    <div><strong>Admin:</strong> admin / admin123</div>
-                    <div><strong>Pelanggan:</strong> user / user123</div>
-                </div>
-            </div>
+            <!-- Welcome Back Title & Subtitle -->
+            <h1 class="login-title">Welcome Back</h1>
+            <p class="login-subtitle">Please login to your account</p>
 
-            <form action="{{ route('login') }}" method="POST" class="space-y-5">
+            <!-- Alerts for Session Messages -->
+            @if(session('error'))
+                <div class="login-alert login-alert-danger">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span>{{ session('error') }}</span>
+                </div>
+            @endif
+
+            @if(session('success'))
+                <div class="login-alert login-alert-success">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>{{ session('success') }}</span>
+                </div>
+            @endif
+
+            <!-- Login Form -->
+            <form action="{{ route('login') }}" method="POST" class="login-form">
                 @csrf
 
-                <div>
-                    <label for="login" class="block text-xs font-bold uppercase tracking-wider text-cafe-brown mb-1.5">
-                        Username atau Email
-                    </label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-cafe-muted text-sm">
-                            <i class="fa-regular fa-user"></i>
-                        </span>
+                <!-- Username Input Group -->
+                <div class="form-group">
+                    <label for="login" class="form-label">Username</label>
+                    <div class="input-wrapper">
                         <input 
                             type="text" 
                             name="login" 
@@ -46,59 +89,78 @@
                             value="{{ old('login') }}" 
                             required 
                             autofocus
-                            placeholder="Masukkan username atau email" 
-                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm bg-amber-50/20 text-cafe-brown @error('login') border-red-500 @enderror"
+                            placeholder="Enter your username" 
+                            class="form-input @error('login') is-invalid @enderror"
                         >
+                        <!-- Right Icon -->
+                        <span class="input-icon">
+                            <i class="fa-regular fa-user"></i>
+                        </span>
                     </div>
                     @error('login')
-                        <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
+                        <p class="error-message">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div>
-                    <label for="password" class="block text-xs font-bold uppercase tracking-wider text-cafe-brown mb-1.5">
-                        Password
-                    </label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-cafe-muted text-sm">
-                            <i class="fa-solid fa-lock"></i>
-                        </span>
+                <!-- Password Input Group -->
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-wrapper">
                         <input 
                             type="password" 
                             name="password" 
                             id="password" 
                             required 
-                            placeholder="Masukkan password Anda" 
-                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm bg-amber-50/20 text-cafe-brown @error('password') border-red-500 @enderror"
+                            placeholder="Enter your password" 
+                            class="form-input @error('password') is-invalid @enderror"
                         >
+                        <!-- Right Key Icon -->
+                        <span class="input-icon">
+                            <i class="fa-solid fa-key"></i>
+                        </span>
                     </div>
                     @error('password')
-                        <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
+                        <p class="error-message">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="flex items-center justify-between text-xs">
-                    <label class="flex items-center gap-2 cursor-pointer text-cafe-muted">
-                        <input type="checkbox" name="remember" class="rounded text-amber-600 focus:ring-amber-500">
-                        <span>Ingat saya</span>
+                <!-- Remember Me Checkbox -->
+                <div class="form-options-row">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="remember" class="checkbox-input">
+                        <span>Remember me</span>
                     </label>
                 </div>
 
-                <button 
-                    type="submit" 
-                    class="w-full py-3.5 px-4 bg-gradient-to-r from-amber-600 to-amber-500 text-white font-bold text-sm rounded-xl shadow-lg hover:from-amber-700 hover:to-amber-600 transition-all duration-200 flex items-center justify-center gap-2"
-                >
-                    <i class="fa-solid fa-right-to-bracket"></i> Masuk Sekarang
+                <!-- Submit Button -->
+                <button type="submit" class="btn-login">
+                    Login
                 </button>
             </form>
 
-            <div class="mt-8 text-center border-t border-amber-100 pt-6">
-                <p class="text-xs text-cafe-muted">
-                    Belum memiliki akun? 
-                    <a href="{{ route('register') }}" class="font-bold text-amber-600 hover:text-amber-700 underline">Daftar sekarang</a>
-                </p>
+            <!-- Register Link -->
+            <div class="login-footer-links">
+                <p>Belum memiliki akun? <a href="{{ route('register') }}">Daftar di sini</a></p>
             </div>
+
+            <!-- Demo Quick Login Helper -->
+            <div class="demo-badge-container">
+                <div class="demo-badge-header">
+                    <i class="fa-solid fa-key" style="color: #E58396;"></i> Akun Uji Coba:
+                </div>
+                <div class="demo-badge-grid">
+                    <div><strong>Admin:</strong> admin / admin123</div>
+                    <div><strong>User:</strong> user / user123</div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    document.body.classList.add('login-page-body');
+</script>
 @endsection
