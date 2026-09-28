@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('nama_pelanggan', 50);
             $table->string('email', 50)->unique();
             $table->string('no_telp', 50);
+            $table->rememberToken();
+            $table->timestamps();
         });
     }
 
