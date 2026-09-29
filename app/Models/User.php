@@ -9,11 +9,13 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $table = 'users';
+    protected $table = 'members';
 
     public $timestamps = false;
+    public $incrementing = false;
 
     protected $fillable = [
+        'id',
         'role',
         'username',
         'password',
@@ -25,6 +27,17 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (!$model->id) {
+                $model->id = (static::max('id') ?? 0) + 1;
+            }
+        });
+    }
 
     public function reservations()
     {

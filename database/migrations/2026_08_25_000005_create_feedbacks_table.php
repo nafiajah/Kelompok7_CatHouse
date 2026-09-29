@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('feedbacks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
+            $table->foreignId('id_user')->constrained('members')->onDelete('cascade');
             $table->timestamp('tanggal_saran')->useCurrent();
             $table->text('teks_saran');
             $table->integer('bintang');
