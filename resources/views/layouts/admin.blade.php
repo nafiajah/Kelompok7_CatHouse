@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Admin Dashboard - Cat House')</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/admin-cat-logo.png') }}">
 
     <!-- Admin Styles (Poppins font + custom CSS) -->
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}?v={{ time() }}">
@@ -45,9 +46,7 @@
         <!-- Logo & Mobile Close Button -->
         <div class="h-16 sm:h-20 flex items-center justify-between px-5 sm:px-6 border-b border-white/10 flex-shrink-0">
             <div class="flex items-center gap-3 min-w-0">
-                <div class="w-10 h-10 rounded-xl bg-accent/30 text-accent flex items-center justify-center text-xl shadow-md flex-shrink-0">
-                    <i class="fa-solid fa-cat"></i>
-                </div>
+                <img src="{{ asset('images/admin-cat-logo.png') }}" alt="Cat House Logo" class="w-10 h-10 rounded-xl object-contain shadow-md flex-shrink-0">
                 <div class="min-w-0">
                     <span class="text-cream font-bold text-base leading-none block truncate">Cat House Admin</span>
                     <span class="text-xs text-tan font-semibold tracking-wider truncate block">Cat House Management</span>

@@ -9,19 +9,19 @@
     <!-- Top Stats Cards Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <!-- Total Kucing -->
-        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between gap-4">
+        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-stone-300 shadow-md flex items-center justify-between gap-4">
             <div class="min-w-0">
                 <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-stone-400 truncate">Total Kucing</p>
                 <h3 class="text-2xl sm:text-3xl font-extrabold text-stone-800 mt-1 truncate">{{ $totalCats }}</h3>
-                <span class="text-xs text-rose-500 font-semibold truncate block">{{ $totalVariants }} Ras Varian</span>
+                <span class="text-xs text-[#96384C] font-semibold truncate block">{{ $totalVariants }} Ras Varian</span>
             </div>
-            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-rose-50 text-rose-400 flex items-center justify-center text-lg sm:text-xl flex-shrink-0">
+            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-[#F5BFC9]/40 text-[#96384C] flex items-center justify-center text-lg sm:text-xl flex-shrink-0">
                 <i class="fa-solid fa-cat"></i>
             </div>
         </div>
 
         <!-- Total Reservasi -->
-        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between gap-4">
+        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-stone-300 shadow-md flex items-center justify-between gap-4">
             <div class="min-w-0">
                 <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-stone-400 truncate">Total Reservasi</p>
                 <h3 class="text-2xl sm:text-3xl font-extrabold text-stone-800 mt-1 truncate">{{ $totalReservations }}</h3>
@@ -33,11 +33,11 @@
         </div>
 
         <!-- Total Pendapatan -->
-        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between gap-4">
+        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-stone-300 shadow-md flex items-center justify-between gap-4">
             <div class="min-w-0">
                 <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-stone-400 truncate">Total Pemasukan</p>
                 <h3 class="text-xl sm:text-2xl font-extrabold text-stone-800 mt-1 truncate">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</h3>
-                <span class="text-xs text-rose-500 font-semibold truncate block">Dari Tiket Sesi</span>
+                <span class="text-xs text-[#96384C] font-semibold truncate block">Dari Tiket Sesi</span>
             </div>
             <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-rose-50 text-rose-400 flex items-center justify-center text-lg sm:text-xl flex-shrink-0">
                 <i class="fa-solid fa-money-bill-wave"></i>
@@ -45,7 +45,7 @@
         </div>
 
         <!-- Pending Moderasi Feedback -->
-        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between gap-4">
+        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-stone-300 shadow-md flex items-center justify-between gap-4">
             <div class="min-w-0">
                 <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-stone-400 truncate">Feedback Pending</p>
                 <h3 class="text-2xl sm:text-3xl font-extrabold text-stone-800 mt-1 truncate">{{ $pendingFeedbacks }}</h3>
@@ -61,8 +61,8 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
         
         <!-- Recent Reservations -->
-        <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden flex flex-col">
-            <div class="p-5 sm:p-6 border-b border-stone-100 flex items-center justify-between gap-2">
+        <div class="bg-white rounded-2xl border border-stone-300 shadow-md overflow-hidden flex flex-col">
+            <div class="p-5 sm:p-6 border-b border-stone-200 flex items-center justify-between gap-2">
                 <div class="min-w-0">
                     <h3 class="text-base font-bold text-stone-800 truncate">Reservasi Terbaru</h3>
                     <p class="text-xs text-stone-400 truncate">Daftar booking terbaru oleh pengunjung</p>
@@ -72,11 +72,11 @@
                 </a>
             </div>
 
-            <div class="divide-y divide-stone-100 flex-1">
+            <div class="divide-y divide-stone-200 flex-1">
                 @forelse($recentReservations as $res)
                     <div class="p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs hover:bg-stone-50 transition">
                         <div class="flex items-center gap-3 min-w-0">
-                            <div class="w-9 h-9 rounded-xl bg-rose-100 text-rose-800 font-bold flex items-center justify-center text-xs flex-shrink-0">
+                            <div class="w-9 h-9 rounded-xl bg-[#F5BFC9]/50 text-[#96384C] font-bold flex items-center justify-center text-xs flex-shrink-0 shadow-2xs">
                                 {{ strtoupper(substr($res->user ? $res->user->nama_pelanggan : 'T', 0, 1)) }}
                             </div>
                             <div class="min-w-0">
@@ -98,8 +98,8 @@
         </div>
 
         <!-- Recent Feedbacks -->
-        <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden flex flex-col">
-            <div class="p-5 sm:p-6 border-b border-stone-100 flex items-center justify-between gap-2">
+        <div class="bg-white rounded-2xl border border-stone-300 shadow-md overflow-hidden flex flex-col">
+            <div class="p-5 sm:p-6 border-b border-stone-200 flex items-center justify-between gap-2">
                 <div class="min-w-0">
                     <h3 class="text-base font-bold text-stone-800 truncate">Ulasan & Feedback Terbaru</h3>
                     <p class="text-xs text-stone-400 truncate">Review rating bintang dari pelanggan</p>
@@ -109,7 +109,7 @@
                 </a>
             </div>
 
-            <div class="divide-y divide-stone-100 flex-1">
+            <div class="divide-y divide-stone-200 flex-1">
                 @forelse($recentFeedbacks as $fb)
                     <div class="p-3.5 sm:p-4 text-xs space-y-1.5 hover:bg-stone-50 transition">
                         <div class="flex items-center justify-between gap-2">
