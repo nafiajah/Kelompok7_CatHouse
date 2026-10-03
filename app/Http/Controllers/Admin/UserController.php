@@ -38,10 +38,11 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
+        $userTable = $user->getTable();
 
         $validated = $request->validate([
             'nama_pelanggan' => 'required|string|max:50',
-            'email' => 'required|email|max:50|unique:users,email,' . $user->id,
+            'email' => 'required|email|max:50|unique:' . $userTable . ',email,' . $user->id,
             'no_telp' => 'required|string|max:50',
             'role' => 'required|in:admin,user',
             'password' => 'nullable|string|min:6',
