@@ -61,11 +61,13 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        $userTable = (new User)->getTable();
+
         $validated = $request->validate([
-            'username' => 'required|string|max:50|unique:users,username',
+            'username' => 'required|string|max:50|unique:' . $userTable . ',username',
             'password' => 'required|string|min:6|confirmed',
             'nama_pelanggan' => 'required|string|max:50',
-            'email' => 'required|email|max:50|unique:users,email',
+            'email' => 'required|email|max:50|unique:' . $userTable . ',email',
             'no_telp' => 'required|string|max:50',
         ], [
             'username.required' => 'Username wajib diisi.',
