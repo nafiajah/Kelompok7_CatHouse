@@ -92,9 +92,9 @@
                             placeholder="Enter your username" 
                             class="form-input @error('login') is-invalid @enderror"
                         >
-                        <!-- Right Icon -->
-                        <span class="input-icon">
-                            <i class="fa-regular fa-user"></i>
+                        <!-- Right User Icon -->
+                        <span class="input-icon user-icon-box">
+                            <img src="{{ asset('images/user-icon.png') }}" alt="User Icon" class="login-input-icon-img user-icon-img" width="18" height="18">
                         </span>
                     </div>
                     @error('login')
@@ -114,10 +114,19 @@
                             placeholder="Enter your password" 
                             class="form-input @error('password') is-invalid @enderror"
                         >
-                        <!-- Right Key Icon -->
-                        <span class="input-icon">
-                            <i class="fa-solid fa-key"></i>
-                        </span>
+                        <!-- Right Key Icon (Password Visibility Toggle) -->
+                        <button type="button" class="input-icon input-icon-toggle password-icon-box" id="togglePasswordBtn" aria-label="Toggle password visibility" title="Lihat password">
+                            <img 
+                                src="{{ asset('images/key-icon.png') }}" 
+                                alt="Password Hidden" 
+                                id="passwordToggleImg" 
+                                class="login-input-icon-img password-icon-img" 
+                                width="20" 
+                                height="20"
+                                data-hidden-src="{{ asset('images/key-icon.png') }}"
+                                data-visible-src="{{ asset('images/key-slash-icon.png') }}"
+                            >
+                        </button>
                     </div>
                     @error('password')
                         <p class="error-message">{{ $message }}</p>
@@ -147,5 +156,30 @@
 @section('scripts')
 <script>
     document.body.classList.add('login-page-body');
+
+    // Toggle password visibility
+    const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+    const passwordInput = document.getElementById('password');
+    const passwordToggleImg = document.getElementById('passwordToggleImg');
+
+    if (togglePasswordBtn && passwordInput && passwordToggleImg) {
+        togglePasswordBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const isPassword = passwordInput.getAttribute('type') === 'password';
+            
+            if (isPassword) {
+                passwordInput.setAttribute('type', 'text');
+                passwordToggleImg.src = passwordToggleImg.getAttribute('data-visible-src');
+                passwordToggleImg.alt = 'Password Visible';
+                togglePasswordBtn.setAttribute('title', 'Sembunyikan password');
+            } else {
+                passwordInput.setAttribute('type', 'password');
+                passwordToggleImg.src = passwordToggleImg.getAttribute('data-hidden-src');
+                passwordToggleImg.alt = 'Password Hidden';
+                togglePasswordBtn.setAttribute('title', 'Lihat password');
+            }
+            passwordInput.focus();
+        });
+    }
 </script>
 @endsection
