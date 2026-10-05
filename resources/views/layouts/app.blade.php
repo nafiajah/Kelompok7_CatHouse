@@ -306,8 +306,111 @@
         document.getElementById('mobileMenuBtn')?.addEventListener('click', function() {
             document.getElementById('mobileMenu').classList.toggle('hidden');
         });
+
+        // Mencegah halaman ditampilkan dari back-forward cache browser setelah logout
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
     </script>
     @auth
+        <!-- Logout Confirmation Modal -->
+        <div id="logoutConfirmModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs opacity-0 pointer-events-none transition-all duration-300">
+            <div class="bg-white rounded-3xl p-6 sm:p-7 max-w-sm w-full shadow-2xl border border-amber-100 transform scale-95 transition-all duration-300 text-center relative" id="logoutModalCard">
+                <button type="button" onclick="closeLogoutModal()" class="absolute top-4 right-4 text-stone-400 hover:text-stone-600 p-1.5 rounded-full hover:bg-stone-100 transition cursor-pointer" aria-label="Tutup">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+                <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center text-2xl shadow-sm border border-red-100">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </div>
+                <h3 class="text-xl font-extrabold text-cafe-brown mb-2 font-serif">Yakin Ingin Logout?</h3>
+                <p class="text-sm text-stone-600 mb-6 leading-relaxed">
+                    Sesi akun Anda akan diakhiri. Anda perlu login kembali untuk mengakses layanan ini.
+                </p>
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" onclick="closeLogoutModal()" class="w-full py-2.5 px-4 rounded-xl border border-stone-200 text-stone-700 font-bold text-sm hover:bg-stone-100 transition active:scale-95 cursor-pointer">
+                        Batal
+                    </button>
+                    <button type="button" id="confirmLogoutSubmitBtn" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-red-500 to-rose-600 text-white font-bold text-sm shadow-md hover:from-red-600 hover:to-rose-700 hover:shadow-lg transition active:scale-95 cursor-pointer">
+                        Ya, Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            let pendingLogoutForm = null;
+
+            function openLogoutModal(form) {
+                pendingLogoutForm = form;
+                const modal = document.getElementById('logoutConfirmModal');
+                const card = document.getElementById('logoutModalCard');
+                if (!modal) return;
+
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modal.classList.add('opacity-100', 'pointer-events-auto');
+                if (card) {
+                    card.classList.remove('scale-95');
+                    card.classList.add('scale-100');
+                }
+            }
+
+            function closeLogoutModal() {
+                pendingLogoutForm = null;
+                const modal = document.getElementById('logoutConfirmModal');
+                const card = document.getElementById('logoutModalCard');
+                if (!modal) return;
+
+                modal.classList.remove('opacity-100', 'pointer-events-auto');
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                if (card) {
+                    card.classList.remove('scale-100');
+                    card.classList.add('scale-95');
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const confirmBtn = document.getElementById('confirmLogoutSubmitBtn');
+                if (confirmBtn) {
+                    confirmBtn.addEventListener('click', function () {
+                        if (pendingLogoutForm) {
+                            pendingLogoutForm.dataset.confirmed = 'true';
+                            pendingLogoutForm.submit();
+                        }
+                    });
+                }
+
+                // Intercept all logout form submissions
+                document.addEventListener('submit', function (e) {
+                    const form = e.target;
+                    if (form && form.getAttribute('action') && form.getAttribute('action').includes('/logout')) {
+                        if (!form.dataset.confirmed) {
+                            e.preventDefault();
+                            openLogoutModal(form);
+                        }
+                    }
+                });
+
+                // Close on backdrop click
+                const modal = document.getElementById('logoutConfirmModal');
+                if (modal) {
+                    modal.addEventListener('click', function (e) {
+                        if (e.target === modal) {
+                            closeLogoutModal();
+                        }
+                    });
+                }
+
+                // Close on Escape key
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape') {
+                        closeLogoutModal();
+                    }
+                });
+            });
+        </script>
+
         @if(Auth::user()->role === 'user')
         <script>
             // Khusus user: auto logout jika tidak ada aktivitas selama 15 menit
