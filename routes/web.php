@@ -29,6 +29,15 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/logout-idle', function (\Illuminate\Http\Request $request) {
+    if (\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->role === 'user') {
+        \Illuminate\Support\Facades\Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('login')->with('info', 'Sesi Anda telah berakhir secara otomatis karena tidak ada aktivitas selama 15 menit. Silakan masuk kembali.');
+    }
+    return redirect()->route('login');
+})->name('logout.idle');
 
 /*
 |--------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Moderasi Feedback - Admin Capyca')
+@section('title', 'Moderasi Feedback - Cat House Admin')
 @section('page_title', 'Moderasi Ulasan & Feedback')
 
 @section('content')
@@ -10,29 +10,29 @@
     <div class="flex items-center gap-2">
         <a 
             href="{{ route('admin.feedbacks.index') }}" 
-            class="px-4 py-2 rounded-xl text-xs font-bold transition {{ !$status ? 'bg-brand-900 text-white' : 'bg-white border border-stone-200 text-stone-600 hover:bg-stone-50' }}"
+            class="px-4 py-2 rounded-xl text-xs font-bold transition shadow-2xs {{ !$status ? 'bg-[#2E2421] text-white' : 'bg-white border border-stone-300 text-stone-600 hover:bg-stone-50' }}"
         >
             Semua Ulasan
         </a>
         <a 
             href="{{ route('admin.feedbacks.index', ['status' => 'tampil']) }}" 
-            class="px-4 py-2 rounded-xl text-xs font-bold transition {{ $status === 'tampil' ? 'bg-emerald-600 text-white' : 'bg-white border border-stone-200 text-stone-600 hover:bg-stone-50' }}"
+            class="px-4 py-2 rounded-xl text-xs font-bold transition shadow-2xs {{ $status === 'tampil' ? 'bg-emerald-600 text-white' : 'bg-white border border-stone-300 text-stone-600 hover:bg-stone-50' }}"
         >
             Tampil di Beranda
         </a>
         <a 
             href="{{ route('admin.feedbacks.index', ['status' => 'tidak']) }}" 
-            class="px-4 py-2 rounded-xl text-xs font-bold transition {{ $status === 'tidak' ? 'bg-brand-700 text-white' : 'bg-white border border-stone-200 text-stone-600 hover:bg-stone-50' }}"
+            class="px-4 py-2 rounded-xl text-xs font-bold transition shadow-2xs {{ $status === 'tidak' ? 'bg-[#AA4453] text-white' : 'bg-white border border-stone-300 text-stone-600 hover:bg-stone-50' }}"
         >
             Menunggu Moderasi
         </a>
     </div>
 
-    <!-- Feedbacks Table -->
-    <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden">
+    <!-- Feedbacks Table Card -->
+    <div class="bg-white rounded-2xl border border-stone-300 shadow-md overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs">
-                <thead class="bg-stone-50 border-b border-stone-200 text-[11px] font-bold uppercase text-stone-500">
+            <table class="w-full text-left text-xs border-collapse">
+                <thead class="bg-[#EAE5E0] border-b border-stone-200 text-xs font-bold uppercase text-stone-600 tracking-wider">
                     <tr>
                         <th class="py-3.5 px-6">Pelanggan</th>
                         <th class="py-3.5 px-6">Rating Bintang</th>
@@ -42,53 +42,61 @@
                         <th class="py-3.5 px-6 text-right">Aksi Moderasi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-stone-100">
+                <tbody class="divide-y divide-stone-200">
                     @forelse($feedbacks as $feedback)
                         <tr class="hover:bg-stone-50/50 transition">
                             <td class="py-4 px-6">
                                 <p class="font-bold text-stone-800 text-sm">{{ $feedback->user ? $feedback->user->nama_pelanggan : 'Pengunjung' }}</p>
                                 <p class="text-stone-400 text-[11px]">{{ $feedback->user ? $feedback->user->email : '-' }}</p>
                             </td>
-                            <td class="py-4 px-6">
+                            <td class="py-4 px-6 whitespace-nowrap">
                                 <div class="flex text-amber-400 text-sm">
                                     @for($i = 1; $i <= 5; $i++)
                                         <i class="fa-solid fa-star {{ $i <= $feedback->bintang ? 'text-amber-400' : 'text-stone-200' }}"></i>
                                     @endfor
                                 </div>
-                                <span class="text-[11px] text-stone-400 font-semibold">{{ $feedback->bintang }} dari 5 Bintang</span>
+                                <span class="text-[11px] text-stone-400 font-semibold mt-0.5 block">{{ $feedback->bintang }} dari 5 Bintang</span>
                             </td>
                             <td class="py-4 px-6 text-stone-700 max-w-sm">
                                 <p class="line-clamp-3 leading-relaxed italic">
                                     "{{ $feedback->teks_saran }}"
                                 </p>
                             </td>
-                            <td class="py-4 px-6 text-stone-500">
+                            <td class="py-4 px-6 text-stone-500 whitespace-nowrap">
                                 {{ \Carbon\Carbon::parse($feedback->tanggal_saran)->translatedFormat('d M Y H:i') }}
                             </td>
-                            <td class="py-4 px-6">
+                            <td class="py-4 px-6 whitespace-nowrap">
                                 @if($feedback->status_tampil === 'tampil')
-                                    <span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 font-bold text-[10px] uppercase border border-emerald-200 flex items-center gap-1 w-max">
-                                        <i class="fa-solid fa-eye text-xs"></i> Tampil
+                                    <span class="px-3.5 py-1 rounded-xl bg-[#94BCC1] text-white font-bold text-xs inline-flex items-center gap-1 shadow-2xs">
+                                        <i class="fa-regular fa-eye text-xs"></i> Tampil
                                     </span>
                                 @else
-                                    <span class="px-2.5 py-1 rounded-full bg-stone-100 text-stone-600 font-bold text-[10px] uppercase border border-stone-200 flex items-center gap-1 w-max">
-                                        <i class="fa-solid fa-eye-slash text-xs"></i> Tersembunyi
+                                    <span class="px-3.5 py-1 rounded-xl bg-[#F5BFC9] text-[#96384C] font-bold text-xs inline-flex items-center gap-1 shadow-2xs">
+                                        <i class="fa-regular fa-eye-slash text-xs"></i> Tersembunyi
                                     </span>
                                 @endif
                             </td>
-                            <td class="py-4 px-6 text-right">
-                                <div class="flex items-center justify-end gap-2">
+                            <td class="py-4 px-6 text-right whitespace-nowrap">
+                                <div class="flex items-center justify-end gap-3">
                                     <!-- Toggle status button -->
                                     <form action="{{ route('admin.feedbacks.toggle', $feedback->id) }}" method="POST">
                                         @csrf
                                         @method('PATCH')
                                         @if($feedback->status_tampil === 'tampil')
-                                            <button type="submit" class="px-3 py-1.5 rounded-lg bg-brand-50 text-brand-800 hover:bg-brand-100 font-bold transition flex items-center gap-1" title="Sembunyikan dari beranda">
-                                                <i class="fa-solid fa-eye-slash"></i> Sembunyikan
+                                            <button 
+                                                type="submit" 
+                                                class="px-3 py-1.5 rounded-xl border border-stone-300 text-stone-700 hover:bg-stone-100 font-semibold text-xs transition inline-flex items-center gap-1.5" 
+                                                title="Sembunyikan dari beranda"
+                                            >
+                                                <i class="fa-regular fa-eye-slash"></i> Sembunyikan
                                             </button>
                                         @else
-                                            <button type="submit" class="px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-800 hover:bg-emerald-100 font-bold transition flex items-center gap-1" title="Tampilkan di beranda">
-                                                <i class="fa-solid fa-eye"></i> Tampilkan
+                                            <button 
+                                                type="submit" 
+                                                class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs transition inline-flex items-center gap-1.5 shadow-2xs" 
+                                                title="Tampilkan di beranda"
+                                            >
+                                                <i class="fa-regular fa-eye"></i> Tampilkan
                                             </button>
                                         @endif
                                     </form>
@@ -97,8 +105,12 @@
                                     <form action="{{ route('admin.feedbacks.destroy', $feedback->id) }}" method="POST" onsubmit="return confirm('Hapus ulasan ini?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="p-2 text-stone-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition" title="Hapus Ulasan">
-                                            <i class="fa-solid fa-trash-can text-sm"></i>
+                                        <button 
+                                            type="submit" 
+                                            class="text-stone-700 hover:text-red-600 transition" 
+                                            title="Hapus Ulasan"
+                                        >
+                                            <i class="fa-regular fa-trash-can text-lg"></i>
                                         </button>
                                     </form>
                                 </div>
@@ -115,9 +127,11 @@
             </table>
         </div>
 
-        <div class="p-4 border-t border-stone-100">
-            {{ $feedbacks->links() }}
-        </div>
+        @if($feedbacks->hasPages())
+            <div class="p-4 border-t border-stone-200 bg-stone-50/50">
+                {{ $feedbacks->links() }}
+            </div>
+        @endif
     </div>
 
 </div>

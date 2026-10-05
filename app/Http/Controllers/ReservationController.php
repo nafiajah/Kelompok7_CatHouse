@@ -90,6 +90,16 @@ class ReservationController extends Controller
 
             DB::commit();
 
+            // Khusus buat user, saat sudah melakukan reservasi langsung auto log out
+            if (Auth::user()->role === 'user') {
+                session(['guest_view_ticket_id' => $reservation->id]);
+                Auth::logout();
+                $request->session()->regenerate();
+
+                return redirect()->route('reservasi.show', $reservation->id)
+                    ->with('success', 'Reservasi berhasil dibuat! Akun Anda telah otomatis logout demi keamanan.');
+            }
+
             return redirect()->route('reservasi.show', $reservation->id)
                 ->with('success', 'Reservasi berhasil dibuat! Silakan selesaikan pembayaran.');
         } catch (\Exception $e) {
@@ -100,14 +110,18 @@ class ReservationController extends Controller
 
     public function show($id)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-
         $reservation = Reservation::with(['payment', 'user', 'session'])->findOrFail($id);
 
-        if (Auth::user()->role !== 'admin' && $reservation->id_users !== Auth::id()) {
-            abort(403, 'Anda tidak memiliki akses ke tiket reservasi ini.');
+        $allowedGuest = session('guest_view_ticket_id') == $id;
+
+        if (!$allowedGuest) {
+            if (!Auth::check()) {
+                return redirect()->route('login')->with('info', 'Silakan login terlebih dahulu untuk melihat tiket reservasi.');
+            }
+
+            if (Auth::user()->role !== 'admin' && $reservation->id_users !== Auth::id()) {
+                abort(403, 'Anda tidak memiliki akses ke tiket reservasi ini.');
+            }
         }
 
         return view('reservations.show', compact('reservation'));

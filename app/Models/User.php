@@ -5,15 +5,43 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use Illuminate\Support\Facades\Schema;
+
 class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $table = 'users';
+    protected $table = null;
+    protected static ?string $resolvedTable = null;
+
+    public function getTable()
+    {
+        if ($this->table !== null) {
+            return $this->table;
+        }
+
+        if (static::$resolvedTable === null) {
+            try {
+                if (Schema::hasTable('members')) {
+                    static::$resolvedTable = 'members';
+                } elseif (Schema::hasTable('users')) {
+                    static::$resolvedTable = 'users';
+                } else {
+                    static::$resolvedTable = 'members';
+                }
+            } catch (\Throwable $e) {
+                static::$resolvedTable = 'members';
+            }
+        }
+
+        return static::$resolvedTable;
+    }
 
     public $timestamps = false;
+    public $incrementing = false;
 
     protected $fillable = [
+        'id',
         'role',
         'username',
         'password',
@@ -25,6 +53,17 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (!$model->id) {
+                $model->id = (static::max('id') ?? 0) + 1;
+            }
+        });
+    }
 
     public function reservations()
     {

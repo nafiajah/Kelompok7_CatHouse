@@ -307,6 +307,32 @@
             document.getElementById('mobileMenu').classList.toggle('hidden');
         });
     </script>
+    @auth
+        @if(Auth::user()->role === 'user')
+        <script>
+            // Khusus user: auto logout jika tidak ada aktivitas selama 15 menit
+            (function() {
+                let idleSeconds = 0;
+                const maxIdleSeconds = 15 * 60; // 15 menit
+
+                function resetTimer() {
+                    idleSeconds = 0;
+                }
+
+                ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(function(evt) {
+                    window.addEventListener(evt, resetTimer, { passive: true });
+                });
+
+                setInterval(function() {
+                    idleSeconds++;
+                    if (idleSeconds >= maxIdleSeconds) {
+                        window.location.href = "{{ route('logout.idle') }}";
+                    }
+                }, 1000);
+            })();
+        </script>
+        @endif
+    @endauth
     @yield('scripts')
 </body>
 </html>

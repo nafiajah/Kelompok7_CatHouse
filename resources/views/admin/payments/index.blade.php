@@ -1,28 +1,28 @@
 @extends('layouts.admin')
 
-@section('title', 'Laporan Pembayaran - Admin Capyca')
+@section('title', 'Laporan Pembayaran - Cat House Admin')
 @section('page_title', 'Laporan Pembayaran & Transaksi')
 
 @section('content')
 <div class="space-y-6">
     
     <!-- Revenue Summary Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-2xl border border-stone-200 shadow-sm">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-stone-300 shadow-md">
             <p class="text-xs font-bold uppercase tracking-wider text-stone-400">Total Seluruh Transaksi</p>
-            <h3 class="text-2xl font-extrabold text-stone-800 mt-1">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</h3>
-            <span class="text-xs text-stone-500">{{ $payments->total() }} Transaksi Berhasil</span>
+            <h3 class="text-2xl font-extrabold text-stone-800 mt-1 truncate">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</h3>
+            <span class="text-xs text-stone-500 font-medium">{{ $payments->total() }} Transaksi Berhasil</span>
         </div>
 
-        <div class="bg-white p-6 rounded-2xl border border-stone-200 shadow-sm">
+        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-stone-300 shadow-md">
             <p class="text-xs font-bold uppercase tracking-wider text-stone-400">Pemasukan QRIS</p>
-            <h3 class="text-2xl font-extrabold text-rose-600 mt-1">Rp {{ number_format($totalQris, 0, ',', '.') }}</h3>
+            <h3 class="text-2xl font-extrabold text-rose-600 mt-1 truncate">Rp {{ number_format($totalQris, 0, ',', '.') }}</h3>
             <span class="text-xs text-rose-500 font-medium">Metode QRIS</span>
         </div>
 
-        <div class="bg-white p-6 rounded-2xl border border-stone-200 shadow-sm">
+        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-stone-300 shadow-md">
             <p class="text-xs font-bold uppercase tracking-wider text-stone-400">Pemasukan Transfer Bank</p>
-            <h3 class="text-2xl font-extrabold text-blue-700 mt-1">Rp {{ number_format($totalBank, 0, ',', '.') }}</h3>
+            <h3 class="text-2xl font-extrabold text-blue-700 mt-1 truncate">Rp {{ number_format($totalBank, 0, ',', '.') }}</h3>
             <span class="text-xs text-blue-600 font-medium">Metode Rekening Bank</span>
         </div>
     </div>
@@ -31,29 +31,29 @@
     <div class="flex items-center gap-2">
         <a 
             href="{{ route('admin.payments.index') }}" 
-            class="px-4 py-2 rounded-xl text-xs font-bold transition {{ !$method ? 'bg-brand-900 text-white' : 'bg-white border border-stone-200 text-stone-600 hover:bg-stone-50' }}"
+            class="px-4 py-2 rounded-xl text-xs font-bold transition shadow-2xs {{ !$method ? 'bg-[#2E2421] text-white' : 'bg-white border border-stone-300 text-stone-600 hover:bg-stone-50' }}"
         >
             Semua Metode
         </a>
         <a 
             href="{{ route('admin.payments.index', ['metode' => 'qris']) }}" 
-            class="px-4 py-2 rounded-xl text-xs font-bold transition {{ $method === 'qris' ? 'bg-brand-700 text-white' : 'bg-white border border-stone-200 text-stone-600 hover:bg-stone-50' }}"
+            class="px-4 py-2 rounded-xl text-xs font-bold transition shadow-2xs {{ $method === 'qris' ? 'bg-[#AA4453] text-white' : 'bg-white border border-stone-300 text-stone-600 hover:bg-stone-50' }}"
         >
             QRIS
         </a>
         <a 
             href="{{ route('admin.payments.index', ['metode' => 'bank']) }}" 
-            class="px-4 py-2 rounded-xl text-xs font-bold transition {{ $method === 'bank' ? 'bg-blue-600 text-white' : 'bg-white border border-stone-200 text-stone-600 hover:bg-stone-50' }}"
+            class="px-4 py-2 rounded-xl text-xs font-bold transition shadow-2xs {{ $method === 'bank' ? 'bg-blue-600 text-white' : 'bg-white border border-stone-300 text-stone-600 hover:bg-stone-50' }}"
         >
             Transfer Bank
         </a>
     </div>
 
-    <!-- Payments Table -->
-    <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden">
+    <!-- Payments Table Card -->
+    <div class="bg-white rounded-2xl border border-stone-300 shadow-md overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs">
-                <thead class="bg-stone-50 border-b border-stone-200 text-[11px] font-bold uppercase text-stone-500">
+            <table class="w-full text-left text-xs border-collapse">
+                <thead class="bg-[#EAE5E0] border-b border-stone-200 text-xs font-bold uppercase text-stone-600 tracking-wider">
                     <tr>
                         <th class="py-3.5 px-6">ID Pembayaran</th>
                         <th class="py-3.5 px-6">Pelanggan</th>
@@ -61,10 +61,10 @@
                         <th class="py-3.5 px-6">Total Tagihan</th>
                         <th class="py-3.5 px-6">Metode</th>
                         <th class="py-3.5 px-6">Waktu Transaksi</th>
-                        <th class="py-3.5 px-6 text-right">Tiket</th>
+                        <th class="py-3.5 px-6 text-right">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-stone-100">
+                <tbody class="divide-y divide-stone-200">
                     @forelse($payments as $payment)
                         <tr class="hover:bg-stone-50/50 transition">
                             <td class="py-4 px-6 font-mono font-bold text-stone-500">
@@ -81,7 +81,7 @@
                                 Rp {{ number_format($payment->total_harga, 0, ',', '.') }}
                             </td>
                             <td class="py-4 px-6">
-                                <span class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase {{ $payment->metode_pembayaran === 'qris' ? 'bg-brand-100 text-brand-800' : 'bg-blue-100 text-blue-800' }}">
+                                <span class="px-3.5 py-1 rounded-xl text-xs font-bold uppercase inline-block shadow-2xs {{ $payment->metode_pembayaran === 'qris' ? 'bg-[#F5BFC9] text-[#96384C]' : 'bg-[#94BCC1] text-white' }}">
                                     {{ $payment->metode_pembayaran }}
                                 </span>
                             </td>
@@ -90,8 +90,13 @@
                             </td>
                             <td class="py-4 px-6 text-right">
                                 @if($payment->reservation)
-                                    <a href="{{ route('reservasi.show', $payment->reservation->id) }}" target="_blank" class="px-3 py-1.5 rounded-lg bg-brand-50 text-rose-600 hover:bg-brand-100 font-bold transition">
-                                        Lihat Tiket
+                                    <a 
+                                        href="{{ route('reservasi.show', $payment->reservation->id) }}" 
+                                        target="_blank" 
+                                        class="text-stone-700 hover:text-stone-900 transition inline-flex items-center gap-1.5" 
+                                        title="Lihat Tiket"
+                                    >
+                                        <i class="fa-regular fa-newspaper text-lg"></i>
                                     </a>
                                 @else
                                     <span class="text-stone-400">-</span>
@@ -109,9 +114,11 @@
             </table>
         </div>
 
-        <div class="p-4 border-t border-stone-100">
-            {{ $payments->links() }}
-        </div>
+        @if($payments->hasPages())
+            <div class="p-4 border-t border-stone-200 bg-stone-50/50">
+                {{ $payments->links() }}
+            </div>
+        @endif
     </div>
 
 </div>
