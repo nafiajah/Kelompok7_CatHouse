@@ -36,18 +36,18 @@
 }
 
 /* Hide ALL layout wrappers (announcement bar, header, flash banners, footer) on login page */
-body:has(.login-container) > div,
-body:has(.login-container) > header,
-body:has(.login-container) > footer,
-body.login-page-body > div,
-body.login-page-body > header,
-body.login-page-body > footer {
+body:has(.login-container)>div,
+body:has(.login-container)>header,
+body:has(.login-container)>footer,
+body.login-page-body>div,
+body.login-page-body>header,
+body.login-page-body>footer {
   display: none !important;
 }
 
 /* Ensure main occupies full viewport without any margins or padding */
-body:has(.login-container) > main,
-body.login-page-body > main {
+body:has(.login-container)>main,
+body.login-page-body>main {
   display: block !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -195,13 +195,16 @@ body.login-page-body {
 .login-form-section::-webkit-scrollbar {
   width: 6px;
 }
+
 .login-form-section::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .login-form-section::-webkit-scrollbar-thumb {
   background-color: rgba(229, 131, 150, 0.4);
   border-radius: 9999px;
 }
+
 .login-form-section::-webkit-scrollbar-thumb:hover {
   background-color: var(--btn-primary);
 }
@@ -312,16 +315,17 @@ body.login-page-body {
 
 .form-group {
   width: 100%;
-  margin-bottom: 46px;
+  margin-bottom: 24px;
 }
 
 .form-label {
   display: block;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   color: #3F322A;
   margin-bottom: 8px;
-  padding-left: 16px; /* Sejajar dengan teks di dalam form input */
+  padding-left: 16px;
+  /* Sejajar dengan teks di dalam form input */
 }
 
 /* Input Wrapper & Icon positioning */
@@ -504,6 +508,7 @@ button.input-icon.input-icon-toggle:focus-visible {
   .login-photo-section {
     flex: 1;
   }
+
   .login-form-section {
     flex: 1.1;
     padding: 32px 28px;
@@ -546,7 +551,8 @@ button.input-icon.input-icon-toggle:focus-visible {
   }
 
   .form-input {
-    font-size: 16px; /* Prevents auto-zoom on mobile iOS/Android */
+    font-size: 16px;
+    /* Prevents auto-zoom on mobile iOS/Android */
   }
 
   .login-back-btn {
@@ -562,14 +568,17 @@ button.input-icon.input-icon-toggle:focus-visible {
   .login-photo-section {
     height: 130px;
   }
+
   .login-form-section {
     padding-top: 16px;
     padding-bottom: 24px;
   }
+
   .login-logo-frame {
     margin-bottom: 35px;
     max-height: 50px;
   }
+
   .login-subtitle {
     margin-bottom: 14px;
   }
