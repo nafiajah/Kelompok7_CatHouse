@@ -11,7 +11,6 @@ class Reservation extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'id_payments',
         'id_users',
         'id_sesi',
         'tanggal_reservasi',
@@ -25,7 +24,7 @@ class Reservation extends Model
 
     public function payment()
     {
-        return $this->belongsTo(Payment::class, 'id_payments');
+        return $this->hasOne(Payment::class, 'id_reservasi');
     }
 
     public function session()

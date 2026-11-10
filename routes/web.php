@@ -101,6 +101,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 
     // Reservations & Payments Management
     Route::get('/reservations', [AdminReservationController::class, 'index'])->name('reservations.index');
+    Route::get('/reservations/{id}', [AdminReservationController::class, 'show'])->name('reservations.show');
     Route::delete('/reservations/{id}', [AdminReservationController::class, 'destroy'])->name('reservations.destroy');
     Route::get('/payments', [AdminReservationController::class, 'payments'])->name('payments.index');
 

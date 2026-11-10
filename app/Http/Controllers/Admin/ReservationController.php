@@ -43,16 +43,17 @@ class ReservationController extends Controller
         return view('admin.payments.index', compact('payments', 'method', 'totalRevenue', 'totalQris', 'totalBank'));
     }
 
+    public function show($id)
+    {
+        $reservation = Reservation::with(['user', 'payment', 'session'])->findOrFail($id);
+
+        return view('admin.reservations.show', compact('reservation'));
+    }
+
     public function destroy($id)
     {
         $reservation = Reservation::findOrFail($id);
-        
-        // When deleting reservation, the payment can also be deleted if cascade
-        if ($reservation->payment) {
-            $reservation->payment->delete();
-        } else {
-            $reservation->delete();
-        }
+        $reservation->delete();
 
         return redirect()->route('admin.reservations.index')->with('success', 'Data reservasi berhasil dihapus.');
     }

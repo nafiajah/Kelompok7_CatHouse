@@ -12,6 +12,7 @@ class Payment extends Model
 
     protected $fillable = [
         'id_user',
+        'id_reservasi',
         'jumlah_tamu',
         'total_harga',
         'metode_pembayaran',
@@ -25,6 +26,6 @@ class Payment extends Model
 
     public function reservation()
     {
-        return $this->hasOne(Reservation::class, 'id_payments');
+        return $this->belongsTo(Reservation::class, 'id_reservasi');
     }
 }

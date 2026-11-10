@@ -91,10 +91,9 @@
                             <td class="py-4 px-6 text-right">
                                 @if($payment->reservation)
                                     <a 
-                                        href="{{ route('reservasi.show', $payment->reservation->id) }}" 
-                                        target="_blank" 
+                                        href="{{ route('admin.reservations.show', $payment->reservation->id) }}" 
                                         class="text-stone-700 hover:text-stone-900 transition inline-flex items-center gap-1.5" 
-                                        title="Lihat Tiket"
+                                        title="Lihat Detail Tiket"
                                     >
                                         <i class="fa-regular fa-newspaper text-lg"></i>
                                     </a>

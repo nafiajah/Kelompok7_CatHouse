@@ -72,20 +72,20 @@ class ReservationController extends Controller
 
         DB::beginTransaction();
         try {
-            $payment = Payment::create([
-                'id_user' => Auth::id(),
-                'jumlah_tamu' => $validated['jumlah_tamu'],
-                'total_harga' => $totalHarga,
-                'metode_pembayaran' => $validated['metode_pembayaran'],
-                'tanggal_pembayaran' => now(),
-            ]);
-
             $reservation = Reservation::create([
-                'id_payments' => $payment->id,
                 'id_users' => Auth::id(),
                 'id_sesi' => $session->id,
                 'tanggal_reservasi' => $validated['tanggal_reservasi'],
                 'waktu_reservasi' => $waktu,
+            ]);
+
+            $payment = Payment::create([
+                'id_user' => Auth::id(),
+                'id_reservasi' => $reservation->id,
+                'jumlah_tamu' => $validated['jumlah_tamu'],
+                'total_harga' => $totalHarga,
+                'metode_pembayaran' => $validated['metode_pembayaran'],
+                'tanggal_pembayaran' => now(),
             ]);
 
             DB::commit();

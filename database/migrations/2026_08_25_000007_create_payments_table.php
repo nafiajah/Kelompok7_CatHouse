@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_user')->constrained('members')->onDelete('cascade');
+            $table->foreignId('id_reservasi')->constrained('reservations')->onDelete('cascade');
             $table->integer('jumlah_tamu');
             $table->decimal('total_harga', 10, 2);
             $table->enum('metode_pembayaran', ['qris', 'bank']);

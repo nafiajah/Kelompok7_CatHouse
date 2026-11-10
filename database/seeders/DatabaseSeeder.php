@@ -118,21 +118,21 @@ class DatabaseSeeder extends Seeder
             DataKucing::create($cat);
         }
 
-        // 5. Seed Payments & Reservations
-        $payment = Payment::create([
-            'id_user' => $user->id,
-            'jumlah_tamu' => 2,
-            'total_harga' => 70000.00,
-            'metode_pembayaran' => 'qris',
-            'tanggal_pembayaran' => now(),
-        ]);
-
-        Reservation::create([
-            'id_payments' => $payment->id,
+        // 5. Seed Reservations & Payments
+        $reservation = Reservation::create([
             'id_users' => $user->id,
             'id_sesi' => $sessionModels[0]->id,
             'tanggal_reservasi' => now()->addDays(2)->format('Y-m-d'),
             'waktu_reservasi' => '10:00:00',
+        ]);
+
+        $payment = Payment::create([
+            'id_user' => $user->id,
+            'id_reservasi' => $reservation->id,
+            'jumlah_tamu' => 2,
+            'total_harga' => 70000.00,
+            'metode_pembayaran' => 'qris',
+            'tanggal_pembayaran' => now(),
         ]);
 
         // 6. Seed Feedbacks

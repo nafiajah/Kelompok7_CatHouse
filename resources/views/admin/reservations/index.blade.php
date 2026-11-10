@@ -78,10 +78,9 @@
                             <td class="py-4 px-6 text-right">
                                 <div class="flex items-center justify-end gap-3">
                                     <a 
-                                        href="{{ route('reservasi.show', $res->id) }}" 
-                                        target="_blank" 
+                                        href="{{ route('admin.reservations.show', $res->id) }}" 
                                         class="text-stone-700 hover:text-stone-900 transition" 
-                                        title="Lihat Tiket"
+                                        title="Lihat Detail Tiket"
                                     >
                                         <i class="fa-regular fa-newspaper text-lg"></i>
                                     </a>
