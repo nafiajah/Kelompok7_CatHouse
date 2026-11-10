@@ -68,7 +68,7 @@
                 </div>
                 <div>
                     <span class="text-stone-400 uppercase tracking-wider font-semibold block text-[10px]">Nama Pelanggan</span>
-                    <span class="font-bold text-stone-800 text-sm block">{{ $reservation->user ? $reservation->user->nama_pelanggan : 'Tamu' }}</span>
+                    <span class="font-bold text-stone-800 text-sm block">{{ $reservation->user ? $reservation->user->nama_lengkap : 'Tamu' }}</span>
                     <span class="text-stone-500 text-[11px]">{{ $reservation->user ? $reservation->user->email : '-' }}</span>
                 </div>
                 <div>

@@ -55,7 +55,7 @@
                                 #CAT-{{ str_pad($res->id, 5, '0', STR_PAD_LEFT) }}
                             </td>
                             <td class="py-4 px-6">
-                                <p class="font-bold text-stone-800 text-sm">{{ $res->user ? $res->user->nama_pelanggan : '-' }}</p>
+                                <p class="font-bold text-stone-800 text-sm">{{ $res->user ? $res->user->nama_lengkap : '-' }}</p>
                                 <p class="text-stone-400 text-[11px]">{{ $res->user ? $res->user->no_telp : '-' }} &bull; {{ $res->user ? $res->user->email : '-' }}</p>
                             </td>
                             <td class="py-4 px-6 font-semibold text-stone-700">

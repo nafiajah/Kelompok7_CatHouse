@@ -77,10 +77,10 @@
                     <div class="p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs hover:bg-stone-50 transition">
                         <div class="flex items-center gap-3 min-w-0">
                             <div class="w-9 h-9 rounded-xl bg-[#F5BFC9]/50 text-[#96384C] font-bold flex items-center justify-center text-xs flex-shrink-0 shadow-2xs">
-                                {{ strtoupper(substr($res->user ? $res->user->nama_pelanggan : 'T', 0, 1)) }}
+                                {{ strtoupper(substr($res->user ? $res->user->nama_lengkap : 'T', 0, 1)) }}
                             </div>
                             <div class="min-w-0">
-                                <p class="font-bold text-stone-800 text-sm truncate">{{ $res->user ? $res->user->nama_pelanggan : '-' }}</p>
+                                <p class="font-bold text-stone-800 text-sm truncate">{{ $res->user ? $res->user->nama_lengkap : '-' }}</p>
                                 <p class="text-stone-400 text-xs">{{ \Carbon\Carbon::parse($res->tanggal_reservasi)->format('d M Y') }} &bull; {{ $res->session ? $res->session->jam_sesi : $res->waktu_reservasi }}</p>
                             </div>
                         </div>
@@ -113,7 +113,7 @@
                 @forelse($recentFeedbacks as $fb)
                     <div class="p-3.5 sm:p-4 text-xs space-y-1.5 hover:bg-stone-50 transition">
                         <div class="flex items-center justify-between gap-2">
-                            <span class="font-bold text-stone-800 truncate">{{ $fb->user ? $fb->user->nama_pelanggan : 'Anonim' }}</span>
+                            <span class="font-bold text-stone-800 truncate">{{ $fb->user ? $fb->user->nama_lengkap : 'Anonim' }}</span>
                             <div class="flex text-amber-400 text-[11px] flex-shrink-0">
                                 @for($i = 1; $i <= 5; $i++)
                                     <i class="fa-solid fa-star {{ $i <= $fb->bintang ? 'text-amber-400' : 'text-stone-200' }}"></i>

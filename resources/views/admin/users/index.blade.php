@@ -65,10 +65,10 @@
                         <tr class="hover:bg-stone-50/50 transition">
                             <td class="py-4 px-6 flex items-center gap-3">
                                 <div class="w-10 h-10 rounded-xl {{ $user->role === 'admin' ? 'bg-[#F5BFC9] text-[#96384C]' : 'bg-[#94BCC1] text-white' }} font-bold flex items-center justify-center text-sm shadow-2xs flex-shrink-0">
-                                    {{ strtoupper(substr($user->nama_pelanggan, 0, 1)) }}
+                                    {{ strtoupper(substr($user->nama_lengkap, 0, 1)) }}
                                 </div>
                                 <div class="min-w-0">
-                                    <p class="font-bold text-stone-800 text-sm truncate">{{ $user->nama_pelanggan }}</p>
+                                    <p class="font-bold text-stone-800 text-sm truncate">{{ $user->nama_lengkap }}</p>
                                     <p class="text-stone-400 text-[11px] truncate">{{ $user->email }}</p>
                                 </div>
                             </td>
@@ -90,7 +90,7 @@
                                 <div class="flex items-center justify-end gap-3">
                                     <button 
                                         type="button" 
-                                        onclick="openEditUser({{ $user->id }}, '{{ $user->nama_pelanggan }}', '{{ $user->email }}', '{{ $user->no_telp }}', '{{ $user->role }}')"
+                                        onclick="openEditUser({{ $user->id }}, '{{ $user->nama_lengkap }}', '{{ $user->email }}', '{{ $user->no_telp }}', '{{ $user->role }}')"
                                         class="text-stone-700 hover:text-stone-900 transition"
                                         title="Edit Pengguna"
                                     >
@@ -98,7 +98,7 @@
                                     </button>
 
                                     @if($user->id !== Auth::id())
-                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Hapus akun {{ $user->nama_pelanggan }}?')">
+                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Hapus akun {{ $user->nama_lengkap }}?')">
                                             @csrf
                                             @method('DELETE')
                                             <button 
@@ -146,7 +146,7 @@
                 <label for="edit_nama" class="block font-bold text-stone-700 mb-1">Nama Lengkap</label>
                 <input 
                     type="text" 
-                    name="nama_pelanggan" 
+                    name="nama_lengkap" 
                     id="edit_nama" 
                     required 
                     class="w-full px-4 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-accent"

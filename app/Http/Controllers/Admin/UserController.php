@@ -19,7 +19,7 @@ class UserController extends Controller
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_pelanggan', 'like', "%{$search}%")
+                $q->where('nama_lengkap', 'like', "%{$search}%")
                   ->orWhere('username', 'like', "%{$search}%")
                   ->orWhere('email', 'like', "%{$search}%")
                   ->orWhere('no_telp', 'like', "%{$search}%");
@@ -41,7 +41,7 @@ class UserController extends Controller
         $userTable = $user->getTable();
 
         $validated = $request->validate([
-            'nama_pelanggan' => 'required|string|max:50',
+            'nama_lengkap' => 'required|string|max:50',
             'email' => 'required|email|max:50|unique:' . $userTable . ',email,' . $user->id,
             'no_telp' => 'required|string|max:50',
             'role' => 'required|in:admin,user',
@@ -49,7 +49,7 @@ class UserController extends Controller
         ]);
 
         $data = [
-            'nama_pelanggan' => $validated['nama_pelanggan'],
+            'nama_lengkap' => $validated['nama_lengkap'],
             'email' => $validated['email'],
             'no_telp' => $validated['no_telp'],
             'role' => $validated['role'],

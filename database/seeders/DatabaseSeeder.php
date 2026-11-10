@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
             'username' => 'admin',
             'password' => Hash::make('admin123'),
-            'nama_pelanggan' => 'Administrator Capyca',
+            'nama_lengkap' => 'Administrator Capyca',
             'email' => 'admin@cathouse.com',
             'no_telp' => '081234567890',
         ]);
@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'user',
             'username' => 'user',
             'password' => Hash::make('user123'),
-            'nama_pelanggan' => 'Nabila Putri',
+            'nama_lengkap' => 'Nabila Putri',
             'email' => 'nabila@gmail.com',
             'no_telp' => '089876543210',
         ]);

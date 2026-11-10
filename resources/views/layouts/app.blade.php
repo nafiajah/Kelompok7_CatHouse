@@ -115,16 +115,16 @@
                         <div class="relative group">
                             <button class="flex items-center gap-2 px-3 py-2 rounded-xl bg-amber-50 border border-amber-200 hover:bg-amber-100 transition text-sm font-semibold text-cafe-brown">
                                 <span class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs font-bold">
-                                    {{ strtoupper(substr(Auth::user()->nama_pelanggan, 0, 1)) }}
+                                    {{ strtoupper(substr(Auth::user()->nama_lengkap, 0, 1)) }}
                                 </span>
-                                <span class="max-w-[120px] truncate">{{ Auth::user()->nama_pelanggan }}</span>
+                                <span class="max-w-[120px] truncate">{{ Auth::user()->nama_lengkap }}</span>
                                 <i class="fa-solid fa-chevron-down text-xs text-cafe-muted"></i>
                             </button>
 
                             <div class="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-amber-100 py-2 hidden group-hover:block transition z-50">
                                 <div class="px-4 py-2 border-b border-amber-50">
                                     <p class="text-xs text-cafe-muted">Masuk sebagai</p>
-                                    <p class="text-sm font-bold text-cafe-brown truncate">{{ Auth::user()->nama_pelanggan }}</p>
+                                    <p class="text-sm font-bold text-cafe-brown truncate">{{ Auth::user()->nama_lengkap }}</p>
                                     <span class="inline-block mt-1 text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">{{ Auth::user()->role }}</span>
                                 </div>
                                 <a href="{{ route('reservasi.history') }}" class="flex items-center gap-2 px-4 py-2.5 text-sm text-cafe-text hover:bg-amber-50 transition">
@@ -179,7 +179,7 @@
             <a href="{{ route('home') }}#ulasan" class="block px-3 py-2 rounded-lg text-sm font-bold text-cafe-text hover:bg-amber-50">Ulasan Pengunjung</a>
             <div class="border-t border-amber-100 pt-3">
                 @auth
-                    <p class="text-xs text-cafe-muted px-3 mb-2 font-medium">Masuk sebagai: <strong>{{ Auth::user()->nama_pelanggan }}</strong></p>
+                    <p class="text-xs text-cafe-muted px-3 mb-2 font-medium">Masuk sebagai: <strong>{{ Auth::user()->nama_lengkap }}</strong></p>
                     <a href="{{ route('reservasi.history') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-cafe-text hover:bg-amber-50">Riwayat Reservasi</a>
                     <a href="{{ route('feedback.create') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-cafe-text hover:bg-amber-50">Tulis Ulasan</a>
                     @if(Auth::user()->role === 'admin')

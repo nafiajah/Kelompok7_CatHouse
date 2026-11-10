@@ -121,7 +121,7 @@
                     <i class="fa-solid fa-user-shield text-sm"></i>
                 </div>
                 <div class="text-xs min-w-0">
-                    <p class="font-bold text-cream truncate max-w-[120px]">{{ Auth::user()->nama_pelanggan }}</p>
+                    <p class="font-bold text-cream truncate max-w-[120px]">{{ Auth::user()->nama_lengkap }}</p>
                     <p class="text-tan">Admin</p>
                 </div>
             </div>

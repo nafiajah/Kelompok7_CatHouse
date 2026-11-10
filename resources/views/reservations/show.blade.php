@@ -52,7 +52,7 @@
                     </div>
                     <div class="pt-2">
                         <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">Nama Pelanggan</span>
-                        <span class="font-bold text-slate-800">{{ $reservation->user ? $reservation->user->nama_pelanggan : 'Tamu Cat House' }}</span>
+                        <span class="font-bold text-slate-800">{{ $reservation->user ? $reservation->user->nama_lengkap : 'Tamu Cat House' }}</span>
                         <span class="text-xs text-slate-500 block">{{ $reservation->user ? $reservation->user->no_telp : '' }}</span>
                     </div>
                     <div class="pt-2">

@@ -46,7 +46,7 @@
                     @forelse($feedbacks as $feedback)
                         <tr class="hover:bg-stone-50/50 transition">
                             <td class="py-4 px-6">
-                                <p class="font-bold text-stone-800 text-sm">{{ $feedback->user ? $feedback->user->nama_pelanggan : 'Pengunjung' }}</p>
+                                <p class="font-bold text-stone-800 text-sm">{{ $feedback->user ? $feedback->user->nama_lengkap : 'Pengunjung' }}</p>
                                 <p class="text-stone-400 text-[11px]">{{ $feedback->user ? $feedback->user->email : '-' }}</p>
                             </td>
                             <td class="py-4 px-6 whitespace-nowrap">

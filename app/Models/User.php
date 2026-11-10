@@ -45,10 +45,23 @@ class User extends Authenticatable
         'role',
         'username',
         'password',
-        'nama_pelanggan',
+        'nama_lengkap',
         'email',
         'no_telp',
     ];
+
+    /**
+     * Backward-compatibility accessor & mutator for nama_pelanggan
+     */
+    public function getNamaPelangganAttribute()
+    {
+        return $this->attributes['nama_lengkap'] ?? ($this->attributes['nama_pelanggan'] ?? null);
+    }
+
+    public function setNamaPelangganAttribute($value)
+    {
+        $this->attributes['nama_lengkap'] = $value;
+    }
 
     protected $hidden = [
         'password',

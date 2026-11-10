@@ -24,7 +24,7 @@
                     <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/60 flex items-center justify-between text-xs">
                         <div>
                             <span class="text-cafe-muted block">Data Pemesan:</span>
-                            <span class="font-bold text-cafe-brown text-sm">{{ Auth::user()->nama_pelanggan }}</span>
+                            <span class="font-bold text-cafe-brown text-sm">{{ Auth::user()->nama_lengkap }}</span>
                             <span class="text-cafe-muted block">{{ Auth::user()->email }} | {{ Auth::user()->no_telp }}</span>
                         </div>
                         <span class="px-2.5 py-1 bg-amber-200 text-amber-900 rounded-full font-bold uppercase text-[10px]">Pelanggan</span>

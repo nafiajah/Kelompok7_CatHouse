@@ -304,10 +304,10 @@
 
                     <div class="mt-6 pt-4 border-t border-amber-50 flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-sm">
-                            {{ strtoupper(substr($feedback->user ? $feedback->user->nama_pelanggan : 'P', 0, 1)) }}
+                            {{ strtoupper(substr($feedback->user ? $feedback->user->nama_lengkap : 'P', 0, 1)) }}
                         </div>
                         <div>
-                            <p class="text-sm font-bold text-cafe-brown">{{ $feedback->user ? $feedback->user->nama_pelanggan : 'Pengunjung Setia' }}</p>
+                            <p class="text-sm font-bold text-cafe-brown">{{ $feedback->user ? $feedback->user->nama_lengkap : 'Pengunjung Setia' }}</p>
                             <p class="text-xs text-cafe-muted">{{ \Carbon\Carbon::parse($feedback->tanggal_saran)->translatedFormat('d M Y') }}</p>
                         </div>
                     </div>
