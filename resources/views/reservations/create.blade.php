@@ -39,9 +39,10 @@
                             type="date" 
                             name="tanggal_reservasi" 
                             id="tanggal_reservasi" 
-                            min="{{ date('Y-m-d') }}"
-                            value="{{ old('tanggal_reservasi', date('Y-m-d')) }}" 
+                            min="{{ now()->format('Y-m-d') }}"
+                            value="{{ old('tanggal_reservasi', now()->format('Y-m-d')) }}" 
                             required
+                            onchange="updateAvailableSessions()"
                             class="w-full px-4 py-3 rounded-xl border border-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm bg-amber-50/20 text-cafe-brown font-medium @error('tanggal_reservasi') border-red-500 @enderror"
                         >
                         @error('tanggal_reservasi')
@@ -57,7 +58,16 @@
                         
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             @foreach($sessions as $session)
-                                <label class="relative flex items-center p-3.5 rounded-2xl border-2 cursor-pointer transition select-none session-card {{ old('id_sesi', request('sesi')) == $session->id ? 'border-amber-600 bg-amber-50/60' : 'border-amber-100 hover:border-amber-300 bg-white' }}">
+                                @php
+                                    $startTime = '10:00';
+                                    if (preg_match('/(\d{1,2}:\d{2})/', $session->jam_sesi, $matches)) {
+                                        $startTime = strlen($matches[1]) === 5 ? $matches[1] : '0' . $matches[1];
+                                    }
+                                @endphp
+                                <label 
+                                    class="relative flex items-center p-3.5 rounded-2xl border-2 cursor-pointer transition select-none session-card {{ old('id_sesi', request('sesi')) == $session->id ? 'border-amber-600 bg-amber-50/60' : 'border-amber-100 hover:border-amber-300 bg-white' }}"
+                                    data-start-time="{{ $startTime }}"
+                                >
                                     <input 
                                         type="radio" 
                                         name="id_sesi" 
@@ -68,9 +78,10 @@
                                         onchange="updateSelection()"
                                     >
                                     <div class="flex-1">
-                                        <div class="flex items-center justify-between">
+                                        <div class="flex items-center justify-between gap-2">
                                             <span class="text-sm font-bold text-cafe-brown">{{ $session->jam_sesi }}</span>
                                             <i class="fa-solid fa-check-circle text-amber-600 text-sm check-icon {{ old('id_sesi', request('sesi')) == $session->id ? 'inline' : 'hidden' }}"></i>
+                                            <span class="hidden past-badge text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-stone-200 text-stone-600">Sudah Lewat</span>
                                         </div>
                                         <span class="text-[11px] text-cafe-muted mt-0.5 block">
                                             Kuota Maks. {{ $session->token_sesi }} Orang
@@ -79,6 +90,9 @@
                                 </label>
                             @endforeach
                         </div>
+                        <p id="allSessionsPassedNotice" class="hidden mt-2 p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-800 font-medium">
+                            <i class="fa-solid fa-clock text-amber-600 mr-1"></i> Semua sesi untuk hari ini sudah lewat. Silakan pilih tanggal besok atau tanggal lainnya.
+                        </p>
                         @error('id_sesi')
                             <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
                         @enderror
@@ -183,10 +197,68 @@
         document.getElementById('summaryTotal').textContent = 'Rp ' + total.toLocaleString('id-ID');
     }
 
+    function getTodayLocalDateString() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    function updateAvailableSessions() {
+        const dateInput = document.getElementById('tanggal_reservasi');
+        const selectedDate = dateInput ? dateInput.value : '';
+        const todayStr = getTodayLocalDateString();
+        const now = new Date();
+        const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+        let availableCount = 0;
+
+        document.querySelectorAll('.session-card').forEach(card => {
+            const radio = card.querySelector('input[type="radio"]');
+            const pastBadge = card.querySelector('.past-badge');
+            const startTime = card.getAttribute('data-start-time') || '00:00';
+            const [startH, startM] = startTime.split(':').map(Number);
+            const sessionMinutes = (startH * 60) + startM;
+
+            const isPast = (selectedDate === todayStr && sessionMinutes <= currentMinutes)
+                || (selectedDate !== '' && selectedDate < todayStr);
+
+            if (isPast) {
+                radio.disabled = true;
+                radio.checked = false;
+                card.classList.add('opacity-50', 'cursor-not-allowed', 'bg-stone-100', 'border-stone-200');
+                card.classList.remove('cursor-pointer', 'hover:border-amber-300', 'bg-white', 'border-amber-100', 'border-amber-600', 'bg-amber-50/60');
+                if (pastBadge) pastBadge.classList.remove('hidden');
+            } else {
+                availableCount++;
+                radio.disabled = false;
+                card.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-stone-100', 'border-stone-200');
+                card.classList.add('cursor-pointer', 'hover:border-amber-300');
+                if (pastBadge) pastBadge.classList.add('hidden');
+            }
+        });
+
+        const notice = document.getElementById('allSessionsPassedNotice');
+        if (notice) {
+            if (availableCount === 0) {
+                notice.classList.remove('hidden');
+            } else {
+                notice.classList.add('hidden');
+            }
+        }
+
+        updateSelection();
+    }
+
     function updateSelection() {
         document.querySelectorAll('.session-card').forEach(card => {
             const radio = card.querySelector('input[type="radio"]');
             const icon = card.querySelector('.check-icon');
+            if (radio.disabled) {
+                if (icon) icon.classList.add('hidden');
+                return;
+            }
             if (radio.checked) {
                 card.classList.add('border-amber-600', 'bg-amber-50/60');
                 card.classList.remove('border-amber-100', 'bg-white');
@@ -200,7 +272,7 @@
     }
 
     // Initial setup
-    updateSelection();
+    updateAvailableSessions();
     updateCalculation();
 </script>
 @endsection

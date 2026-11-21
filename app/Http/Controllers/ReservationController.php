@@ -44,6 +44,20 @@ class ReservationController extends Controller
 
         $session = Session::findOrFail($validated['id_sesi']);
 
+        // Parse starting time for waktu_reservasi
+        $waktu = '10:00:00';
+        if (preg_match('/(\d{1,2}:\d{2})/', $session->jam_sesi, $matches)) {
+            $waktu = strlen($matches[1]) == 5 ? $matches[1] . ':00' : '0' . $matches[1] . ':00';
+        }
+
+        // Prevent booking a session whose start time has already passed today
+        $reservationDateTime = \Carbon\Carbon::parse($validated['tanggal_reservasi'] . ' ' . $waktu);
+        if ($reservationDateTime->lessThanOrEqualTo(now())) {
+            return back()->withInput()->withErrors([
+                'id_sesi' => "Maaf, sesi {$session->jam_sesi} pada tanggal {$validated['tanggal_reservasi']} sudah lewat. Silakan pilih sesi jam berikutnya atau tanggal lain.",
+            ]);
+        }
+
         // Check booked guests for this date and session
         $existingGuests = Reservation::where('id_sesi', $session->id)
             ->where('tanggal_reservasi', $validated['tanggal_reservasi'])
@@ -58,12 +72,6 @@ class ReservationController extends Controller
 
         $totalHarga = $validated['jumlah_tamu'] * self::HARGA_PER_TAMU;
 
-        // Parse starting time for waktu_reservasi
-        $waktu = '10:00:00';
-        if (preg_match('/(\d{1,2}:\d{2})/', $session->jam_sesi, $matches)) {
-            $waktu = strlen($matches[1]) == 5 ? $matches[1] . ':00' : '0' . $matches[1] . ':00';
-        }
-
         try {
             $reservation = Reservation::create([
                 'id_users' => Auth::id(),
@@ -74,16 +82,6 @@ class ReservationController extends Controller
                 'waktu_reservasi' => $waktu,
             ]);
 
-            // Khusus buat user, saat sudah melakukan reservasi langsung auto log out
-            if (Auth::user()->role === 'user') {
-                session(['guest_view_ticket_id' => $reservation->id]);
-                Auth::logout();
-                $request->session()->regenerate();
-
-                return redirect()->route('reservasi.show', $reservation->id)
-                    ->with('success', 'Reservasi berhasil dibuat! Akun Anda telah otomatis logout demi keamanan.');
-            }
-
             return redirect()->route('reservasi.show', $reservation->id)
                 ->with('success', 'Reservasi berhasil dibuat!');
         } catch (\Exception $e) {
@@ -93,18 +91,14 @@ class ReservationController extends Controller
 
     public function show($id)
     {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('info', 'Silakan login terlebih dahulu untuk melihat tiket reservasi.');
+        }
+
         $reservation = Reservation::with(['user', 'session'])->findOrFail($id);
 
-        $allowedGuest = session('guest_view_ticket_id') == $id;
-
-        if (!$allowedGuest) {
-            if (!Auth::check()) {
-                return redirect()->route('login')->with('info', 'Silakan login terlebih dahulu untuk melihat tiket reservasi.');
-            }
-
-            if (Auth::user()->role !== 'admin' && $reservation->id_users !== Auth::id()) {
-                abort(403, 'Anda tidak memiliki akses ke tiket reservasi ini.');
-            }
+        if (Auth::user()->role !== 'admin' && $reservation->id_users !== Auth::id()) {
+            abort(403, 'Anda tidak memiliki akses ke tiket reservasi ini.');
         }
 
         return view('reservations.show', compact('reservation'));

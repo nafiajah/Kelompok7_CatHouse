@@ -34,9 +34,9 @@ Route::get('/logout-idle', function (\Illuminate\Http\Request $request) {
         \Illuminate\Support\Facades\Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login')->with('info', 'Sesi Anda telah berakhir secara otomatis karena tidak ada aktivitas selama 15 menit. Silakan masuk kembali.');
+        return redirect()->route('home')->with('info', 'Sesi Anda telah berakhir secara otomatis karena tidak ada aktivitas selama 15 menit. Silakan masuk kembali.');
     }
-    return redirect()->route('login');
+    return redirect()->route('home');
 })->name('logout.idle');
 
 /*
