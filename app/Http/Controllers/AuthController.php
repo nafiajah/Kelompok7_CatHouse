@@ -65,18 +65,18 @@ class AuthController extends Controller
 
         $validated = $request->validate([
             'username' => 'required|string|max:50|unique:' . $userTable . ',username',
-            'password' => 'required|string|min:6|confirmed',
-            'nama_lengkap' => 'required|string|max:50',
+            'password' => 'required|string|min:6',
             'email' => 'required|email|max:50|unique:' . $userTable . ',email',
+            'alamat' => 'nullable|string|max:100',
             'no_telp' => 'required|string|max:50',
+            'nama_lengkap' => 'nullable|string|max:50',
         ], [
             'username.required' => 'Username wajib diisi.',
             'username.unique' => 'Username sudah digunakan, silakan pilih yang lain.',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 6 karakter.',
-            'password.confirmed' => 'Konfirmasi password tidak cocok.',
-            'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
             'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah terdaftar.',
             'no_telp.required' => 'Nomor telepon wajib diisi.',
         ]);
@@ -85,8 +85,9 @@ class AuthController extends Controller
             'role' => 'user',
             'username' => $validated['username'],
             'password' => Hash::make($validated['password']),
-            'nama_lengkap' => $validated['nama_lengkap'],
+            'nama_lengkap' => $request->filled('nama_lengkap') ? $validated['nama_lengkap'] : $validated['username'],
             'email' => $validated['email'],
+            'alamat' => $validated['alamat'] ?? null,
             'no_telp' => $validated['no_telp'],
         ]);
 

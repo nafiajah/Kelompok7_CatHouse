@@ -21,6 +21,12 @@ return new class extends Migration
                 $t->renameColumn('nama_pelanggan', 'nama_lengkap');
             });
         }
+
+        if ($table && !Schema::hasColumn($table, 'alamat')) {
+            Schema::table($table, function (Blueprint $t) {
+                $t->string('alamat', 100)->nullable()->after('email');
+            });
+        }
     }
 
     /**

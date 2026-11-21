@@ -583,3 +583,152 @@ button.input-icon.input-icon-toggle:focus-visible {
     margin-bottom: 14px;
   }
 }
+
+/* ==========================================================================
+   Register Page Specific Styling
+   ========================================================================== */
+body:has(.register-container)>div,
+body:has(.register-container)>header,
+body:has(.register-container)>footer,
+body.register-page-body>div,
+body.register-page-body>header,
+body.register-page-body>footer {
+  display: none !important;
+}
+
+body:has(.register-container)>main,
+body.register-page-body>main {
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  min-height: 100vh !important;
+}
+
+body:has(.register-container),
+body.register-page-body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-main) !important;
+  color: var(--text-title);
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin: 0 !important;
+  padding: 0 !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+.register-form-content {
+  width: 100%;
+  max-width: 390px;
+  margin: auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 0;
+}
+
+.register-logo-frame {
+  width: clamp(100px, 11vw, 125px);
+  max-height: clamp(60px, 8vh, 85px);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-subtitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #78685C;
+  margin-bottom: 22px;
+  text-align: center;
+}
+
+.register-form {
+  width: 100%;
+}
+
+.register-form .form-group {
+  margin-bottom: 15px;
+}
+
+.register-form .form-label {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #3F322A;
+  margin-bottom: 6px;
+  padding-left: 12px;
+}
+
+.register-form .form-input {
+  height: 46px;
+  border-radius: var(--radius-lg);
+  font-size: 14.5px;
+  padding: 0 46px 0 16px;
+}
+
+/* Phone input group with country code box */
+.phone-input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.phone-prefix-box {
+  width: 60px;
+  height: 46px;
+  background-color: var(--bg-input);
+  border: 1.5px solid var(--border-input);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #3F322A;
+  flex-shrink: 0;
+}
+
+.phone-input-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.phone-input-wrapper .form-input {
+  width: 100%;
+}
+
+.input-icon-fa {
+  font-size: 16px;
+  color: #3F322A;
+}
+
+.register-form .btn-login {
+  height: 48px;
+  margin-top: 14px;
+  font-size: 15px;
+}
+
+.register-footer-links {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--text-subtitle);
+}
+
+.register-footer-links a {
+  color: var(--btn-primary-hover);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.register-footer-links a:hover {
+  text-decoration: underline;
+  color: var(--btn-primary-active);
+}

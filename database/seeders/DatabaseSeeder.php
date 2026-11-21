@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('admin123'),
             'nama_lengkap' => 'Administrator Capyca',
             'email' => 'admin@cathouse.com',
+            'alamat' => 'Jl. Boulevard Raya No. 1, Jakarta',
             'no_telp' => '081234567890',
         ]);
 
@@ -35,6 +36,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('user123'),
             'nama_lengkap' => 'Nabila Putri',
             'email' => 'nabila@gmail.com',
+            'alamat' => 'Jl. Kambing Guling No. 10, Jakarta',
             'no_telp' => '089876543210',
         ]);
 
