@@ -25,7 +25,7 @@
                                 <th class="py-4 px-6">Kode Booking</th>
                                 <th class="py-4 px-6">Tanggal & Sesi</th>
                                 <th class="py-4 px-6">Tamu</th>
-                                <th class="py-4 px-6">Pembayaran</th>
+                                <th class="py-4 px-6">Total Harga</th>
                                 <th class="py-4 px-6 text-right">Aksi</th>
                             </tr>
                         </thead>
@@ -40,15 +40,14 @@
                                         <p class="text-xs text-cafe-muted">{{ $item->session ? $item->session->jam_sesi : $item->waktu_reservasi }}</p>
                                     </td>
                                     <td class="py-4 px-6 font-semibold text-cafe-brown">
-                                        {{ $item->payment ? $item->payment->jumlah_tamu : 1 }} Orang
+                                        {{ $item->jumlah_tamu ?? 1 }} Orang
                                     </td>
                                     <td class="py-4 px-6">
-                                        <span class="font-bold text-amber-700 block">Rp {{ number_format($item->payment ? $item->payment->total_harga : 0, 0, ',', '.') }}</span>
-                                        <span class="text-[11px] uppercase font-bold text-cafe-muted">{{ $item->payment ? $item->payment->metode_pembayaran : '-' }}</span>
+                                        <span class="font-bold text-amber-700 block">Rp {{ number_format($item->total_harga ?? 0, 0, ',', '.') }}</span>
                                     </td>
                                     <td class="py-4 px-6 text-right">
                                         <a href="{{ route('reservasi.show', $item->id) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-900 text-xs font-bold transition">
-                                            <i class="fa-solid fa-receipt"></i> Lihat Tiket
+                                            <i class="fa-solid fa-ticket"></i> Lihat Tiket
                                         </a>
                                     </td>
                                 </tr>

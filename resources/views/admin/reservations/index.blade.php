@@ -44,7 +44,7 @@
                         <th class="py-3.5 px-6">Tanggal Kunjungan</th>
                         <th class="py-3.5 px-6">Sesi / Jam</th>
                         <th class="py-3.5 px-6">Tamu</th>
-                        <th class="py-3.5 px-6">Total & Metode</th>
+                        <th class="py-3.5 px-6">Total Harga</th>
                         <th class="py-3.5 px-6 text-right">Aksi</th>
                     </tr>
                 </thead>
@@ -67,13 +67,10 @@
                                 </span>
                             </td>
                             <td class="py-4 px-6 font-bold text-stone-800">
-                                {{ $res->payment ? $res->payment->jumlah_tamu : 1 }} Tamu
+                                {{ $res->jumlah_tamu ?? 1 }} Tamu
                             </td>
                             <td class="py-4 px-6">
-                                <span class="font-bold text-stone-800 text-sm block">Rp {{ number_format($res->payment ? $res->payment->total_harga : 0, 0, ',', '.') }}</span>
-                                <span class="text-[10px] uppercase font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full inline-block mt-0.5">
-                                    {{ $res->payment ? $res->payment->metode_pembayaran : '-' }} (Lunas)
-                                </span>
+                                <span class="font-bold text-stone-800 text-sm block">Rp {{ number_format($res->total_harga ?? 0, 0, ',', '.') }}</span>
                             </td>
                             <td class="py-4 px-6 text-right">
                                 <div class="flex items-center justify-end gap-3">

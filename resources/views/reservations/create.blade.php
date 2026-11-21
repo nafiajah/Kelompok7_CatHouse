@@ -9,7 +9,7 @@
         <div class="text-center mb-10">
             <span class="text-xs font-bold uppercase tracking-widest text-amber-600 block mb-2">Booking Online</span>
             <h1 class="text-3xl sm:text-4xl font-bold font-playfair text-cafe-brown">Reservasi Sesi Kunjungan</h1>
-            <p class="text-sm text-cafe-muted mt-2">Pilih waktu kunjungan, jumlah pengunjung, dan metode pembayaran Anda</p>
+            <p class="text-sm text-cafe-muted mt-2">Pilih tanggal, waktu kunjungan, dan jumlah pengunjung Anda</p>
         </div>
 
         <form action="{{ route('reservasi.store') }}" method="POST" id="bookingForm">
@@ -114,59 +114,12 @@
                         @enderror
                     </div>
 
-                    <!-- 5. Metode Pembayaran -->
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-cafe-brown mb-2">
-                            4. Metode Pembayaran <span class="text-red-500">*</span>
-                        </label>
-                        <div class="grid grid-cols-2 gap-3">
-                            <label class="p-4 rounded-2xl border-2 cursor-pointer transition select-none flex items-center gap-3 payment-card {{ old('metode_pembayaran', 'qris') === 'qris' ? 'border-amber-600 bg-amber-50/60' : 'border-amber-100 hover:border-amber-300' }}">
-                                <input 
-                                    type="radio" 
-                                    name="metode_pembayaran" 
-                                    value="qris" 
-                                    class="sr-only" 
-                                    {{ old('metode_pembayaran', 'qris') === 'qris' ? 'checked' : '' }}
-                                    onchange="updatePaymentCard()"
-                                >
-                                <div class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center text-lg">
-                                    <i class="fa-solid fa-qrcode"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-bold text-cafe-brown">QRIS</p>
-                                    <p class="text-[11px] text-cafe-muted">Gopay, OVO, Dana, BCA</p>
-                                </div>
-                            </label>
-
-                            <label class="p-4 rounded-2xl border-2 cursor-pointer transition select-none flex items-center gap-3 payment-card {{ old('metode_pembayaran') === 'bank' ? 'border-amber-600 bg-amber-50/60' : 'border-amber-100 hover:border-amber-300' }}">
-                                <input 
-                                    type="radio" 
-                                    name="metode_pembayaran" 
-                                    value="bank" 
-                                    class="sr-only" 
-                                    {{ old('metode_pembayaran') === 'bank' ? 'checked' : '' }}
-                                    onchange="updatePaymentCard()"
-                                >
-                                <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-lg">
-                                    <i class="fa-solid fa-building-columns"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-bold text-cafe-brown">Bank Transfer</p>
-                                    <p class="text-[11px] text-cafe-muted">BCA / Mandiri / BRI</p>
-                                </div>
-                            </label>
-                        </div>
-                        @error('metode_pembayaran')
-                            <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
-                        @enderror
-                    </div>
-
                 </div>
 
                 <!-- Right Summary Card -->
                 <div class="lg:col-span-5 bg-white p-6 sm:p-8 rounded-3xl border border-amber-100 shadow-sm sticky top-24 space-y-6">
                     <h3 class="text-lg font-bold font-playfair text-cafe-brown border-b border-amber-100 pb-3 flex items-center gap-2">
-                        <i class="fa-solid fa-receipt text-amber-600"></i> Ringkasan Reservasi
+                        <i class="fa-solid fa-ticket text-amber-600"></i> Ringkasan Reservasi
                     </h3>
 
                     <div class="space-y-3 text-sm">
@@ -184,7 +137,7 @@
                         </div>
                         
                         <div class="border-t border-amber-100 pt-3 flex justify-between items-center text-base">
-                            <span class="font-bold text-cafe-brown">Total Pembayaran:</span>
+                            <span class="font-bold text-cafe-brown">Total Harga:</span>
                             <span id="summaryTotal" class="text-2xl font-extrabold text-amber-600 font-playfair">
                                 Rp {{ number_format($hargaPerTamu, 0, ',', '.') }}
                             </span>
@@ -200,7 +153,7 @@
                         type="submit" 
                         class="w-full py-4 px-4 bg-gradient-to-r from-amber-600 to-amber-500 text-white font-bold text-sm rounded-2xl shadow-lg shadow-amber-500/25 hover:from-amber-700 hover:to-amber-600 transition-all duration-200 flex items-center justify-center gap-2"
                     >
-                        <i class="fa-solid fa-lock"></i> Konfirmasi & Bayar Sekarang
+                        <i class="fa-solid fa-calendar-check"></i> Konfirmasi Reservasi
                     </button>
                 </div>
 
@@ -242,19 +195,6 @@
                 card.classList.remove('border-amber-600', 'bg-amber-50/60');
                 card.classList.add('border-amber-100', 'bg-white');
                 if (icon) icon.classList.add('hidden');
-            }
-        });
-    }
-
-    function updatePaymentCard() {
-        document.querySelectorAll('.payment-card').forEach(card => {
-            const radio = card.querySelector('input[type="radio"]');
-            if (radio.checked) {
-                card.classList.add('border-amber-600', 'bg-amber-50/60');
-                card.classList.remove('border-amber-100');
-            } else {
-                card.classList.remove('border-amber-600', 'bg-amber-50/60');
-                card.classList.add('border-amber-100');
             }
         });
     }

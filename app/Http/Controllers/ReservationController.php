@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reservation;
-use App\Models\Payment;
 use App\Models\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
 {
@@ -35,7 +33,6 @@ class ReservationController extends Controller
             'tanggal_reservasi' => 'required|date|after_or_equal:today',
             'id_sesi' => 'required|exists:sessions,id',
             'jumlah_tamu' => 'required|integer|min:1|max:10',
-            'metode_pembayaran' => 'required|in:qris,bank',
         ], [
             'tanggal_reservasi.required' => 'Pilih tanggal reservasi terlebih dahulu.',
             'tanggal_reservasi.after_or_equal' => 'Tanggal reservasi tidak boleh tanggal yang sudah lewat.',
@@ -43,7 +40,6 @@ class ReservationController extends Controller
             'jumlah_tamu.required' => 'Tentukan jumlah pengunjung / tamu.',
             'jumlah_tamu.min' => 'Jumlah tamu minimal 1 orang.',
             'jumlah_tamu.max' => 'Jumlah tamu maksimal 10 orang per reservasi.',
-            'metode_pembayaran.required' => 'Pilih metode pembayaran (QRIS atau Bank Transfer).',
         ]);
 
         $session = Session::findOrFail($validated['id_sesi']);
@@ -51,9 +47,7 @@ class ReservationController extends Controller
         // Check booked guests for this date and session
         $existingGuests = Reservation::where('id_sesi', $session->id)
             ->where('tanggal_reservasi', $validated['tanggal_reservasi'])
-            ->with('payment')
-            ->get()
-            ->sum(fn($r) => $r->payment ? $r->payment->jumlah_tamu : 0);
+            ->sum('jumlah_tamu');
 
         if (($existingGuests + $validated['jumlah_tamu']) > $session->token_sesi) {
             $remaining = max(0, $session->token_sesi - $existingGuests);
@@ -70,25 +64,15 @@ class ReservationController extends Controller
             $waktu = strlen($matches[1]) == 5 ? $matches[1] . ':00' : '0' . $matches[1] . ':00';
         }
 
-        DB::beginTransaction();
         try {
             $reservation = Reservation::create([
                 'id_users' => Auth::id(),
                 'id_sesi' => $session->id,
+                'jumlah_tamu' => $validated['jumlah_tamu'],
+                'total_harga' => $totalHarga,
                 'tanggal_reservasi' => $validated['tanggal_reservasi'],
                 'waktu_reservasi' => $waktu,
             ]);
-
-            $payment = Payment::create([
-                'id_user' => Auth::id(),
-                'id_reservasi' => $reservation->id,
-                'jumlah_tamu' => $validated['jumlah_tamu'],
-                'total_harga' => $totalHarga,
-                'metode_pembayaran' => $validated['metode_pembayaran'],
-                'tanggal_pembayaran' => now(),
-            ]);
-
-            DB::commit();
 
             // Khusus buat user, saat sudah melakukan reservasi langsung auto log out
             if (Auth::user()->role === 'user') {
@@ -101,16 +85,15 @@ class ReservationController extends Controller
             }
 
             return redirect()->route('reservasi.show', $reservation->id)
-                ->with('success', 'Reservasi berhasil dibuat! Silakan selesaikan pembayaran.');
+                ->with('success', 'Reservasi berhasil dibuat!');
         } catch (\Exception $e) {
-            DB::rollBack();
             return back()->withInput()->with('error', 'Terjadi kesalahan saat memproses reservasi: ' . $e->getMessage());
         }
     }
 
     public function show($id)
     {
-        $reservation = Reservation::with(['payment', 'user', 'session'])->findOrFail($id);
+        $reservation = Reservation::with(['user', 'session'])->findOrFail($id);
 
         $allowedGuest = session('guest_view_ticket_id') == $id;
 
@@ -133,7 +116,7 @@ class ReservationController extends Controller
             return redirect()->route('login');
         }
 
-        $reservations = Reservation::with(['payment', 'session'])
+        $reservations = Reservation::with(['session'])
             ->where('id_users', Auth::id())
             ->orderByDesc('tanggal_reservasi')
             ->orderByDesc('id')

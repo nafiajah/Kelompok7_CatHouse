@@ -99,11 +99,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::put('/sessions/{id}', [AdminSessionController::class, 'update'])->name('sessions.update');
     Route::delete('/sessions/{id}', [AdminSessionController::class, 'destroy'])->name('sessions.destroy');
 
-    // Reservations & Payments Management
+    // Reservations Management
     Route::get('/reservations', [AdminReservationController::class, 'index'])->name('reservations.index');
     Route::get('/reservations/{id}', [AdminReservationController::class, 'show'])->name('reservations.show');
     Route::delete('/reservations/{id}', [AdminReservationController::class, 'destroy'])->name('reservations.destroy');
-    Route::get('/payments', [AdminReservationController::class, 'payments'])->name('payments.index');
 
     // Feedbacks Moderation
     Route::get('/feedbacks', [AdminFeedbackController::class, 'index'])->name('feedbacks.index');
