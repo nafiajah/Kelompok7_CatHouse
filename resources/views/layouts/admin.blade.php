@@ -82,16 +82,11 @@
                 <span>Sesi & Kuota</span>
             </a>
 
-            <div class="pt-4 pb-1 px-3 text-[11px] font-bold text-accent uppercase tracking-wider">Transaksi & Layanan</div>
+            <div class="pt-4 pb-1 px-3 text-[11px] font-bold text-accent uppercase tracking-wider">Layanan & Reservasi</div>
 
             <a href="{{ route('admin.reservations.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition {{ request()->routeIs('admin.reservations.*') ? 'bg-accent text-cream font-bold shadow-sm' : 'text-cream/80 hover:bg-accent/50 hover:text-cream' }}">
                 <i class="fa-solid fa-calendar-check w-5 text-center"></i>
                 <span>Data Reservasi</span>
-            </a>
-
-            <a href="{{ route('admin.payments.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition {{ request()->routeIs('admin.payments.*') ? 'bg-accent text-cream font-bold shadow-sm' : 'text-cream/80 hover:bg-accent/50 hover:text-cream' }}">
-                <i class="fa-solid fa-receipt w-5 text-center"></i>
-                <span>Laporan Pembayaran</span>
             </a>
 
             <a href="{{ route('admin.feedbacks.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition {{ request()->routeIs('admin.feedbacks.*') ? 'bg-accent text-cream font-bold shadow-sm' : 'text-cream/80 hover:bg-accent/50 hover:text-cream' }}">

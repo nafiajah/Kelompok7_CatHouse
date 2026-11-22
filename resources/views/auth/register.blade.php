@@ -109,8 +109,18 @@
                             placeholder="12345678" 
                             class="form-input @error('password') is-invalid @enderror"
                         >
-                        <button type="button" class="input-icon input-icon-toggle" id="togglePasswordBtn" aria-label="Toggle password visibility" title="Lihat password">
-                            <i class="fa-solid fa-key input-icon-fa" id="passwordToggleIcon"></i>
+                        <!-- Right Key Icon (Password Visibility Toggle) -->
+                        <button type="button" class="input-icon input-icon-toggle password-icon-box" id="togglePasswordBtn" aria-label="Toggle password visibility" title="Lihat password">
+                            <img 
+                                src="{{ asset('images/key-icon.png') }}" 
+                                alt="Password Hidden" 
+                                id="passwordToggleImg" 
+                                class="login-input-icon-img password-icon-img" 
+                                width="20" 
+                                height="20"
+                                data-hidden-src="{{ asset('images/key-icon.png') }}"
+                                data-visible-src="{{ asset('images/key-slash-icon.png') }}"
+                            >
                         </button>
                     </div>
                     @error('password')
@@ -209,22 +219,22 @@
     // Toggle password visibility
     const togglePasswordBtn = document.getElementById('togglePasswordBtn');
     const passwordInput = document.getElementById('password');
-    const passwordToggleIcon = document.getElementById('passwordToggleIcon');
+    const passwordToggleImg = document.getElementById('passwordToggleImg');
 
-    if (togglePasswordBtn && passwordInput && passwordToggleIcon) {
+    if (togglePasswordBtn && passwordInput && passwordToggleImg) {
         togglePasswordBtn.addEventListener('click', function (e) {
             e.preventDefault();
             const isPassword = passwordInput.getAttribute('type') === 'password';
             
             if (isPassword) {
                 passwordInput.setAttribute('type', 'text');
-                passwordToggleIcon.classList.remove('fa-key');
-                passwordToggleIcon.classList.add('fa-eye-slash');
+                passwordToggleImg.src = passwordToggleImg.getAttribute('data-visible-src');
+                passwordToggleImg.alt = 'Password Visible';
                 togglePasswordBtn.setAttribute('title', 'Sembunyikan password');
             } else {
                 passwordInput.setAttribute('type', 'password');
-                passwordToggleIcon.classList.remove('fa-eye-slash');
-                passwordToggleIcon.classList.add('fa-key');
+                passwordToggleImg.src = passwordToggleImg.getAttribute('data-hidden-src');
+                passwordToggleImg.alt = 'Password Hidden';
                 togglePasswordBtn.setAttribute('title', 'Lihat password');
             }
             passwordInput.focus();

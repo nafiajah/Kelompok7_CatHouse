@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Reservation;
-use App\Models\Payment;
 use Illuminate\Http\Request;
 
 class ReservationController extends Controller
@@ -12,7 +11,7 @@ class ReservationController extends Controller
     public function index(Request $request)
     {
         $date = $request->query('date');
-        $query = Reservation::with(['user', 'payment', 'session']);
+        $query = Reservation::with(['user', 'session']);
 
         if ($date) {
             $query->where('tanggal_reservasi', $date);
@@ -26,26 +25,9 @@ class ReservationController extends Controller
         return view('admin.reservations.index', compact('reservations', 'date'));
     }
 
-    public function payments(Request $request)
-    {
-        $method = $request->query('metode');
-        $query = Payment::with(['user', 'reservation']);
-
-        if ($method) {
-            $query->where('metode_pembayaran', $method);
-        }
-
-        $payments = $query->orderByDesc('tanggal_pembayaran')->paginate(15)->withQueryString();
-        $totalRevenue = Payment::sum('total_harga');
-        $totalQris = Payment::where('metode_pembayaran', 'qris')->sum('total_harga');
-        $totalBank = Payment::where('metode_pembayaran', 'bank')->sum('total_harga');
-
-        return view('admin.payments.index', compact('payments', 'method', 'totalRevenue', 'totalQris', 'totalBank'));
-    }
-
     public function show($id)
     {
-        $reservation = Reservation::with(['user', 'payment', 'session'])->findOrFail($id);
+        $reservation = Reservation::with(['user', 'session'])->findOrFail($id);
 
         return view('admin.reservations.show', compact('reservation'));
     }

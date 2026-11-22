@@ -11,13 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reservations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('id_users')->constrained('members')->onDelete('cascade');
-            $table->foreignId('id_sesi')->nullable()->constrained('sessions')->onDelete('set null');
-            $table->date('tanggal_reservasi');
-            $table->time('waktu_reservasi');
-        });
+        if (!Schema::hasTable('reservations')) {
+            Schema::create('reservations', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('id_users')->constrained('members')->onDelete('cascade');
+                $table->foreignId('id_sesi')->nullable()->constrained('sessions')->onDelete('set null');
+                $table->integer('jumlah_tamu')->default(1);
+                $table->decimal('total_harga', 10, 2)->default(0);
+                $table->date('tanggal_reservasi');
+                $table->time('waktu_reservasi');
+            });
+        }
     }
 
     /**

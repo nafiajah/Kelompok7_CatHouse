@@ -9,7 +9,7 @@
         <div class="text-center mb-10">
             <span class="text-xs font-bold uppercase tracking-widest text-amber-600 block mb-2">Booking Online</span>
             <h1 class="text-3xl sm:text-4xl font-bold font-playfair text-cafe-brown">Reservasi Sesi Kunjungan</h1>
-            <p class="text-sm text-cafe-muted mt-2">Pilih waktu kunjungan, jumlah pengunjung, dan metode pembayaran Anda</p>
+            <p class="text-sm text-cafe-muted mt-2">Pilih tanggal, waktu kunjungan, dan jumlah pengunjung Anda</p>
         </div>
 
         <form action="{{ route('reservasi.store') }}" method="POST" id="bookingForm">
@@ -39,9 +39,10 @@
                             type="date" 
                             name="tanggal_reservasi" 
                             id="tanggal_reservasi" 
-                            min="{{ date('Y-m-d') }}"
-                            value="{{ old('tanggal_reservasi', date('Y-m-d')) }}" 
+                            min="{{ now()->format('Y-m-d') }}"
+                            value="{{ old('tanggal_reservasi', now()->format('Y-m-d')) }}" 
                             required
+                            onchange="updateAvailableSessions()"
                             class="w-full px-4 py-3 rounded-xl border border-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm bg-amber-50/20 text-cafe-brown font-medium @error('tanggal_reservasi') border-red-500 @enderror"
                         >
                         @error('tanggal_reservasi')
@@ -57,7 +58,16 @@
                         
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             @foreach($sessions as $session)
-                                <label class="relative flex items-center p-3.5 rounded-2xl border-2 cursor-pointer transition select-none session-card {{ old('id_sesi', request('sesi')) == $session->id ? 'border-amber-600 bg-amber-50/60' : 'border-amber-100 hover:border-amber-300 bg-white' }}">
+                                @php
+                                    $startTime = '10:00';
+                                    if (preg_match('/(\d{1,2}:\d{2})/', $session->jam_sesi, $matches)) {
+                                        $startTime = strlen($matches[1]) === 5 ? $matches[1] : '0' . $matches[1];
+                                    }
+                                @endphp
+                                <label 
+                                    class="relative flex items-center p-3.5 rounded-2xl border-2 cursor-pointer transition select-none session-card {{ old('id_sesi', request('sesi')) == $session->id ? 'border-amber-600 bg-amber-50/60' : 'border-amber-100 hover:border-amber-300 bg-white' }}"
+                                    data-start-time="{{ $startTime }}"
+                                >
                                     <input 
                                         type="radio" 
                                         name="id_sesi" 
@@ -68,9 +78,10 @@
                                         onchange="updateSelection()"
                                     >
                                     <div class="flex-1">
-                                        <div class="flex items-center justify-between">
+                                        <div class="flex items-center justify-between gap-2">
                                             <span class="text-sm font-bold text-cafe-brown">{{ $session->jam_sesi }}</span>
                                             <i class="fa-solid fa-check-circle text-amber-600 text-sm check-icon {{ old('id_sesi', request('sesi')) == $session->id ? 'inline' : 'hidden' }}"></i>
+                                            <span class="hidden past-badge text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-stone-200 text-stone-600">Sudah Lewat</span>
                                         </div>
                                         <span class="text-[11px] text-cafe-muted mt-0.5 block">
                                             Kuota Maks. {{ $session->token_sesi }} Orang
@@ -79,6 +90,9 @@
                                 </label>
                             @endforeach
                         </div>
+                        <p id="allSessionsPassedNotice" class="hidden mt-2 p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-800 font-medium">
+                            <i class="fa-solid fa-clock text-amber-600 mr-1"></i> Semua sesi untuk hari ini sudah lewat. Silakan pilih tanggal besok atau tanggal lainnya.
+                        </p>
                         @error('id_sesi')
                             <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
                         @enderror
@@ -114,59 +128,12 @@
                         @enderror
                     </div>
 
-                    <!-- 5. Metode Pembayaran -->
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-cafe-brown mb-2">
-                            4. Metode Pembayaran <span class="text-red-500">*</span>
-                        </label>
-                        <div class="grid grid-cols-2 gap-3">
-                            <label class="p-4 rounded-2xl border-2 cursor-pointer transition select-none flex items-center gap-3 payment-card {{ old('metode_pembayaran', 'qris') === 'qris' ? 'border-amber-600 bg-amber-50/60' : 'border-amber-100 hover:border-amber-300' }}">
-                                <input 
-                                    type="radio" 
-                                    name="metode_pembayaran" 
-                                    value="qris" 
-                                    class="sr-only" 
-                                    {{ old('metode_pembayaran', 'qris') === 'qris' ? 'checked' : '' }}
-                                    onchange="updatePaymentCard()"
-                                >
-                                <div class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center text-lg">
-                                    <i class="fa-solid fa-qrcode"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-bold text-cafe-brown">QRIS</p>
-                                    <p class="text-[11px] text-cafe-muted">Gopay, OVO, Dana, BCA</p>
-                                </div>
-                            </label>
-
-                            <label class="p-4 rounded-2xl border-2 cursor-pointer transition select-none flex items-center gap-3 payment-card {{ old('metode_pembayaran') === 'bank' ? 'border-amber-600 bg-amber-50/60' : 'border-amber-100 hover:border-amber-300' }}">
-                                <input 
-                                    type="radio" 
-                                    name="metode_pembayaran" 
-                                    value="bank" 
-                                    class="sr-only" 
-                                    {{ old('metode_pembayaran') === 'bank' ? 'checked' : '' }}
-                                    onchange="updatePaymentCard()"
-                                >
-                                <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-lg">
-                                    <i class="fa-solid fa-building-columns"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-bold text-cafe-brown">Bank Transfer</p>
-                                    <p class="text-[11px] text-cafe-muted">BCA / Mandiri / BRI</p>
-                                </div>
-                            </label>
-                        </div>
-                        @error('metode_pembayaran')
-                            <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
-                        @enderror
-                    </div>
-
                 </div>
 
                 <!-- Right Summary Card -->
                 <div class="lg:col-span-5 bg-white p-6 sm:p-8 rounded-3xl border border-amber-100 shadow-sm sticky top-24 space-y-6">
                     <h3 class="text-lg font-bold font-playfair text-cafe-brown border-b border-amber-100 pb-3 flex items-center gap-2">
-                        <i class="fa-solid fa-receipt text-amber-600"></i> Ringkasan Reservasi
+                        <i class="fa-solid fa-ticket text-amber-600"></i> Ringkasan Reservasi
                     </h3>
 
                     <div class="space-y-3 text-sm">
@@ -184,7 +151,7 @@
                         </div>
                         
                         <div class="border-t border-amber-100 pt-3 flex justify-between items-center text-base">
-                            <span class="font-bold text-cafe-brown">Total Pembayaran:</span>
+                            <span class="font-bold text-cafe-brown">Total Harga:</span>
                             <span id="summaryTotal" class="text-2xl font-extrabold text-amber-600 font-playfair">
                                 Rp {{ number_format($hargaPerTamu, 0, ',', '.') }}
                             </span>
@@ -200,7 +167,7 @@
                         type="submit" 
                         class="w-full py-4 px-4 bg-gradient-to-r from-amber-600 to-amber-500 text-white font-bold text-sm rounded-2xl shadow-lg shadow-amber-500/25 hover:from-amber-700 hover:to-amber-600 transition-all duration-200 flex items-center justify-center gap-2"
                     >
-                        <i class="fa-solid fa-lock"></i> Konfirmasi & Bayar Sekarang
+                        <i class="fa-solid fa-calendar-check"></i> Konfirmasi Reservasi
                     </button>
                 </div>
 
@@ -230,10 +197,68 @@
         document.getElementById('summaryTotal').textContent = 'Rp ' + total.toLocaleString('id-ID');
     }
 
+    function getTodayLocalDateString() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    function updateAvailableSessions() {
+        const dateInput = document.getElementById('tanggal_reservasi');
+        const selectedDate = dateInput ? dateInput.value : '';
+        const todayStr = getTodayLocalDateString();
+        const now = new Date();
+        const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+        let availableCount = 0;
+
+        document.querySelectorAll('.session-card').forEach(card => {
+            const radio = card.querySelector('input[type="radio"]');
+            const pastBadge = card.querySelector('.past-badge');
+            const startTime = card.getAttribute('data-start-time') || '00:00';
+            const [startH, startM] = startTime.split(':').map(Number);
+            const sessionMinutes = (startH * 60) + startM;
+
+            const isPast = (selectedDate === todayStr && sessionMinutes <= currentMinutes)
+                || (selectedDate !== '' && selectedDate < todayStr);
+
+            if (isPast) {
+                radio.disabled = true;
+                radio.checked = false;
+                card.classList.add('opacity-50', 'cursor-not-allowed', 'bg-stone-100', 'border-stone-200');
+                card.classList.remove('cursor-pointer', 'hover:border-amber-300', 'bg-white', 'border-amber-100', 'border-amber-600', 'bg-amber-50/60');
+                if (pastBadge) pastBadge.classList.remove('hidden');
+            } else {
+                availableCount++;
+                radio.disabled = false;
+                card.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-stone-100', 'border-stone-200');
+                card.classList.add('cursor-pointer', 'hover:border-amber-300');
+                if (pastBadge) pastBadge.classList.add('hidden');
+            }
+        });
+
+        const notice = document.getElementById('allSessionsPassedNotice');
+        if (notice) {
+            if (availableCount === 0) {
+                notice.classList.remove('hidden');
+            } else {
+                notice.classList.add('hidden');
+            }
+        }
+
+        updateSelection();
+    }
+
     function updateSelection() {
         document.querySelectorAll('.session-card').forEach(card => {
             const radio = card.querySelector('input[type="radio"]');
             const icon = card.querySelector('.check-icon');
+            if (radio.disabled) {
+                if (icon) icon.classList.add('hidden');
+                return;
+            }
             if (radio.checked) {
                 card.classList.add('border-amber-600', 'bg-amber-50/60');
                 card.classList.remove('border-amber-100', 'bg-white');
@@ -246,21 +271,8 @@
         });
     }
 
-    function updatePaymentCard() {
-        document.querySelectorAll('.payment-card').forEach(card => {
-            const radio = card.querySelector('input[type="radio"]');
-            if (radio.checked) {
-                card.classList.add('border-amber-600', 'bg-amber-50/60');
-                card.classList.remove('border-amber-100');
-            } else {
-                card.classList.remove('border-amber-600', 'bg-amber-50/60');
-                card.classList.add('border-amber-100');
-            }
-        });
-    }
-
     // Initial setup
-    updateSelection();
+    updateAvailableSessions();
     updateCalculation();
 </script>
 @endsection

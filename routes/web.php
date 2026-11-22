@@ -34,9 +34,9 @@ Route::get('/logout-idle', function (\Illuminate\Http\Request $request) {
         \Illuminate\Support\Facades\Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login')->with('info', 'Sesi Anda telah berakhir secara otomatis karena tidak ada aktivitas selama 15 menit. Silakan masuk kembali.');
+        return redirect()->route('home')->with('info', 'Sesi Anda telah berakhir secara otomatis karena tidak ada aktivitas selama 15 menit. Silakan masuk kembali.');
     }
-    return redirect()->route('login');
+    return redirect()->route('home');
 })->name('logout.idle');
 
 /*
@@ -99,11 +99,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::put('/sessions/{id}', [AdminSessionController::class, 'update'])->name('sessions.update');
     Route::delete('/sessions/{id}', [AdminSessionController::class, 'destroy'])->name('sessions.destroy');
 
-    // Reservations & Payments Management
+    // Reservations Management
     Route::get('/reservations', [AdminReservationController::class, 'index'])->name('reservations.index');
     Route::get('/reservations/{id}', [AdminReservationController::class, 'show'])->name('reservations.show');
     Route::delete('/reservations/{id}', [AdminReservationController::class, 'destroy'])->name('reservations.destroy');
-    Route::get('/payments', [AdminReservationController::class, 'payments'])->name('payments.index');
 
     // Feedbacks Moderation
     Route::get('/feedbacks', [AdminFeedbackController::class, 'index'])->name('feedbacks.index');

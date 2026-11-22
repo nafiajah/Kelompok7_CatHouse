@@ -92,11 +92,6 @@ class User extends Authenticatable
         return $this->hasMany(Reservation::class, 'id_users');
     }
 
-    public function payments()
-    {
-        return $this->hasMany(Payment::class, 'id_user');
-    }
-
     public function feedbacks()
     {
         return $this->hasMany(Feedback::class, 'id_user');
