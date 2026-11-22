@@ -127,8 +127,11 @@
                     <button onclick="window.print()" class="flex-1 py-3.5 px-4 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs transition flex items-center justify-center gap-2 shadow-md">
                         <i class="fa-solid fa-print text-sm"></i> Cetak / Simpan Bukti Pembayaran
                     </button>
+                    <a href="{{ route('reservasi.create') }}" class="py-3.5 px-5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs transition flex items-center justify-center gap-2 shadow-md">
+                        <i class="fa-solid fa-calendar-plus text-sm"></i> Buat Reservasi Lagi
+                    </a>
                     <a href="{{ route('home') }}" class="py-3.5 px-5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-xs transition flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-house text-sm"></i> Selesai (Ke Beranda)
+                        <i class="fa-solid fa-house text-sm"></i> Ke Beranda
                     </a>
                 </div>
 

@@ -90,18 +90,8 @@ class ReservationController extends Controller
 
             DB::commit();
 
-            // Khusus buat user, saat sudah melakukan reservasi langsung auto log out
-            if (Auth::user()->role === 'user') {
-                session(['guest_view_ticket_id' => $reservation->id]);
-                Auth::logout();
-                $request->session()->regenerate();
-
-                return redirect()->route('reservasi.show', $reservation->id)
-                    ->with('success', 'Reservasi berhasil dibuat! Akun Anda telah otomatis logout demi keamanan.');
-            }
-
             return redirect()->route('reservasi.show', $reservation->id)
-                ->with('success', 'Reservasi berhasil dibuat! Silakan selesaikan pembayaran.');
+                ->with('success', 'Reservasi berhasil dibuat! Bukti pembayaran telah berhasil dicatat.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->withInput()->with('error', 'Terjadi kesalahan saat memproses reservasi: ' . $e->getMessage());
