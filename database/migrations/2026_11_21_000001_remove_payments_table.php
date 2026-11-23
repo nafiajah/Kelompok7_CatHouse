@@ -7,9 +7,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         if (Schema::hasTable('reservations')) {
@@ -78,11 +76,8 @@ return new class extends Migration
         Schema::dropIfExists('payments');
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        // Payment feature intentionally removed
+
     }
 };

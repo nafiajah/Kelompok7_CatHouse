@@ -22,7 +22,7 @@
 
 @section('content')
 @php
-    $kodeReservasi = '#CPY-' . str_pad($reservation->id, 5, '0', STR_PAD_LEFT);
+$kodeReservasi = '#CPY-' . str_pad($reservation->id, 5, '0', STR_PAD_LEFT);
     $namaPelanggan = $reservation->user ? $reservation->user->nama_lengkap : 'Tamu Cat House';
     $jumlahPengunjung = $reservation->jumlah_tamu ?? 1;
     $tanggalFormatted = \Carbon\Carbon::parse($reservation->tanggal_reservasi)
@@ -37,7 +37,6 @@
 <section class="bg-white py-8 sm:py-12">
     <div class="max-w-[640px] mx-auto px-4 sm:px-6">
 
-        <!-- Top Status Notification Pill -->
         <div class="mb-6 px-4 py-2.5 rounded-xl bg-[#FDF1F3] border border-[#E5B6C0] flex items-center gap-3 print:hidden">
             <span class="w-6 h-6 rounded-full bg-[#E5B6C0] flex items-center justify-center shrink-0">
                 <span class="w-4 h-4 rounded-full bg-white flex items-center justify-center">
@@ -49,12 +48,11 @@
             </p>
         </div>
 
-        <!-- Main Reservation Receipt Card -->
         <div
             id="printableReceipt"
             class="bg-white rounded-2xl border border-stone-200/90 shadow-[0_8px_28px_rgba(63,50,42,0.10)] overflow-hidden"
         >
-            <!-- Sage/Teal Gradient Header -->
+
             <div class="bg-gradient-to-r from-[#BACFD1] via-[#98B7BA] to-[#7BA1A5] px-6 py-9 sm:py-10 text-center text-white">
                 <p class="text-sm sm:text-[15px] font-normal text-white/95 tracking-normal">
                     Bukti reservasi resmi
@@ -70,10 +68,8 @@
                 </div>
             </div>
 
-            <!-- Card Body -->
             <div class="p-6 sm:p-8 space-y-6">
 
-                <!-- 2x2 Reservation Info Grid -->
                 <div class="grid grid-cols-2 gap-x-6 sm:gap-x-10 gap-y-5 pb-6 border-b border-stone-200/80">
                     <div>
                         <p class="text-xs sm:text-[13px] text-stone-400">Kode reservasi</p>
@@ -93,7 +89,6 @@
                     </div>
                 </div>
 
-                <!-- Jadwal Sesi Kunjungan Box -->
                 <div class="rounded-xl bg-[#DCE8E9] border border-[#9EB8BB] px-5 py-4 flex items-center justify-between gap-4">
                     <div>
                         <p class="text-sm sm:text-[15px] font-medium text-[#2E221E]">
@@ -116,26 +111,23 @@
                     </span>
                 </div>
 
-                <!-- Rincian Harga -->
                 <div class="pt-1 border-t border-stone-200/80">
                     <p class="text-xs sm:text-[13px] text-stone-400 mb-3 mt-4">Rincian Harga</p>
 
                     <div class="rounded-xl border border-[#B5C6C8] overflow-hidden shadow-[0_2px_6px_rgba(0,0,0,0.04)]">
-                        <!-- Table Header -->
+
                         <div class="bg-[#BDD0D2] px-4 py-3 grid grid-cols-12 text-xs sm:text-sm font-medium text-[#2E221E]">
                             <span class="col-span-5">Keterangan</span>
                             <span class="col-span-4 text-center">Harga Satuan</span>
                             <span class="col-span-3 text-right">Total</span>
                         </div>
 
-                        <!-- Item Row -->
                         <div class="bg-white px-4 py-3.5 grid grid-cols-12 items-center text-xs sm:text-sm text-[#D98497] border-b border-stone-200/80">
                             <span class="col-span-5">Tiket Reservasi {{ $jumlahPengunjung }}x</span>
                             <span class="col-span-4 text-center">Rp. {{ number_format($hargaSatuanDisplay, 0, ',', '.') }}</span>
                             <span class="col-span-3 text-right">Rp. {{ number_format($reservation->total_harga ?? 0, 0, ',', '.') }}</span>
                         </div>
 
-                        <!-- Payment Method Row -->
                         <div class="bg-white px-4 py-3.5">
                             <p class="text-xs text-stone-400">Metode Pembayaran:</p>
                             <p class="text-xs sm:text-sm text-[#D98497] mt-0.5">Di Tempat</p>
@@ -143,7 +135,6 @@
                     </div>
                 </div>
 
-                <!-- S&K Reminder Box -->
                 <div class="rounded-xl bg-[#DCE8E9] border border-[#9EB8BB] px-5 py-4 text-center space-y-1">
                     <p class="text-xs sm:text-sm text-[#8F9D9E]">
                         Pastikan anda benar-benar telah membaca
@@ -158,7 +149,6 @@
                     </p>
                 </div>
 
-                <!-- Bottom 3 Action Buttons -->
                 <div class="pt-3 pb-2 grid grid-cols-1 sm:grid-cols-3 gap-4 print:hidden">
                     <button
                         type="button"
@@ -198,7 +188,6 @@
     </div>
 </section>
 
-<!-- Pop-out Modal Syarat & Ketentuan -->
 <div
     id="snkModal"
     class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/45 backdrop-blur-[2px] opacity-0 pointer-events-none transition-all duration-200 print:hidden"
@@ -210,7 +199,7 @@
         id="snkModalCard"
         class="relative w-full max-w-md bg-[#A9C4C7] border border-[#5E7F83] rounded-[22px] shadow-2xl p-6 sm:p-7 text-[#2E221E] transform scale-95 transition-all duration-200"
     >
-        <!-- Close (X) Button -->
+
         <button
             type="button"
             id="snkCloseBtn"
@@ -260,20 +249,16 @@
             card.classList.add('scale-95');
         }
 
-        // Muncul hanya saat teks S&K yang berlaku diklik
         trigger.addEventListener('click', openSnkModal);
 
-        // Tutup lewat tombol X
         closeBtn.addEventListener('click', closeSnkModal);
 
-        // Tutup jika klik area backdrop di luar kartu
         modal.addEventListener('click', function (e) {
             if (e.target === modal) {
                 closeSnkModal();
             }
         });
 
-        // Tutup dengan tombol Escape
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && modal.classList.contains('opacity-100')) {
                 closeSnkModal();

@@ -3,12 +3,7 @@
 @section('title', 'Tentang Kami - Cat House')
 
 @php
-    /**
-     * Helper untuk mengecek foto manual di folder public/images/
-     * Cukup simpan file foto dengan nama dasar di bawah ini (ekstensi .jpg / .jpeg / .png / .webp),
-     * foto akan langsung tampil otomatis di halaman Tentang Kami.
-     */
-    $resolveManualPhoto = function (string $baseName): ?string {
+$resolveManualPhoto = function (string $baseName): ?string {
         foreach (['jpg', 'jpeg', 'png', 'webp'] as $ext) {
             $relativePath = "images/{$baseName}.{$ext}";
             if (file_exists(public_path($relativePath))) {
@@ -18,10 +13,8 @@
         return null;
     };
 
-    // 1. Foto Background Hero Tentang Kami: public/images/about-hero.jpg (atau .png/.webp)
     $aboutHeroPhoto = $resolveManualPhoto('about-hero');
 
-    // 2. Foto Our Vision: public/images/about-vision.jpg (atau .png/.webp)
     $aboutVisionPhoto = $resolveManualPhoto('about-vision');
 
     $missions = [
@@ -33,11 +26,7 @@
 @endphp
 
 @section('content')
-<!-- =========================================================
-     1. HERO TENTANG KAMI SECTION
-     Ganti foto background dengan menaruh file di:
-     public/images/about-hero.jpg (atau .png / .webp)
-     ========================================================= -->
+
 <section class="relative w-full min-h-[460px] sm:min-h-[520px] lg:min-h-[560px] flex items-center justify-center overflow-hidden">
     @if($aboutHeroPhoto)
         <img
@@ -47,7 +36,7 @@
         >
         <div class="absolute inset-0 bg-black/45"></div>
     @else
-        <!-- Placeholder Background sampai foto hero Tentang Kami ditambahkan manual -->
+
         <div class="absolute inset-0 bg-gradient-to-br from-[#6B5A4E] via-[#514339] to-[#3A2F27]"></div>
         <div class="absolute inset-0 opacity-15" style="background-image: radial-gradient(#FFFFFF 1px, transparent 1px); background-size: 24px 24px;"></div>
         <div class="absolute bottom-4 right-5 z-20 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/40 backdrop-blur-xs border border-white/25 text-white/90 text-[11px] font-medium">
@@ -56,7 +45,6 @@
         </div>
     @endif
 
-    <!-- Hero Content -->
     <div class="relative z-10 max-w-4xl mx-auto px-6 sm:px-10 py-16 sm:py-20">
         <h1 class="font-literata font-bold text-white text-center text-4xl sm:text-5xl lg:text-[58px] leading-tight tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]">
             Tentang Kami
@@ -73,14 +61,9 @@
     </div>
 </section>
 
-<!-- =========================================================
-     2. OUR VISION SECTION
-     Ganti foto dengan menaruh file di:
-     public/images/about-vision.jpg (atau .png / .webp)
-     ========================================================= -->
 <section class="bg-[#FFDAE1] py-14 sm:py-20">
     <div class="max-w-5xl mx-auto px-6 sm:px-10">
-        <!-- Top Row: Title + Paragraph & Right Rounded Photo -->
+
         <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
             <div class="md:col-span-8">
                 <h2 class="font-literata font-bold text-[#3F322A] text-3xl sm:text-4xl lg:text-[42px] leading-tight">
@@ -100,7 +83,7 @@
                             class="w-full h-full object-cover"
                         >
                     @else
-                        <!-- Placeholder Foto Our Vision -->
+
                         <div class="w-full h-full border-2 border-dashed border-[#E58B9C] rounded-[21px] bg-white/70 flex flex-col items-center justify-center p-4 text-center text-[#5C4D44]">
                             <div class="w-11 h-11 rounded-full bg-[#FFDAE1] text-[#E58B9C] flex items-center justify-center text-lg mb-2">
                                 <i class="fa-regular fa-image"></i>
@@ -113,12 +96,11 @@
             </div>
         </div>
 
-        <!-- 4 Mission Bullet Points with Pink Cat Badge -->
         <div class="mt-10 sm:mt-12 space-y-5">
             @foreach($missions as $mission)
                 <div class="flex items-center gap-4 sm:gap-5">
                     <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#E58B9C] text-white flex items-center justify-center shrink-0 shadow-xs">
-                        <!-- Cute Cat Head Silhouette SVG -->
+
                         <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                             <path d="M5.5 4.5L9.2 8.2C10.05 7.9 11 7.75 12 7.75s1.95.15 2.8.45l3.7-3.7c.4-.4 1.1-.15 1.1.42V13c0 4.14-3.36 7.5-7.6 7.5S4.4 17.14 4.4 13V4.92c0-.57.7-.82 1.1-.42zM9.25 13a1.15 1.15 0 100 2.3 1.15 1.15 0 000-2.3zm5.5 0a1.15 1.15 0 100 2.3 1.15 1.15 0 000-2.3zM12 16.75l-1.1-.95h2.2L12 16.75z"/>
                         </svg>
@@ -132,9 +114,6 @@
     </div>
 </section>
 
-<!-- =========================================================
-     3. JAM OPERASIONAL SECTION
-     ========================================================= -->
 <section class="bg-white py-16 sm:py-24">
     <div class="max-w-4xl mx-auto px-6 text-center">
         <h2 class="font-literata font-semibold text-[#3F322A] text-3xl sm:text-4xl lg:text-[42px] leading-tight">

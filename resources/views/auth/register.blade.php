@@ -8,18 +8,17 @@
 
 @section('content')
 <div class="login-container register-container">
-    <!-- Back to Home Floating Link -->
+
     <a href="{{ route('home') }}" class="login-back-btn">
         <i class="fa-solid fa-arrow-left"></i> Beranda
     </a>
 
-    <!-- LEFT COLUMN: Photo Frame Section -->
     <div class="login-photo-section">
         <div class="login-photo-wrapper">
-            <img 
-                src="{{ asset('images/cat-photo.png') }}?v={{ time() }}" 
-                alt="Cat House Photo" 
-                class="login-photo-img" 
+            <img
+                src="{{ asset('images/cat-photo.png') }}?v={{ time() }}"
+                alt="Cat House Photo"
+                class="login-photo-img"
                 id="registerCatPhoto"
                 onerror="if (this.src.indexOf('.png') !== -1) { this.src='{{ asset('images/cat-photo.jpg') }}?v={{ time() }}'; } else { this.style.display='none'; document.getElementById('catPhotoFallback').style.display='flex'; }"
             >
@@ -31,16 +30,14 @@
         </div>
     </div>
 
-    <!-- RIGHT COLUMN: Register Form Section -->
     <div class="login-form-section register-form-section">
         <div class="register-form-content">
-            
-            <!-- Logo Frame -->
+
             <div class="register-logo-frame">
-                <img 
-                    src="{{ asset('images/logo.png') }}" 
-                    alt="CAT HOUSE Logo" 
-                    class="login-logo-img" 
+                <img
+                    src="{{ asset('images/logo.png') }}"
+                    alt="CAT HOUSE Logo"
+                    class="login-logo-img"
                     id="registerLogoImg"
                     onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='flex';"
                 >
@@ -52,10 +49,8 @@
                 </div>
             </div>
 
-            <!-- Subtitle -->
             <p class="register-subtitle">Please register to create account</p>
 
-            <!-- Alerts for Session & Validation Messages -->
             @if(session('error'))
                 <div class="login-alert login-alert-danger">
                     <i class="fa-solid fa-circle-exclamation"></i>
@@ -70,22 +65,20 @@
                 </div>
             @endif
 
-            <!-- Register Form -->
             <form action="{{ route('register') }}" method="POST" class="register-form">
                 @csrf
 
-                <!-- Username Input Group -->
                 <div class="form-group">
                     <label for="username" class="form-label">Username</label>
                     <div class="input-wrapper">
-                        <input 
-                            type="text" 
-                            name="username" 
-                            id="username" 
-                            value="{{ old('username') }}" 
-                            required 
+                        <input
+                            type="text"
+                            name="username"
+                            id="username"
+                            value="{{ old('username') }}"
+                            required
                             autofocus
-                            placeholder="User" 
+                            placeholder="User"
                             class="form-input @error('username') is-invalid @enderror"
                         >
                         <span class="input-icon">
@@ -97,26 +90,25 @@
                     @enderror
                 </div>
 
-                <!-- Password Input Group -->
                 <div class="form-group">
                     <label for="password" class="form-label">Password</label>
                     <div class="input-wrapper">
-                        <input 
-                            type="password" 
-                            name="password" 
-                            id="password" 
-                            required 
-                            placeholder="12345678" 
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            required
+                            placeholder="12345678"
                             class="form-input @error('password') is-invalid @enderror"
                         >
-                        <!-- Right Key Icon (Password Visibility Toggle) -->
+
                         <button type="button" class="input-icon input-icon-toggle password-icon-box" id="togglePasswordBtn" aria-label="Toggle password visibility" title="Lihat password">
-                            <img 
-                                src="{{ asset('images/key-icon.png') }}" 
-                                alt="Password Hidden" 
-                                id="passwordToggleImg" 
-                                class="login-input-icon-img password-icon-img" 
-                                width="20" 
+                            <img
+                                src="{{ asset('images/key-icon.png') }}"
+                                alt="Password Hidden"
+                                id="passwordToggleImg"
+                                class="login-input-icon-img password-icon-img"
+                                width="20"
                                 height="20"
                                 data-hidden-src="{{ asset('images/key-icon.png') }}"
                                 data-visible-src="{{ asset('images/key-slash-icon.png') }}"
@@ -128,17 +120,16 @@
                     @enderror
                 </div>
 
-                <!-- Email Input Group -->
                 <div class="form-group">
                     <label for="email" class="form-label">Email</label>
                     <div class="input-wrapper">
-                        <input 
-                            type="email" 
-                            name="email" 
-                            id="email" 
-                            value="{{ old('email') }}" 
-                            required 
-                            placeholder="user@gmail.com" 
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            value="{{ old('email') }}"
+                            required
+                            placeholder="user@gmail.com"
                             class="form-input @error('email') is-invalid @enderror"
                         >
                         <span class="input-icon">
@@ -150,16 +141,15 @@
                     @enderror
                 </div>
 
-                <!-- Address Input Group -->
                 <div class="form-group">
                     <label for="alamat" class="form-label">Address</label>
                     <div class="input-wrapper">
-                        <input 
-                            type="text" 
-                            name="alamat" 
-                            id="alamat" 
-                            value="{{ old('alamat') }}" 
-                            placeholder="Jl. Kambing Guling" 
+                        <input
+                            type="text"
+                            name="alamat"
+                            id="alamat"
+                            value="{{ old('alamat') }}"
+                            placeholder="Jl. Kambing Guling"
                             class="form-input @error('alamat') is-invalid @enderror"
                         >
                         <span class="input-icon">
@@ -171,19 +161,18 @@
                     @enderror
                 </div>
 
-                <!-- Phone Number Input Group -->
                 <div class="form-group">
                     <label for="no_telp" class="form-label">Phone Number</label>
                     <div class="phone-input-group">
                         <div class="phone-prefix-box">+62</div>
                         <div class="phone-input-wrapper">
-                            <input 
-                                type="text" 
-                                name="no_telp" 
-                                id="no_telp" 
-                                value="{{ old('no_telp') }}" 
-                                required 
-                                placeholder="0812345678910" 
+                            <input
+                                type="text"
+                                name="no_telp"
+                                id="no_telp"
+                                value="{{ old('no_telp') }}"
+                                required
+                                placeholder="0812345678910"
                                 class="form-input @error('no_telp') is-invalid @enderror"
                             >
                             <span class="input-icon">
@@ -196,13 +185,11 @@
                     @enderror
                 </div>
 
-                <!-- Submit Button -->
                 <button type="submit" class="btn-login">
                     Register
                 </button>
             </form>
 
-            <!-- Login Link -->
             <div class="register-footer-links">
                 <p>Already have an account ? <a href="{{ route('login') }}">Login</a></p>
             </div>
@@ -216,7 +203,6 @@
 <script>
     document.body.classList.add('login-page-body', 'register-page-body');
 
-    // Toggle password visibility
     const togglePasswordBtn = document.getElementById('togglePasswordBtn');
     const passwordInput = document.getElementById('password');
     const passwordToggleImg = document.getElementById('passwordToggleImg');
@@ -225,7 +211,7 @@
         togglePasswordBtn.addEventListener('click', function (e) {
             e.preventDefault();
             const isPassword = passwordInput.getAttribute('type') === 'password';
-            
+
             if (isPassword) {
                 passwordInput.setAttribute('type', 'text');
                 passwordToggleImg.src = passwordToggleImg.getAttribute('data-visible-src');

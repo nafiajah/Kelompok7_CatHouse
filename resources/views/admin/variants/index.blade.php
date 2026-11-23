@@ -5,43 +5,21 @@
 
 @section('content')
 <div class="space-y-6">
-    
-    <!-- Top Card: Tambah Varian Baru (Full Width Card) -->
-    <div class="bg-white rounded-2xl border border-stone-300 shadow-md overflow-hidden">
-        <div class="px-6 py-4 border-b border-stone-200">
-            <h3 class="text-xs sm:text-sm font-bold uppercase tracking-wider text-stone-700">
-                TAMBAH VARIAN BARU
-            </h3>
-        </div>
 
-        <form action="{{ route('admin.variants.store') }}" method="POST" class="p-6 space-y-4 text-xs sm:text-sm">
-            @csrf
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <p class="text-xs sm:text-sm text-stone-500 font-medium">
+            Total: <strong class="text-stone-800">{{ count($variants) }}</strong> Varian Jenis Terdaftar
+        </p>
 
-            <div>
-                <label for="jenis" class="block font-bold text-stone-700 mb-1.5 text-xs">
-                    Nama/Jenis Kucing <span class="text-red-500">*</span>
-                </label>
-                <input 
-                    type="text" 
-                    name="jenis" 
-                    id="jenis" 
-                    value="{{ old('jenis') }}" 
-                    required 
-                    placeholder="Contoh: Persia, Munchkin" 
-                    class="w-full px-4 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-accent @error('jenis') border-red-500 @enderror bg-white"
-                >
-                @error('jenis')
-                    <p class="mt-1 text-red-600 font-medium text-xs">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <button type="submit" class="w-full py-2.5 bg-[#E58B9C] hover:bg-[#D77A8B] text-white font-medium rounded-xl shadow-xs transition flex items-center justify-center gap-1.5 text-sm">
-                <i class="fa-solid fa-plus text-xs"></i> Tambah Varian
-            </button>
-        </form>
+        <button
+            type="button"
+            onclick="openCreateVariantModal()"
+            class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[#E58B9C] hover:bg-[#D77487] text-white font-semibold text-xs sm:text-sm rounded-xl shadow-xs transition flex-shrink-0 whitespace-nowrap cursor-pointer"
+        >
+            <i class="fa-solid fa-plus text-xs"></i> Tambah Varian Baru
+        </button>
     </div>
 
-    <!-- Bottom Card: Daftar Varian Terdaftar (Full Width Card) -->
     <div class="bg-white rounded-2xl border border-stone-300 shadow-md overflow-hidden">
         <div class="px-6 py-4 border-b border-stone-200">
             <h3 class="text-base sm:text-lg font-bold text-stone-800">
@@ -71,21 +49,23 @@
                             </td>
                             <td class="py-4 px-6 text-right">
                                 <div class="flex items-center justify-end gap-3">
-                                    <button 
-                                        type="button" 
-                                        onclick="openEditVariant({{ $variant->id }}, '{{ $variant->jenis }}')"
-                                        class="text-stone-700 hover:text-stone-900 transition"
+                                    <button
+                                        type="button"
+                                        onclick="openEditVariantModal(this)"
+                                        data-action="{{ route('admin.variants.update', $variant->id) }}"
+                                        data-jenis="{{ $variant->jenis }}"
+                                        class="text-stone-700 hover:text-stone-900 transition cursor-pointer"
                                         title="Edit Varian"
                                     >
                                         <i class="fa-regular fa-pen-to-square text-lg"></i>
                                     </button>
 
-                                    <form action="{{ route('admin.variants.destroy', $variant->id) }}" method="POST" onsubmit="return confirm('Hapus varian {{ $variant->jenis }}?')">
+                                    <form action="{{ route('admin.variants.destroy', $variant->id) }}" method="POST" data-delete-confirm="Apakah Anda yakin ingin menghapus varian &quot;{{ $variant->jenis }}&quot;?">
                                         @csrf
                                         @method('DELETE')
-                                        <button 
-                                            type="submit" 
-                                            class="text-stone-700 hover:text-red-600 transition" 
+                                        <button
+                                            type="submit"
+                                            class="text-stone-700 hover:text-red-600 transition cursor-pointer"
                                             title="Hapus"
                                         >
                                             <i class="fa-regular fa-trash-can text-lg"></i>
@@ -108,49 +88,166 @@
 
 </div>
 
-<!-- Modal Edit Variant -->
-<div id="editVariantModal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl border border-stone-300">
-        <h3 class="text-sm font-bold uppercase text-stone-800 mb-4">Edit Nama Varian</h3>
-        
-        <form id="editVariantForm" method="POST" class="space-y-4 text-xs">
-            @csrf
-            @method('PUT')
+<div id="createVariantModal" class="fixed inset-0 z-50 bg-black/45 backdrop-blur-[2px] hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-[20px] border border-stone-300 shadow-2xl w-full max-w-md overflow-hidden">
+        <div class="px-6 sm:px-7 py-5 border-b border-stone-300 flex items-center justify-between">
+            <h3 class="text-lg sm:text-xl font-bold text-[#3F322A]">Tambah Varian Jenis</h3>
+            <button type="button" onclick="closeCreateVariantModal()" class="text-stone-400 hover:text-stone-700 p-1 rounded-lg transition cursor-pointer" aria-label="Tutup">
+                <i class="fa-solid fa-xmark text-base"></i>
+            </button>
+        </div>
 
-            <div>
-                <label for="edit_jenis" class="block font-bold text-stone-700 mb-1">Nama Ras / Jenis</label>
-                <input 
-                    type="text" 
-                    name="jenis" 
-                    id="edit_jenis" 
-                    required 
-                    class="w-full px-4 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-accent"
-                >
+        <form action="{{ route('admin.variants.store') }}" method="POST">
+            @csrf
+            <input type="hidden" name="_modal" value="create_variant">
+
+            <div class="px-6 sm:px-7 py-5 space-y-4">
+                @if($errors->any() && old('_modal') === 'create_variant')
+                    <div class="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs space-y-0.5">
+                        @foreach($errors->all() as $error)
+                            <p><i class="fa-solid fa-circle-exclamation mr-1"></i> {{ $error }}</p>
+                        @endforeach
+                    </div>
+                @endif
+
+                <div>
+                    <label for="create_jenis" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
+                        Nama / Jenis Kucing
+                    </label>
+                    <input
+                        type="text"
+                        name="jenis"
+                        id="create_jenis"
+                        value="{{ old('_modal') === 'create_variant' ? old('jenis') : '' }}"
+                        required
+                        placeholder="Contoh: Persia, Munchkin"
+                        class="w-full px-3.5 py-2.5 rounded-lg border border-stone-400 text-xs sm:text-sm text-[#3F322A] placeholder:text-stone-400 focus:outline-none focus:border-[#E58B9C] focus:ring-2 focus:ring-[#E58B9C]/25 bg-white"
+                    >
+                </div>
             </div>
 
-            <div class="flex items-center justify-end gap-2 pt-2">
-                <button type="button" onclick="closeEditVariant()" class="px-4 py-2 rounded-xl text-stone-500 font-bold hover:bg-stone-100">
+            <div class="px-6 sm:px-7 py-4 border-t border-stone-300 flex items-center justify-end gap-3 bg-white">
+                <button
+                    type="button"
+                    onclick="closeCreateVariantModal()"
+                    class="px-5 py-2 rounded-lg border border-stone-400 bg-white text-[#3F322A] text-xs sm:text-sm font-medium hover:bg-stone-100 transition cursor-pointer"
+                >
                     Batal
                 </button>
-                <button type="submit" class="px-5 py-2 rounded-xl bg-[#E58B9C] hover:bg-[#D77A8B] text-white font-bold">
-                    Simpan
+                <button
+                    type="submit"
+                    class="px-5 py-2 rounded-lg bg-[#E58B9C] hover:bg-[#D77487] text-white text-xs sm:text-sm font-medium transition cursor-pointer"
+                >
+                    Tambah
                 </button>
             </div>
         </form>
     </div>
 </div>
 
+<div id="editVariantModal" class="fixed inset-0 z-50 bg-black/45 backdrop-blur-[2px] hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-[20px] border border-stone-300 shadow-2xl w-full max-w-md overflow-hidden">
+        <div class="px-6 sm:px-7 py-5 border-b border-stone-300 flex items-center justify-between">
+            <h3 class="text-lg sm:text-xl font-bold text-[#3F322A]">Edit Varian Jenis</h3>
+            <button type="button" onclick="closeEditVariantModal()" class="text-stone-400 hover:text-stone-700 p-1 rounded-lg transition cursor-pointer" aria-label="Tutup">
+                <i class="fa-solid fa-xmark text-base"></i>
+            </button>
+        </div>
+
+        <form id="editVariantForm" action="{{ old('_edit_action', '') }}" method="POST">
+            @csrf
+            @method('PUT')
+            <input type="hidden" name="_modal" value="edit_variant">
+            <input type="hidden" name="_edit_action" id="edit_variant_action_hidden" value="{{ old('_edit_action', '') }}">
+
+            <div class="px-6 sm:px-7 py-5 space-y-4">
+                @if($errors->any() && old('_modal') === 'edit_variant')
+                    <div class="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs space-y-0.5">
+                        @foreach($errors->all() as $error)
+                            <p><i class="fa-solid fa-circle-exclamation mr-1"></i> {{ $error }}</p>
+                        @endforeach
+                    </div>
+                @endif
+
+                <div>
+                    <label for="edit_jenis" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
+                        Nama / Jenis Kucing
+                    </label>
+                    <input
+                        type="text"
+                        name="jenis"
+                        id="edit_jenis"
+                        value="{{ old('_modal') === 'edit_variant' ? old('jenis') : '' }}"
+                        required
+                        class="w-full px-3.5 py-2.5 rounded-lg border border-stone-400 text-xs sm:text-sm text-[#3F322A] focus:outline-none focus:border-[#E58B9C] focus:ring-2 focus:ring-[#E58B9C]/25 bg-white"
+                    >
+                </div>
+            </div>
+
+            <div class="px-6 sm:px-7 py-4 border-t border-stone-300 flex items-center justify-end gap-3 bg-white">
+                <button
+                    type="button"
+                    onclick="closeEditVariantModal()"
+                    class="px-5 py-2 rounded-lg border border-stone-400 bg-white text-[#3F322A] text-xs sm:text-sm font-medium hover:bg-stone-100 transition cursor-pointer"
+                >
+                    Batal
+                </button>
+                <button
+                    type="submit"
+                    class="px-5 py-2 rounded-lg bg-[#E58B9C] hover:bg-[#D77487] text-white text-xs sm:text-sm font-medium transition cursor-pointer"
+                >
+                    Edit
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+@endsection
+
 @section('scripts')
 <script>
-    function openEditVariant(id, jenis) {
-        document.getElementById('editVariantForm').action = '/admin/variants/' + id;
+    function openCreateVariantModal() {
+        document.getElementById('createVariantModal').classList.remove('hidden');
+    }
+
+    function closeCreateVariantModal() {
+        document.getElementById('createVariantModal').classList.add('hidden');
+    }
+
+    function openEditVariantModal(btn) {
+        const action = btn.getAttribute('data-action');
+        const jenis = btn.getAttribute('data-jenis');
+
+        document.getElementById('editVariantForm').action = action;
+        document.getElementById('edit_variant_action_hidden').value = action;
         document.getElementById('edit_jenis').value = jenis;
         document.getElementById('editVariantModal').classList.remove('hidden');
     }
 
-    function closeEditVariant() {
+    function closeEditVariantModal() {
         document.getElementById('editVariantModal').classList.add('hidden');
     }
+
+    ['createVariantModal', 'editVariantModal'].forEach(function (id) {
+        const modal = document.getElementById(id);
+        if (modal) {
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) modal.classList.add('hidden');
+            });
+        }
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            closeCreateVariantModal();
+            closeEditVariantModal();
+        }
+    });
+
+    @if($errors->any() && old('_modal') === 'create_variant')
+        openCreateVariantModal();
+    @elseif($errors->any() && old('_modal') === 'edit_variant')
+        document.getElementById('editVariantModal').classList.remove('hidden');
+    @endif
 </script>
-@endsection
 @endsection

@@ -17,7 +17,6 @@ class Variant extends Model
         return $this->hasMany(DataKucing::class, 'id_variant');
     }
 
-    // Alias for backwards compatibility
     public function cats()
     {
         return $this->hasMany(DataKucing::class, 'id_variant');

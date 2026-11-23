@@ -6,7 +6,7 @@
 @section('content')
 <div class="max-w-2xl">
     <div class="bg-white p-8 rounded-2xl border border-stone-200 shadow-sm space-y-6">
-        
+
         <div class="flex items-center justify-between pb-4 border-b border-stone-100">
             <div>
                 <h3 class="text-base font-bold text-stone-800">Formulir Kucing Baru</h3>
@@ -24,13 +24,13 @@
                 <label for="nama_kucing" class="block font-bold uppercase text-stone-700 mb-1.5">
                     Nama Kucing <span class="text-red-500">*</span>
                 </label>
-                <input 
-                    type="text" 
-                    name="nama_kucing" 
-                    id="nama_kucing" 
-                    value="{{ old('nama_kucing') }}" 
-                    required 
-                    placeholder="Contoh: Mochi, Milo, Bella" 
+                <input
+                    type="text"
+                    name="nama_kucing"
+                    id="nama_kucing"
+                    value="{{ old('nama_kucing') }}"
+                    required
+                    placeholder="Contoh: Mochi, Milo, Bella"
                     class="w-full px-4 py-2.5 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-brand-500 @error('nama_kucing') border-red-500 @enderror"
                 >
                 @error('nama_kucing')
@@ -42,10 +42,10 @@
                 <label for="id_variant" class="block font-bold uppercase text-stone-700 mb-1.5">
                     Ras / Varian Jenis <span class="text-red-500">*</span>
                 </label>
-                <select 
-                    name="id_variant" 
-                    id="id_variant" 
-                    required 
+                <select
+                    name="id_variant"
+                    id="id_variant"
+                    required
                     class="w-full px-4 py-2.5 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-brand-500 @error('id_variant') border-red-500 @enderror"
                 >
                     <option value="">Pilih Ras Kucing</option>
@@ -64,12 +64,12 @@
                 <label for="deskripsi" class="block font-bold uppercase text-stone-700 mb-1.5">
                     Deskripsi Ciri & Kepribadian <span class="text-red-500">*</span>
                 </label>
-                <textarea 
-                    name="deskripsi" 
-                    id="deskripsi" 
-                    rows="4" 
-                    required 
-                    placeholder="Tuliskan warna bulu, sifat (manja, tenang, aktif), dan kebiasaan kucing..." 
+                <textarea
+                    name="deskripsi"
+                    id="deskripsi"
+                    rows="4"
+                    required
+                    placeholder="Tuliskan warna bulu, sifat (manja, tenang, aktif), dan kebiasaan kucing..."
                     class="w-full px-4 py-2.5 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-brand-500 @error('deskripsi') border-red-500 @enderror"
                 >{{ old('deskripsi') }}</textarea>
                 @error('deskripsi')
@@ -81,12 +81,12 @@
                 <label for="foto" class="block font-bold uppercase text-stone-700 mb-1.5">
                     Unggah Foto Kucing <span class="text-red-500">*</span>
                 </label>
-                <input 
-                    type="file" 
-                    name="foto" 
-                    id="foto" 
-                    accept="image/*" 
-                    required 
+                <input
+                    type="file"
+                    name="foto"
+                    id="foto"
+                    accept="image/*"
+                    required
                     class="w-full px-4 py-2 rounded-xl border border-stone-200 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-brand-100 file:text-brand-800 hover:file:bg-brand-200 @error('foto') border-red-500 @enderror"
                 >
                 <span class="text-[11px] text-stone-400 mt-1 block">Format: JPG, PNG, WEBP. Maksimal 3MB.</span>

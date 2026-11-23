@@ -5,8 +5,7 @@
 
 @section('content')
 <div class="space-y-6 max-w-4xl mx-auto">
-    
-    <!-- Top Action Bar (Hidden when printing) -->
+
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-stone-300 shadow-md print:hidden">
         <a href="{{ route('admin.reservations.index') }}" class="px-4 py-2 bg-stone-100 text-stone-700 hover:bg-stone-200 rounded-xl text-xs font-bold transition flex items-center gap-2 w-fit">
             <i class="fa-solid fa-arrow-left"></i> Kembali ke Daftar Reservasi
@@ -15,7 +14,7 @@
             <button onclick="window.print()" class="px-4 py-2 bg-[#2E2421] text-white hover:bg-stone-900 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-xs">
                 <i class="fa-solid fa-print"></i> Cetak Bukti Tiket
             </button>
-            <form action="{{ route('admin.reservations.destroy', $reservation->id) }}" method="POST" onsubmit="return confirm('Hapus data reservasi ini?')" class="inline">
+            <form action="{{ route('admin.reservations.destroy', $reservation->id) }}" method="POST" data-delete-confirm="Apakah Anda yakin ingin menghapus data reservasi ini?" class="inline">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="px-3.5 py-2 bg-rose-50 text-rose-700 hover:bg-rose-100 rounded-xl text-xs font-bold transition flex items-center gap-1.5" title="Hapus Reservasi">
@@ -25,10 +24,8 @@
         </div>
     </div>
 
-    <!-- Official Ticket Card -->
     <div class="bg-white rounded-3xl border border-stone-300 shadow-xl overflow-hidden print:shadow-none print:border-none print:m-0" id="printableTicket">
-        
-        <!-- Ticket Header Banner -->
+
         <div class="bg-gradient-to-r from-[#2E2421] to-[#3E2723] p-6 sm:p-8 text-white relative">
             <div class="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4 text-center sm:text-left">
                 <div class="flex items-center gap-4">
@@ -41,7 +38,7 @@
                         <p class="text-xs text-stone-300 mt-1">Bukti Reservasi Kunjungan Pelanggan</p>
                     </div>
                 </div>
-                
+
                 <div class="text-center sm:text-right flex flex-col items-center sm:items-end">
                     <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-200 text-xs font-bold">
                         <i class="fa-solid fa-circle-check text-emerald-400"></i> TERKONFIRMASI
@@ -50,10 +47,8 @@
             </div>
         </div>
 
-        <!-- Ticket Body Details -->
         <div class="p-6 sm:p-8 space-y-6">
-            
-            <!-- Booking & Customer Identification -->
+
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-2xl bg-[#F8F6E8]/70 border border-amber-200/60 text-xs">
                 <div>
                     <span class="text-stone-400 uppercase tracking-wider font-semibold block text-[10px]">Kode Reservasi</span>
@@ -77,7 +72,6 @@
                 </div>
             </div>
 
-            <!-- Schedule Highlight -->
             <div class="p-4 sm:p-5 rounded-2xl bg-teal-50/60 border border-teal-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-teal-600 text-white flex items-center justify-center text-lg flex-shrink-0">
@@ -98,7 +92,6 @@
                 </div>
             </div>
 
-            <!-- Price Breakdown Table -->
             <div>
                 <h3 class="text-xs font-bold uppercase tracking-wider text-stone-500 mb-3">Rincian Harga & Biaya</h3>
                 <div class="rounded-2xl border border-stone-200 overflow-hidden text-xs">
@@ -131,7 +124,6 @@
                 </div>
             </div>
 
-            <!-- Validation Stamp Footer -->
             <div class="p-4 rounded-2xl bg-stone-50 border border-stone-200 text-center space-y-1 text-xs text-stone-500">
                 <p class="font-bold text-stone-700 flex items-center justify-center gap-1.5">
                     <i class="fa-solid fa-stamp text-emerald-600 text-sm"></i> Sah Diterbitkan & Terdata di Sistem Informasi Cat House

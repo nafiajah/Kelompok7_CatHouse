@@ -6,10 +6,8 @@
 <section class="bg-white py-10 sm:py-12">
     <div class="max-w-5xl mx-auto px-5 sm:px-8">
 
-        <!-- Outer Rounded Container -->
         <div class="rounded-[28px] border border-[#7A6E68] overflow-hidden shadow-[0_3px_12px_rgba(63,50,42,0.06)]">
 
-            <!-- Top White Header -->
             <div class="bg-white px-6 sm:px-10 py-8 sm:py-10 text-center border-b border-[#7A6E68]">
                 <h1 class="font-literata font-bold text-[#3F322A] text-3xl sm:text-4xl lg:text-[42px] leading-tight">
                     Ceritakan Pengalamanmu
@@ -19,10 +17,8 @@
                 </p>
             </div>
 
-            <!-- Bottom Soft Blush Body -->
             <div class="bg-[#FDF1F3] px-5 sm:px-10 py-10 sm:py-14 flex justify-center">
 
-                <!-- Centered White Form Card -->
                 <div class="w-full max-w-[460px] bg-white rounded-[22px] border border-[#7A6E68] px-6 sm:px-8 py-7 sm:py-8 shadow-[0_2px_10px_rgba(63,50,42,0.05)]">
 
                     @if ($errors->any())
@@ -36,7 +32,6 @@
                     <form action="{{ route('feedback.store') }}" method="POST" id="feedbackForm">
                         @csrf
 
-                        <!-- 1. Nama Lengkap -->
                         <div>
                             <label for="nama_lengkap" class="block text-sm font-medium text-[#3F322A] mb-2.5">
                                 Nama Lengkap
@@ -53,7 +48,6 @@
 
                         <hr class="border-t border-[#7A6E68] my-5">
 
-                        <!-- 2. Seberapa Puas Kamu? (Star Boxes) -->
                         <div>
                             <label class="block text-sm font-medium text-[#3F322A] mb-3">
                                 Seberapa Puas Kamu?
@@ -84,7 +78,6 @@
 
                         <hr class="border-t border-[#7A6E68] my-5">
 
-                        <!-- 3. Pesan -->
                         <div>
                             <label for="teks_saran" class="block text-sm font-medium text-[#3F322A] mb-2.5">
                                 Pesan
@@ -102,7 +95,6 @@
                             @enderror
                         </div>
 
-                        <!-- Submit Button -->
                         <div class="mt-6">
                             <button
                                 type="submit"
@@ -157,7 +149,6 @@
         }
     });
 
-    // Restore old rating if validation failed
     const initialRating = parseInt(document.getElementById('bintang').value, 10);
     if (initialRating >= 1 && initialRating <= 5) {
         setRating(initialRating);

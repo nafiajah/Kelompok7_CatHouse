@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         if (Schema::hasTable('users') && !Schema::hasTable('members')) {
@@ -29,9 +27,6 @@ return new class extends Migration
         }
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         $table = Schema::hasTable('members') ? 'members' : (Schema::hasTable('users') ? 'users' : null);

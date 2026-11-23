@@ -13,26 +13,40 @@ class FeedbackController extends Controller
         $status = $request->query('status');
         $query = Feedback::with('user');
 
-        if ($status) {
+        if (in_array($status, ['tampil', 'tidak'], true)) {
             $query->where('status_tampil', $status);
         }
 
-        $feedbacks = $query->orderByDesc('tanggal_saran')->paginate(15)->withQueryString();
+        $feedbacks = $query->orderByDesc('tanggal_saran')
+            ->orderByDesc('id')
+            ->paginate(10)
+            ->withQueryString();
 
         return view('admin.feedbacks.index', compact('feedbacks', 'status'));
     }
 
-    public function toggleStatus($id)
+    public function toggleStatus(Request $request, $id)
     {
         $feedback = Feedback::findOrFail($id);
-        $newStatus = $feedback->status_tampil === 'tampil' ? 'tidak' : 'tampil';
+
+        $requestedStatus = $request->input('status_tampil');
+        if (in_array($requestedStatus, ['tampil', 'tidak'], true)) {
+            $newStatus = $requestedStatus;
+        } else {
+            $newStatus = $feedback->status_tampil === 'tampil' ? 'tidak' : 'tampil';
+        }
+
         $feedback->update(['status_tampil' => $newStatus]);
 
-        $message = $newStatus === 'tampil' 
-            ? 'Ulasan berhasil dipublikasikan ke halaman utama!' 
-            : 'Ulasan berhasil disembunyikan dari halaman utama.';
+        if ($request->expectsJson()) {
+            return response()->json([
+                'ok' => true,
+                'id' => $feedback->id,
+                'status_tampil' => $newStatus,
+            ]);
+        }
 
-        return back()->with('success', $message);
+        return back();
     }
 
     public function destroy($id)
@@ -40,6 +54,6 @@ class FeedbackController extends Controller
         $feedback = Feedback::findOrFail($id);
         $feedback->delete();
 
-        return back()->with('success', 'Ulasan feedback berhasil dihapus.');
+        return back();
     }
 }

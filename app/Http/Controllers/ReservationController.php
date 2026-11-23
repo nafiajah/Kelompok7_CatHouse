@@ -10,13 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
-    public const HARGA_WEEKDAY = 25000; // Senin - Jumat: Rp 25.000 per tamu
-    public const HARGA_WEEKEND = 30000; // Sabtu - Minggu: Rp 30.000 per tamu
-    public const DURASI_SESI_MENIT = 30; // 1 sesi = 30 menit
+    public const HARGA_WEEKDAY = 25000;
+    public const HARGA_WEEKEND = 30000;
+    public const DURASI_SESI_MENIT = 30;
 
-    /**
-     * Hitung harga per tamu berdasarkan tanggal (Weekday 25k, Weekend 30k).
-     */
     public static function getHargaPerTamu(string $tanggal): int
     {
         return Carbon::parse($tanggal)->isWeekend()
@@ -24,9 +21,6 @@ class ReservationController extends Controller
             : self::HARGA_WEEKDAY;
     }
 
-    /**
-     * Ekstrak jam mulai dalam format HH:MM dari string jam_sesi (contoh: "08:00 - 08:30" atau "08.00").
-     */
     public static function extractStartTime(string $jamSesi): string
     {
         if (preg_match('/(\d{1,2})[:.](\d{2})/', $jamSesi, $matches)) {
@@ -36,9 +30,6 @@ class ReservationController extends Controller
         return '08:00';
     }
 
-    /**
-     * Hitung slot sesi dan sisa kuota untuk tanggal tertentu.
-     */
     private function buildAvailabilityForDate(string $tanggal): array
     {
         $date = Carbon::parse($tanggal)->startOfDay();
@@ -53,7 +44,6 @@ class ReservationController extends Controller
             return self::extractStartTime($s->jam_sesi);
         })->values();
 
-        // Hitung total tamu yang sudah memesan per id_sesi pada tanggal tersebut
         $bookedBySession = Reservation::where('tanggal_reservasi', $date->format('Y-m-d'))
             ->selectRaw('id_sesi, SUM(jumlah_tamu) as total_booked')
             ->groupBy('id_sesi')
@@ -64,7 +54,6 @@ class ReservationController extends Controller
             $startTime = self::extractStartTime($session->jam_sesi);
             [$hour, $minute] = array_map('intval', explode(':', $startTime));
 
-            // Jam Operasional Jumat: 13.00 - 17.00 WITA
             if ($isFriday && ($hour * 60 + $minute) < (13 * 60)) {
                 continue;
             }
@@ -99,9 +88,6 @@ class ReservationController extends Controller
         ];
     }
 
-    /**
-     * Halaman 1 Reservasi: Pilih Tanggal & Pilih Waktu.
-     */
     public function create(Request $request)
     {
         if (!Auth::check()) {
@@ -125,7 +111,6 @@ class ReservationController extends Controller
 
         $initialData = $this->buildAvailabilityForDate($selectedDate);
 
-        // Jika semua slot hari ini sudah lewat dan user belum memilih tanggal tertentu, otomatis arahkan ke besok
         if (!$requestedDate && $selectedDate === $todayStr) {
             $hasAvailableToday = collect($initialData['slots'])->contains('available', true);
             if (!$hasAvailableToday) {
@@ -146,9 +131,6 @@ class ReservationController extends Controller
         ]);
     }
 
-    /**
-     * Endpoint JSON untuk memuat slot & sisa kuota ketika user mengganti tanggal di kalender.
-     */
     public function availability(Request $request)
     {
         $tanggal = $request->query('tanggal', now()->format('Y-m-d'));
@@ -162,9 +144,6 @@ class ReservationController extends Controller
         return response()->json($this->buildAvailabilityForDate($parsed));
     }
 
-    /**
-     * Halaman 2 Reservasi: Detail Reservasi & Ringkasan Pembayaran.
-     */
     public function detail(Request $request)
     {
         if (!Auth::check()) {
@@ -200,7 +179,6 @@ class ReservationController extends Controller
         $startTime = self::extractStartTime($session->jam_sesi);
         [$hour, $minute] = array_map('intval', explode(':', $startTime));
 
-        // Cek operasional hari Jumat (13.00 - 17.00 WITA)
         if ($date->isFriday() && ($hour * 60 + $minute) < (13 * 60)) {
             return redirect()->route('reservasi.create', ['tanggal' => $date->format('Y-m-d')])
                 ->with('error', 'Pada hari Jumat, jam operasional Cat House dimulai pukul 13.00 WITA.');
@@ -240,9 +218,6 @@ class ReservationController extends Controller
         ]);
     }
 
-    /**
-     * Proses simpan reservasi dari Halaman 2.
-     */
     public function store(Request $request)
     {
         if (!Auth::check()) {
@@ -277,20 +252,17 @@ class ReservationController extends Controller
         $waktu = $startTime . ':00';
         [$hour, $minute] = array_map('intval', explode(':', $startTime));
 
-        // Cek operasional hari Jumat (13.00 - 17.00 WITA)
         if ($date->isFriday() && ($hour * 60 + $minute) < (13 * 60)) {
             return redirect()->route('reservasi.create', ['tanggal' => $date->format('Y-m-d')])
                 ->with('error', 'Pada hari Jumat, jam operasional dimulai pukul 13.00 WITA.');
         }
 
-        // Prevent booking a session whose start time has already passed today
         $reservationDateTime = Carbon::parse($validated['tanggal_reservasi'] . ' ' . $waktu);
         if ($reservationDateTime->lessThanOrEqualTo(now())) {
             return redirect()->route('reservasi.create', ['tanggal' => $date->format('Y-m-d')])
                 ->with('error', "Maaf, sesi {$session->jam_sesi} pada tanggal {$validated['tanggal_reservasi']} sudah lewat. Silakan pilih sesi jam berikutnya atau tanggal lain.");
         }
 
-        // Check booked guests for this date and session
         $existingGuests = (int) Reservation::where('id_sesi', $session->id)
             ->where('tanggal_reservasi', $validated['tanggal_reservasi'])
             ->sum('jumlah_tamu');

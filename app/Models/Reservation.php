@@ -17,6 +17,7 @@ class Reservation extends Model
         'total_harga',
         'tanggal_reservasi',
         'waktu_reservasi',
+        'status_konfirmasi',
     ];
 
     public function user()

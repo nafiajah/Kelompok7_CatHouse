@@ -1,137 +1,180 @@
 @extends('layouts.admin')
 
 @section('title', 'Dashboard - Admin Cat House')
-@section('page_title', 'Dashboard Overview')
+@section('page_title', 'Dashboard')
+
+@section('styles')
+<style>
+    .dashboard-scroll {
+        scrollbar-width: thin;
+        scrollbar-color: #D6CBC5 transparent;
+    }
+    .dashboard-scroll::-webkit-scrollbar {
+        width: 6px;
+    }
+    .dashboard-scroll::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .dashboard-scroll::-webkit-scrollbar-thumb {
+        background-color: #D6CBC5;
+        border-radius: 9999px;
+    }
+    .dashboard-scroll::-webkit-scrollbar-thumb:hover {
+        background-color: #B8ABA4;
+    }
+</style>
+@endsection
 
 @section('content')
-<div class="space-y-6 sm:space-y-8">
-    
-    <!-- Top Stats Cards Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-        <!-- Total Kucing -->
-        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-stone-300 shadow-md flex items-center justify-between gap-4">
+<div class="space-y-6">
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+        <div class="bg-white px-5 py-5 rounded-2xl border border-stone-300 shadow-[0_2px_8px_rgba(63,50,42,0.06)] flex items-center justify-between gap-3">
             <div class="min-w-0">
-                <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-stone-400 truncate">Total Kucing</p>
-                <h3 class="text-2xl sm:text-3xl font-extrabold text-stone-800 mt-1 truncate">{{ $totalCats }}</h3>
-                <span class="text-xs text-[#96384C] font-semibold truncate block">{{ $totalVariants }} Ras Varian</span>
+                <p class="text-[11px] sm:text-xs font-semibold uppercase tracking-wide text-[#6E5C52] truncate">TOTAL KUCING</p>
+                <h3 class="text-2xl sm:text-[28px] font-bold text-[#3F322A] mt-2 leading-none truncate">{{ $totalCats }}</h3>
             </div>
-            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-[#F5BFC9]/40 text-[#96384C] flex items-center justify-center text-lg sm:text-xl flex-shrink-0">
-                <i class="fa-solid fa-cat"></i>
+            <div class="w-11 h-11 rounded-xl bg-[#F9CCD6] text-[#E28397] flex items-center justify-center flex-shrink-0">
+
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M5.5 4.5L9.2 8.2C10.05 7.9 11 7.75 12 7.75s1.95.15 2.8.45l3.7-3.7c.4-.4 1.1-.15 1.1.42V13c0 4.14-3.36 7.5-7.6 7.5S4.4 17.14 4.4 13V4.92c0-.57.7-.82 1.1-.42zM9.25 13a1.15 1.15 0 100 2.3 1.15 1.15 0 000-2.3zm5.5 0a1.15 1.15 0 100 2.3 1.15 1.15 0 000-2.3zM12 16.75l-1.1-.95h2.2L12 16.75z"/>
+                </svg>
             </div>
         </div>
 
-        <!-- Total Reservasi -->
-        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-stone-300 shadow-md flex items-center justify-between gap-4">
+        <div class="bg-white px-5 py-5 rounded-2xl border border-stone-300 shadow-[0_2px_8px_rgba(63,50,42,0.06)] flex items-center justify-between gap-3">
             <div class="min-w-0">
-                <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-stone-400 truncate">Total Reservasi</p>
-                <h3 class="text-2xl sm:text-3xl font-extrabold text-stone-800 mt-1 truncate">{{ $totalReservations }}</h3>
-                <span class="text-xs text-teal-600 font-semibold truncate block">Tamu Terjadwal</span>
+                <p class="text-[11px] sm:text-xs font-semibold uppercase tracking-wide text-[#6E5C52] truncate">TOTAL RESERVASI</p>
+                <h3 class="text-2xl sm:text-[28px] font-bold text-[#3F322A] mt-2 leading-none truncate">{{ $totalReservations }}</h3>
             </div>
-            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-lg sm:text-xl flex-shrink-0">
-                <i class="fa-solid fa-calendar-check"></i>
+            <div class="w-11 h-11 rounded-xl bg-[#B7CDD0] text-[#63898E] flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-calendar-check text-xl"></i>
             </div>
         </div>
 
-        <!-- Total Pelanggan -->
-        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-stone-300 shadow-md flex items-center justify-between gap-4">
+        <div class="bg-white px-5 py-5 rounded-2xl border border-stone-300 shadow-[0_2px_8px_rgba(63,50,42,0.06)] flex items-center justify-between gap-3">
             <div class="min-w-0">
-                <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-stone-400 truncate">Total Pelanggan</p>
-                <h3 class="text-2xl sm:text-3xl font-extrabold text-stone-800 mt-1 truncate">{{ $totalUsers }}</h3>
-                <span class="text-xs text-[#96384C] font-semibold truncate block">Pengguna Terdaftar</span>
+                <p class="text-[11px] sm:text-xs font-semibold uppercase tracking-wide text-[#6E5C52] truncate">TOTAL PEMASUKAN</p>
+                <h3 class="text-xl sm:text-2xl font-bold text-[#3F322A] mt-2 leading-none truncate">
+                    Rp {{ number_format($totalPemasukan, 0, ',', '.') }}
+                </h3>
             </div>
-            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-rose-50 text-rose-400 flex items-center justify-center text-lg sm:text-xl flex-shrink-0">
-                <i class="fa-solid fa-users"></i>
+            <div class="w-11 h-11 rounded-xl bg-[#F9CCD6] text-[#E28397] flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-money-bill-wave text-lg"></i>
             </div>
         </div>
 
-        <!-- Pending Moderasi Feedback -->
-        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-stone-300 shadow-md flex items-center justify-between gap-4">
+        <div class="bg-white px-5 py-5 rounded-2xl border border-stone-300 shadow-[0_2px_8px_rgba(63,50,42,0.06)] flex items-center justify-between gap-3">
             <div class="min-w-0">
-                <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-stone-400 truncate">Feedback Pending</p>
-                <h3 class="text-2xl sm:text-3xl font-extrabold text-stone-800 mt-1 truncate">{{ $pendingFeedbacks }}</h3>
-                <span class="text-xs text-pink-500 font-semibold truncate block">Perlu Moderasi</span>
+                <p class="text-[11px] sm:text-xs font-semibold uppercase tracking-wide text-[#6E5C52] truncate">FEEDBACK</p>
+                <h3 class="text-2xl sm:text-[28px] font-bold text-[#3F322A] mt-2 leading-none truncate">{{ $totalFeedbacks }}</h3>
             </div>
-            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-pink-50 text-pink-400 flex items-center justify-center text-lg sm:text-xl flex-shrink-0">
-                <i class="fa-solid fa-comments"></i>
+            <div class="w-11 h-11 rounded-xl bg-[#B7CDD0] text-[#63898E] flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-comments text-xl"></i>
             </div>
         </div>
+
     </div>
 
-    <!-- Tables Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-        
-        <!-- Recent Reservations -->
-        <div class="bg-white rounded-2xl border border-stone-300 shadow-md overflow-hidden flex flex-col">
-            <div class="p-5 sm:p-6 border-b border-stone-200 flex items-center justify-between gap-2">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <div class="bg-white rounded-2xl border border-stone-300 shadow-[0_2px_8px_rgba(63,50,42,0.06)] overflow-hidden flex flex-col">
+            <div class="px-6 py-4 border-b border-stone-300 flex items-center justify-between gap-2 flex-shrink-0">
                 <div class="min-w-0">
-                    <h3 class="text-base font-bold text-stone-800 truncate">Reservasi Terbaru</h3>
-                    <p class="text-xs text-stone-400 truncate">Daftar booking terbaru oleh pengunjung</p>
+                    <h3 class="text-base font-bold text-[#3F322A] truncate">Reservasi Terbaru</h3>
+                    <p class="text-[11px] text-stone-500 truncate mt-0.5">Daftar booking terbaru oleh pengunjung</p>
                 </div>
-                <a href="{{ route('admin.reservations.index') }}" class="text-xs font-bold text-rose-500 hover:text-rose-600 flex-shrink-0 whitespace-nowrap">
-                    Lihat Semua &rarr;
+                <a href="{{ route('admin.reservations.index') }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#E58B9C] hover:text-[#D77487] transition flex-shrink-0 whitespace-nowrap">
+                    <span>Lihat Semua</span>
+                    <i class="fa-solid fa-arrow-right text-[11px]"></i>
                 </a>
             </div>
 
-            <div class="divide-y divide-stone-200 flex-1">
+            <div class="max-h-[430px] overflow-y-auto dashboard-scroll divide-y divide-stone-200 px-5">
                 @forelse($recentReservations as $res)
-                    <div class="p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs hover:bg-stone-50 transition">
-                        <div class="flex items-center gap-3 min-w-0">
-                            <div class="w-9 h-9 rounded-xl bg-[#F5BFC9]/50 text-[#96384C] font-bold flex items-center justify-center text-xs flex-shrink-0 shadow-2xs">
-                                {{ strtoupper(substr($res->user ? $res->user->nama_lengkap : 'T', 0, 1)) }}
+                    @php
+$namaUser = $res->user ? $res->user->nama_lengkap : 'Tamu';
+                        $inisial = strtoupper(substr($namaUser, 0, 1));
+                        $tglLabel = \Carbon\Carbon::parse($res->tanggal_reservasi)->locale('id')->translatedFormat('d M Y');
+                        $jamLabel = $res->session ? $res->session->jam_sesi : substr((string) $res->waktu_reservasi, 0, 5);
+                        $isConfirmed = ($res->status_konfirmasi ?? 'belum') === 'sudah';
+@endphp
+                    <div class="py-4 flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3.5 min-w-0">
+                            <div class="w-11 h-11 rounded-full bg-[#F4C4CF] text-[#3F322A] font-bold flex items-center justify-center text-lg flex-shrink-0">
+                                {{ $inisial }}
                             </div>
                             <div class="min-w-0">
-                                <p class="font-bold text-stone-800 text-sm truncate">{{ $res->user ? $res->user->nama_lengkap : '-' }}</p>
-                                <p class="text-stone-400 text-xs">{{ \Carbon\Carbon::parse($res->tanggal_reservasi)->format('d M Y') }} &bull; {{ $res->session ? $res->session->jam_sesi : $res->waktu_reservasi }}</p>
+                                <p class="text-sm font-semibold text-[#3F322A] truncate">{{ $namaUser }}</p>
+                                <p class="text-[11px] text-stone-500 mt-0.5 truncate">{{ $tglLabel }} &middot; {{ $jamLabel }}</p>
                             </div>
                         </div>
-                        <div class="sm:text-right flex sm:flex-col justify-between items-center sm:items-end border-t sm:border-t-0 pt-2 sm:pt-0 border-stone-100 flex-shrink-0">
-                            <span class="font-bold text-stone-800 text-sm block">Rp {{ number_format($res->total_harga ?? 0, 0, ',', '.') }}</span>
-                            <span class="text-[10px] uppercase font-bold text-stone-400">{{ $res->jumlah_tamu ?? 1 }} Tamu</span>
+
+                        <div class="text-right flex-shrink-0">
+                            <p class="text-sm font-bold text-[#3F322A]">
+                                Rp {{ number_format($res->total_harga ?? 0, 0, ',', '.') }}
+                            </p>
+                            <span class="mt-1 inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase {{ $isConfirmed ? 'bg-[#F4C4CF] text-[#3F322A]' : 'bg-stone-200 text-stone-600' }}">
+                                {{ $isConfirmed ? 'SUDAH' : 'BELUM' }} ({{ $res->jumlah_tamu ?? 1 }} TAMU)
+                            </span>
                         </div>
                     </div>
                 @empty
-                    <div class="p-8 text-center text-stone-400 text-xs">
+                    <div class="py-12 text-center text-stone-400 text-xs">
                         Belum ada data reservasi.
                     </div>
                 @endforelse
             </div>
         </div>
 
-        <!-- Recent Feedbacks -->
-        <div class="bg-white rounded-2xl border border-stone-300 shadow-md overflow-hidden flex flex-col">
-            <div class="p-5 sm:p-6 border-b border-stone-200 flex items-center justify-between gap-2">
+        <div class="bg-white rounded-2xl border border-stone-300 shadow-[0_2px_8px_rgba(63,50,42,0.06)] overflow-hidden flex flex-col">
+            <div class="px-6 py-4 border-b border-stone-300 flex items-center justify-between gap-2 flex-shrink-0">
                 <div class="min-w-0">
-                    <h3 class="text-base font-bold text-stone-800 truncate">Ulasan & Feedback Terbaru</h3>
-                    <p class="text-xs text-stone-400 truncate">Review rating bintang dari pelanggan</p>
+                    <h3 class="text-base font-bold text-[#3F322A] truncate">Feedback</h3>
+                    <p class="text-[11px] text-stone-500 truncate mt-0.5">Review rating bintang dari pelanggan</p>
                 </div>
-                <a href="{{ route('admin.feedbacks.index') }}" class="text-xs font-bold text-rose-500 hover:text-rose-600 flex-shrink-0 whitespace-nowrap">
-                    Kelola Feedback &rarr;
+                <a href="{{ route('admin.feedbacks.index') }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#E58B9C] hover:text-[#D77487] transition flex-shrink-0 whitespace-nowrap">
+                    <span>Kelola Feedback</span>
+                    <i class="fa-solid fa-arrow-right text-[11px]"></i>
                 </a>
             </div>
 
-            <div class="divide-y divide-stone-200 flex-1">
+            <div class="max-h-[430px] overflow-y-auto dashboard-scroll divide-y divide-stone-200 px-5">
                 @forelse($recentFeedbacks as $fb)
-                    <div class="p-3.5 sm:p-4 text-xs space-y-1.5 hover:bg-stone-50 transition">
-                        <div class="flex items-center justify-between gap-2">
-                            <span class="font-bold text-stone-800 truncate">{{ $fb->user ? $fb->user->nama_lengkap : 'Anonim' }}</span>
-                            <div class="flex text-amber-400 text-[11px] flex-shrink-0">
-                                @for($i = 1; $i <= 5; $i++)
-                                    <i class="fa-solid fa-star {{ $i <= $fb->bintang ? 'text-amber-400' : 'text-stone-200' }}"></i>
+                    <div class="py-4 flex items-start justify-between gap-4">
+                        <div class="min-w-0 flex-1">
+                            <p class="text-sm font-bold text-[#3F322A] truncate">
+                                {{ $fb->user ? $fb->user->nama_lengkap : 'Anonim' }}
+                            </p>
+                            <p class="text-xs text-stone-600 italic mt-0.5 line-clamp-2">
+                                "{{ $fb->teks_saran }}"
+                            </p>
+                            <p class="text-[11px] text-stone-400 mt-2">
+                                {{ \Carbon\Carbon::parse($fb->tanggal_saran)->diffForHumans() }}
+                            </p>
+                        </div>
+
+                        <div class="flex flex-col items-end justify-between gap-3 flex-shrink-0">
+                            <div class="flex items-center gap-0.5 text-sm text-[#FCE14B]">
+                                @for($i = 1; $i <= ($fb->bintang ?? 5); $i++)
+                                    <i class="fa-solid fa-star"></i>
                                 @endfor
                             </div>
-                        </div>
-                        <p class="text-stone-600 line-clamp-2 italic">"{{ $fb->teks_saran }}"</p>
-                        <div class="flex flex-wrap items-center justify-between gap-2 pt-1 text-[10px] text-stone-400">
-                            <span>{{ \Carbon\Carbon::parse($fb->tanggal_saran)->diffForHumans() }}</span>
+
                             @if($fb->status_tampil === 'tampil')
-                                <span class="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-full">Tampil di Beranda</span>
+                                <span class="px-3 py-1 rounded-full bg-[#F4C4CF] text-[#3F322A] text-[10px] font-semibold whitespace-nowrap">
+                                    Tampil di Beranda
+                                </span>
                             @else
-                                <span class="text-rose-700 font-bold bg-rose-50 px-2 py-0.5 rounded-full">Menunggu Moderasi</span>
+                                <span class="px-3 py-1 rounded-full bg-[#9AB5B9] text-[#2E221E] text-[10px] font-semibold whitespace-nowrap">
+                                    Tidak Tampil
+                                </span>
                             @endif
                         </div>
                     </div>
                 @empty
-                    <div class="p-8 text-center text-stone-400 text-xs">
+                    <div class="py-12 text-center text-stone-400 text-xs">
                         Belum ada ulasan feedback.
                     </div>
                 @endforelse

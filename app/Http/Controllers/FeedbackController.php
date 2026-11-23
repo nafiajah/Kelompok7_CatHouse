@@ -39,7 +39,7 @@ class FeedbackController extends Controller
             'tanggal_saran' => now(),
             'teks_saran' => $validated['teks_saran'],
             'bintang' => $validated['bintang'],
-            'status_tampil' => 'tidak', // Menunggu moderasi admin
+            'status_tampil' => 'tidak',
         ]);
 
         return redirect()->route('home')->with('success', 'Terima kasih atas ulasan dan saran Anda! Ulasan akan ditinjau oleh pengelola kafe.');

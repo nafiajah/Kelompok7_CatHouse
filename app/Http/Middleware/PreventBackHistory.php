@@ -8,11 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PreventBackHistory
 {
-    /**
-     * Handle an incoming request.
-     * Mencegah browser menyimpan cache halaman di history (bfcache)
-     * sehingga saat user logout dan menekan tombol Back, browser dipaksa meminta data baru ke server.
-     */
+
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);

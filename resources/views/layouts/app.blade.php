@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Cat House Bukit Bintang - Play • Interact • Make Memories')</title>
 
-    <!-- Google Fonts: Poppins (normal) & Literata (serif/judul) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..800;1,7..72,400..700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -76,11 +73,10 @@
 </head>
 <body class="flex flex-col min-h-screen bg-white text-[#3F322A] antialiased">
 
-    <!-- Navigation Header -->
     <header class="sticky top-0 z-50 bg-[#FFDAE1]/95 backdrop-blur-md border-b border-[#E58B9C]/20">
         <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
             <div class="flex items-center justify-between h-[76px]">
-                <!-- Brand Logo -->
+
                 <a href="{{ route('home') }}" class="flex items-center gap-3 group shrink-0">
                     <div class="w-10 h-10 rounded-xl bg-white p-1 flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform duration-200">
                         <img
@@ -98,7 +94,6 @@
                     </span>
                 </a>
 
-                <!-- Desktop Navigation -->
                 <nav class="hidden md:flex items-center gap-8 lg:gap-10 text-sm font-medium text-[#3F322A]">
                     <a href="{{ route('home') }}" class="hover:text-[#E58B9C] transition {{ request()->routeIs('home') ? 'font-semibold text-[#E58B9C]' : '' }}">
                         Beranda
@@ -117,7 +112,6 @@
                     </a>
                 </nav>
 
-                <!-- Action / Auth Controls -->
                 <div class="hidden md:flex items-center gap-3 shrink-0">
                     @auth
                         @if(Auth::user()->role === 'admin')
@@ -126,7 +120,6 @@
                             </a>
                         @endif
 
-                        <!-- User Profile Dropdown -->
                         <div class="relative group">
                             <button type="button" class="flex items-center gap-2.5 px-2 py-1.5 rounded-full hover:bg-white/40 transition text-sm font-semibold text-[#3F322A] cursor-pointer">
                                 <span class="w-8 h-8 rounded-full bg-[#E58B9C] text-white flex items-center justify-center text-sm font-semibold shadow-2xs">
@@ -164,7 +157,6 @@
                     @endauth
                 </div>
 
-                <!-- Mobile Menu Button -->
                 <div class="flex items-center gap-2.5 md:hidden">
                     @guest
                         <a href="{{ route('login') }}" class="px-4 py-1.5 bg-[#3F322A] text-white text-xs font-medium rounded-lg">
@@ -178,7 +170,6 @@
             </div>
         </div>
 
-        <!-- Mobile Navigation Drawer -->
         <div id="mobileMenu" class="hidden md:hidden bg-[#FFF5F7] border-t border-[#E58B9C]/25 px-5 pt-3 pb-5 space-y-2">
             <a href="{{ route('home') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-[#3F322A] hover:bg-[#FFDAE1]/60">Beranda</a>
             <a href="{{ route('about') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-[#3F322A] hover:bg-[#FFDAE1]/60">Tentang Kami</a>
@@ -205,7 +196,6 @@
         </div>
     </header>
 
-    <!-- Global Flash Messages (only rendered when present so Hero stays flush under Navbar) -->
     @if(session('success') || session('error') || session('info'))
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 w-full space-y-2">
             @if(session('success'))
@@ -240,17 +230,14 @@
         </div>
     @endif
 
-    <!-- Main Content -->
     <main class="flex-grow">
         @yield('content')
     </main>
 
-    <!-- Footer -->
     <footer id="kontak" class="bg-[#FFDAE1] text-[#3F322A] rounded-t-[44px] sm:rounded-t-[60px] mt-16">
         <div class="max-w-6xl mx-auto px-6 sm:px-10 lg:px-12 pt-12 pb-8">
             <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
 
-                <!-- Brand Info & Socials -->
                 <div class="md:col-span-5 space-y-4">
                     <div class="flex items-center gap-3.5">
                         <div class="w-12 h-12 rounded-xl bg-white p-1.5 flex items-center justify-center shadow-xs shrink-0">
@@ -287,7 +274,6 @@
                     </div>
                 </div>
 
-                <!-- Quick Links -->
                 <div class="md:col-span-3">
                     <h4 class="text-sm font-bold text-[#3F322A] mb-3.5">Navigasi Cepat</h4>
                     <ul class="space-y-2 text-xs sm:text-sm text-[#3F322A]/90">
@@ -299,7 +285,6 @@
                     </ul>
                 </div>
 
-                <!-- Contact & Address -->
                 <div class="md:col-span-4 space-y-4">
                     <div class="flex items-center gap-2.5 text-xs sm:text-sm font-medium text-[#3F322A]">
                         <i class="fa-solid fa-phone text-[#3F322A]"></i>
@@ -313,7 +298,6 @@
                 </div>
             </div>
 
-            <!-- Divider & Copyright -->
             <div class="border-t border-[#3F322A]/40 mt-10 pt-5 text-center">
                 <p class="text-xs text-[#3F322A]/85">
                     &copy; {{ date('Y') }} Cat House. All Rights Reserved.
@@ -327,7 +311,6 @@
             document.getElementById('mobileMenu').classList.toggle('hidden');
         });
 
-        // Mencegah halaman ditampilkan dari back-forward cache browser setelah logout
         window.addEventListener('pageshow', function (event) {
             if (event.persisted) {
                 window.location.reload();
@@ -335,7 +318,7 @@
         });
     </script>
     @auth
-        <!-- Logout Confirmation Modal -->
+
         <div id="logoutConfirmModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs opacity-0 pointer-events-none transition-all duration-300">
             <div class="bg-white rounded-3xl p-6 sm:p-7 max-w-sm w-full shadow-2xl border border-[#FFDAE1] transform scale-95 transition-all duration-300 text-center relative" id="logoutModalCard">
                 <button type="button" onclick="closeLogoutModal()" class="absolute top-4 right-4 text-stone-400 hover:text-stone-600 p-1.5 rounded-full hover:bg-stone-100 transition cursor-pointer" aria-label="Tutup">
@@ -401,7 +384,6 @@
                     });
                 }
 
-                // Intercept all logout form submissions
                 document.addEventListener('submit', function (e) {
                     const form = e.target;
                     if (form && form.getAttribute('action') && form.getAttribute('action').includes('/logout')) {
@@ -412,7 +394,6 @@
                     }
                 });
 
-                // Close on backdrop click
                 const modal = document.getElementById('logoutConfirmModal');
                 if (modal) {
                     modal.addEventListener('click', function (e) {
@@ -422,7 +403,6 @@
                     });
                 }
 
-                // Close on Escape key
                 document.addEventListener('keydown', function (e) {
                     if (e.key === 'Escape') {
                         closeLogoutModal();
@@ -433,10 +413,10 @@
 
         @if(Auth::user()->role === 'user')
         <script>
-            // Khusus user: auto logout jika tidak ada aktivitas selama 15 menit
+
             (function() {
                 let idleSeconds = 0;
-                const maxIdleSeconds = 15 * 60; // 15 menit
+                const maxIdleSeconds = 15 * 60;
 
                 function resetTimer() {
                     idleSeconds = 0;

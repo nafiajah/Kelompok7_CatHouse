@@ -1,12 +1,5 @@
-/* ==========================================================================
-   Cat House - Login Page Stylesheet (Vanilla CSS)
-   File: public/css/style.css
-   ========================================================================== */
-
-/* Import Google Fonts: Poppins & Literata */
 @import url('https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..800;1,7..72,400..700&family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-/* Color Variables & Design Tokens */
 :root {
   --bg-main: #FAF7F2;
   --bg-card: #FAF7F2;
@@ -28,14 +21,12 @@
   --shadow-btn-hover: 0 6px 18px rgba(229, 131, 150, 0.45);
 }
 
-/* Reset & Base Styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Hide ALL layout wrappers (announcement bar, header, flash banners, footer) on login page */
 body:has(.login-container)>div,
 body:has(.login-container)>header,
 body:has(.login-container)>footer,
@@ -45,7 +36,6 @@ body.login-page-body>footer {
   display: none !important;
 }
 
-/* Ensure main occupies full viewport without any margins or padding */
 body:has(.login-container)>main,
 body.login-page-body>main {
   display: block !important;
@@ -69,7 +59,6 @@ body.login-page-body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Responsive Login Container */
 .login-container {
   width: 100%;
   min-height: 100vh;
@@ -81,7 +70,6 @@ body.login-page-body {
   padding: 0;
 }
 
-/* Back to Home floating action button */
 .login-back-btn {
   position: fixed;
   top: clamp(12px, 2.5vh, 20px);
@@ -111,9 +99,6 @@ body.login-page-body {
   transform: translateY(-1px);
 }
 
-/* ==========================================================================
-   LEFT COLUMN: Photo Frame Section
-   ========================================================================== */
 .login-photo-section {
   flex: 1.15;
   position: sticky;
@@ -138,7 +123,6 @@ body.login-page-body {
   justify-content: center;
 }
 
-/* Image inside photo frame */
 .login-photo-img {
   width: 100%;
   height: 100%;
@@ -147,7 +131,6 @@ body.login-page-body {
   display: block;
 }
 
-/* Fallback state if image is missing */
 .login-photo-fallback {
   width: 100%;
   height: 100%;
@@ -173,9 +156,6 @@ body.login-page-body {
   color: #78685C;
 }
 
-/* ==========================================================================
-   RIGHT COLUMN: Login Form Section
-   ========================================================================== */
 .login-form-section {
   flex: 1;
   min-height: 100vh;
@@ -218,7 +198,6 @@ body.login-page-body {
   align-items: center;
 }
 
-/* 1. Logo Frame Container */
 .login-logo-frame {
   width: clamp(100px, 12vw, 130px);
   max-height: clamp(65px, 9vh, 95px);
@@ -236,7 +215,6 @@ body.login-page-body {
   display: block;
 }
 
-/* Fallback Logo Frame */
 .login-logo-fallback {
   display: none;
   flex-direction: column;
@@ -263,7 +241,6 @@ body.login-page-body {
   margin-top: 4px;
 }
 
-/* 2. Titles & Headers */
 .login-title {
   font-family: var(--font-serif);
   font-size: clamp(24px, 3.5vw, 32px);
@@ -283,7 +260,6 @@ body.login-page-body {
   text-align: center;
 }
 
-/* Flash Notification Banners */
 .login-alert {
   width: 100%;
   padding: 10px 14px;
@@ -308,7 +284,6 @@ body.login-page-body {
   color: #166534;
 }
 
-/* 3. Form Layout */
 .login-form {
   width: 100%;
 }
@@ -325,10 +300,8 @@ body.login-page-body {
   color: #3F322A;
   margin-bottom: 8px;
   padding-left: 16px;
-  /* Sejajar dengan teks di dalam form input */
 }
 
-/* Input Wrapper & Icon positioning */
 .input-wrapper {
   position: relative;
   width: 100%;
@@ -348,7 +321,6 @@ body.login-page-body {
   color: #7A5E48;
 }
 
-/* Hide default browser password reveal button */
 input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear {
   display: none;
@@ -368,7 +340,6 @@ input[type="password"]::-ms-clear {
   border-color: #E53E3E;
 }
 
-/* Right-aligned Input Icon */
 .input-icon {
   position: absolute;
   right: 16px;
@@ -391,7 +362,6 @@ input[type="password"]::-ms-clear {
   height: 20px;
 }
 
-/* Password visibility toggle button */
 button.input-icon.input-icon-toggle {
   background: transparent;
   border: none;
@@ -417,7 +387,6 @@ button.input-icon.input-icon-toggle:focus-visible {
   box-shadow: 0 0 0 2px rgba(229, 131, 150, 0.4);
 }
 
-/* Input icons */
 .login-input-icon-img {
   object-fit: contain;
   display: block;
@@ -425,7 +394,6 @@ button.input-icon.input-icon-toggle:focus-visible {
   -webkit-user-drag: none;
 }
 
-/* User icon: 18px */
 .login-input-icon-img.user-icon-img {
   width: 18px;
   height: 18px;
@@ -433,7 +401,6 @@ button.input-icon.input-icon-toggle:focus-visible {
   max-height: 18px;
 }
 
-/* Password toggle icon: 20px */
 .login-input-icon-img.password-icon-img {
   width: 20px;
   height: 20px;
@@ -448,7 +415,6 @@ button.input-icon.input-icon-toggle:focus-visible {
   font-weight: 500;
 }
 
-/* 5. Login Button */
 .btn-login {
   width: 100%;
   height: 48px;
@@ -479,7 +445,6 @@ button.input-icon.input-icon-toggle:focus-visible {
   transform: translateY(0);
 }
 
-/* 6. Footer Links */
 .login-footer-links {
   margin-top: clamp(16px, 2.5vh, 24px);
   text-align: center;
@@ -499,11 +464,6 @@ button.input-icon.input-icon-toggle:focus-visible {
   color: var(--btn-primary-active);
 }
 
-/* ==========================================================================
-   RESPONSIVE LAYOUT (Mobile, Tablet, Zoom Adjustments)
-   ========================================================================== */
-
-/* Tablet & Intermediate Screens (860px - 1024px) */
 @media (max-width: 1024px) {
   .login-photo-section {
     flex: 1;
@@ -515,7 +475,6 @@ button.input-icon.input-icon-toggle:focus-visible {
   }
 }
 
-/* Mobile & Portrait Tablet Devices (<= 860px) */
 @media (max-width: 860px) {
   .login-container {
     flex-direction: column;
@@ -552,7 +511,6 @@ button.input-icon.input-icon-toggle:focus-visible {
 
   .form-input {
     font-size: 16px;
-    /* Prevents auto-zoom on mobile iOS/Android */
   }
 
   .login-back-btn {
@@ -563,7 +521,6 @@ button.input-icon.input-icon-toggle:focus-visible {
   }
 }
 
-/* Very Short Viewports or High Zoom (< 600px height on mobile/landscape) */
 @media (max-height: 600px) and (max-width: 860px) {
   .login-photo-section {
     height: 130px;
@@ -584,9 +541,6 @@ button.input-icon.input-icon-toggle:focus-visible {
   }
 }
 
-/* ==========================================================================
-   Register Page Specific Styling
-   ========================================================================== */
 body:has(.register-container)>div,
 body:has(.register-container)>header,
 body:has(.register-container)>footer,
@@ -670,7 +624,6 @@ body.register-page-body {
   padding: 0 46px 0 16px;
 }
 
-/* Phone input group with country code box */
 .phone-input-group {
   display: flex;
   align-items: center;

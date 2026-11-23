@@ -51,17 +51,11 @@ class User extends Authenticatable
         'no_telp',
     ];
 
-    /**
-     * Accessor for nama_lengkap with fallback to username
-     */
     public function getNamaLengkapAttribute()
     {
         return $this->attributes['nama_lengkap'] ?? ($this->attributes['username'] ?? 'User');
     }
 
-    /**
-     * Backward-compatibility accessor & mutator for nama_pelanggan
-     */
     public function getNamaPelangganAttribute()
     {
         return $this->attributes['nama_lengkap'] ?? ($this->attributes['nama_pelanggan'] ?? ($this->attributes['username'] ?? null));

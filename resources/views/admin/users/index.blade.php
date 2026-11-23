@@ -5,25 +5,24 @@
 
 @section('content')
 <div class="space-y-6">
-    
-    <!-- Top Action / Filter Bar -->
+
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-stone-300 shadow-md">
         <form action="{{ route('admin.users.index') }}" method="GET" class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
             <div class="relative min-w-[240px]">
                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-stone-400 text-xs">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </span>
-                <input 
-                    type="text" 
-                    name="search" 
-                    value="{{ request('search') }}" 
-                    placeholder="Cari nama, email, username, no telp..." 
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ request('search') }}"
+                    placeholder="Cari nama, email, username, no telp..."
                     class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-accent bg-white shadow-2xs"
                 >
             </div>
 
-            <select 
-                name="role" 
+            <select
+                name="role"
                 class="px-3 py-2 text-xs rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-accent bg-white shadow-2xs font-medium"
             >
                 <option value="">Semua Role</option>
@@ -31,7 +30,7 @@
                 <option value="user" {{ request('role') === 'user' ? 'selected' : '' }}>Pelanggan (User)</option>
             </select>
 
-            <button type="submit" class="px-4 py-2 bg-[#2E2421] text-white rounded-xl text-xs font-bold hover:bg-stone-900 transition shadow-2xs">
+            <button type="submit" class="px-4 py-2 bg-[#2E2421] text-white rounded-xl text-xs font-bold hover:bg-stone-900 transition shadow-2xs cursor-pointer">
                 Filter
             </button>
             @if(request('search') || request('role'))
@@ -46,7 +45,6 @@
         </span>
     </div>
 
-    <!-- Users Table Card -->
     <div class="bg-white rounded-2xl border border-stone-300 shadow-md overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left text-xs border-collapse">
@@ -88,22 +86,27 @@
                             </td>
                             <td class="py-4 px-6 text-right">
                                 <div class="flex items-center justify-end gap-3">
-                                    <button 
-                                        type="button" 
-                                        onclick="openEditUser({{ $user->id }}, '{{ $user->nama_lengkap }}', '{{ $user->email }}', '{{ $user->no_telp }}', '{{ $user->role }}')"
-                                        class="text-stone-700 hover:text-stone-900 transition"
+                                    <button
+                                        type="button"
+                                        onclick="openEditUserModal(this)"
+                                        data-action="{{ route('admin.users.update', $user->id) }}"
+                                        data-nama="{{ $user->nama_lengkap }}"
+                                        data-email="{{ $user->email }}"
+                                        data-telp="{{ $user->no_telp }}"
+                                        data-role="{{ $user->role }}"
+                                        class="text-stone-700 hover:text-stone-900 transition cursor-pointer"
                                         title="Edit Pengguna"
                                     >
                                         <i class="fa-regular fa-pen-to-square text-lg"></i>
                                     </button>
 
                                     @if($user->id !== Auth::id())
-                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Hapus akun {{ $user->nama_lengkap }}?')">
+                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" data-delete-confirm="Apakah Anda yakin ingin menghapus akun &quot;{{ $user->nama_lengkap }}&quot;?">
                                             @csrf
                                             @method('DELETE')
-                                            <button 
-                                                type="submit" 
-                                                class="text-stone-700 hover:text-red-600 transition" 
+                                            <button
+                                                type="submit"
+                                                class="text-stone-700 hover:text-red-600 transition cursor-pointer"
                                                 title="Hapus"
                                             >
                                                 <i class="fa-regular fa-trash-can text-lg"></i>
@@ -133,98 +136,157 @@
 
 </div>
 
-<!-- Modal Edit User -->
-<div id="editUserModal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-stone-300">
-        <h3 class="text-sm font-bold uppercase text-stone-800 mb-4">Edit Data Pengguna</h3>
-        
-        <form id="editUserForm" method="POST" class="space-y-4 text-xs">
+<div id="editUserModal" class="fixed inset-0 z-50 bg-black/45 backdrop-blur-[2px] hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-[20px] border border-stone-300 shadow-2xl w-full max-w-lg overflow-hidden">
+        <div class="px-6 sm:px-7 py-5 border-b border-stone-300 flex items-center justify-between">
+            <h3 class="text-lg sm:text-xl font-bold text-[#3F322A]">Edit Data Pengguna</h3>
+            <button type="button" onclick="closeEditUserModal()" class="text-stone-400 hover:text-stone-700 p-1 rounded-lg transition cursor-pointer" aria-label="Tutup">
+                <i class="fa-solid fa-xmark text-base"></i>
+            </button>
+        </div>
+
+        <form id="editUserForm" action="{{ old('_edit_action', '') }}" method="POST">
             @csrf
             @method('PUT')
+            <input type="hidden" name="_modal" value="edit_user">
+            <input type="hidden" name="_edit_action" id="edit_user_action_hidden" value="{{ old('_edit_action', '') }}">
 
-            <div>
-                <label for="edit_nama" class="block font-bold text-stone-700 mb-1">Nama Lengkap</label>
-                <input 
-                    type="text" 
-                    name="nama_lengkap" 
-                    id="edit_nama" 
-                    required 
-                    class="w-full px-4 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-accent"
-                >
+            <div class="px-6 sm:px-7 py-5 space-y-4 max-h-[70vh] overflow-y-auto">
+                @if($errors->any() && old('_modal') === 'edit_user')
+                    <div class="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs space-y-0.5">
+                        @foreach($errors->all() as $error)
+                            <p><i class="fa-solid fa-circle-exclamation mr-1"></i> {{ $error }}</p>
+                        @endforeach
+                    </div>
+                @endif
+
+                <div>
+                    <label for="edit_nama" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
+                        Nama Lengkap
+                    </label>
+                    <input
+                        type="text"
+                        name="nama_lengkap"
+                        id="edit_nama"
+                        value="{{ old('_modal') === 'edit_user' ? old('nama_lengkap') : '' }}"
+                        required
+                        class="w-full px-3.5 py-2.5 rounded-lg border border-stone-400 text-xs sm:text-sm text-[#3F322A] focus:outline-none focus:border-[#E58B9C] focus:ring-2 focus:ring-[#E58B9C]/25 bg-white"
+                    >
+                </div>
+
+                <div>
+                    <label for="edit_email" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
+                        Email
+                    </label>
+                    <input
+                        type="email"
+                        name="email"
+                        id="edit_email"
+                        value="{{ old('_modal') === 'edit_user' ? old('email') : '' }}"
+                        required
+                        class="w-full px-3.5 py-2.5 rounded-lg border border-stone-400 text-xs sm:text-sm text-[#3F322A] focus:outline-none focus:border-[#E58B9C] focus:ring-2 focus:ring-[#E58B9C]/25 bg-white"
+                    >
+                </div>
+
+                <div>
+                    <label for="edit_telp" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
+                        No. Telepon
+                    </label>
+                    <input
+                        type="text"
+                        name="no_telp"
+                        id="edit_telp"
+                        value="{{ old('_modal') === 'edit_user' ? old('no_telp') : '' }}"
+                        required
+                        class="w-full px-3.5 py-2.5 rounded-lg border border-stone-400 text-xs sm:text-sm text-[#3F322A] focus:outline-none focus:border-[#E58B9C] focus:ring-2 focus:ring-[#E58B9C]/25 bg-white"
+                    >
+                </div>
+
+                <div>
+                    <label for="edit_role" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
+                        Role Akun
+                    </label>
+                    <div class="relative">
+                        <select
+                            name="role"
+                            id="edit_role"
+                            required
+                            class="w-full appearance-none px-3.5 py-2.5 pr-9 rounded-lg border border-stone-400 text-xs sm:text-sm text-[#3F322A] focus:outline-none focus:border-[#E58B9C] focus:ring-2 focus:ring-[#E58B9C]/25 bg-white cursor-pointer"
+                        >
+                            <option value="user" {{ old('_modal') === 'edit_user' && old('role') === 'user' ? 'selected' : '' }}>User / Pelanggan</option>
+                            <option value="admin" {{ old('_modal') === 'edit_user' && old('role') === 'admin' ? 'selected' : '' }}>Admin</option>
+                        </select>
+                        <span class="pointer-events-none absolute inset-y-0 right-3.5 flex items-center text-stone-600 text-xs">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="edit_password" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
+                        Password Baru (Opsional)
+                    </label>
+                    <input
+                        type="password"
+                        name="password"
+                        id="edit_password"
+                        placeholder="Kosongkan jika tidak ingin mengubah password"
+                        class="w-full px-3.5 py-2.5 rounded-lg border border-stone-400 text-xs sm:text-sm text-[#3F322A] placeholder:text-stone-400 focus:outline-none focus:border-[#E58B9C] focus:ring-2 focus:ring-[#E58B9C]/25 bg-white"
+                    >
+                </div>
             </div>
 
-            <div>
-                <label for="edit_email" class="block font-bold text-stone-700 mb-1">Email</label>
-                <input 
-                    type="email" 
-                    name="email" 
-                    id="edit_email" 
-                    required 
-                    class="w-full px-4 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-accent"
+            <div class="px-6 sm:px-7 py-4 border-t border-stone-300 flex items-center justify-end gap-3 bg-white">
+                <button
+                    type="button"
+                    onclick="closeEditUserModal()"
+                    class="px-5 py-2 rounded-lg border border-stone-400 bg-white text-[#3F322A] text-xs sm:text-sm font-medium hover:bg-stone-100 transition cursor-pointer"
                 >
-            </div>
-
-            <div>
-                <label for="edit_telp" class="block font-bold text-stone-700 mb-1">No. Telepon</label>
-                <input 
-                    type="text" 
-                    name="no_telp" 
-                    id="edit_telp" 
-                    required 
-                    class="w-full px-4 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-accent"
-                >
-            </div>
-
-            <div>
-                <label for="edit_role" class="block font-bold text-stone-700 mb-1">Role Akun</label>
-                <select 
-                    name="role" 
-                    id="edit_role" 
-                    required 
-                    class="w-full px-4 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-accent"
-                >
-                    <option value="user">User / Pelanggan</option>
-                    <option value="admin">Admin</option>
-                </select>
-            </div>
-
-            <div>
-                <label for="edit_password" class="block font-bold text-stone-700 mb-1">Password Baru (Opsional)</label>
-                <input 
-                    type="password" 
-                    name="password" 
-                    id="edit_password" 
-                    placeholder="Kosongkan jika tidak ingin mengubah password" 
-                    class="w-full px-4 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-accent"
-                >
-            </div>
-
-            <div class="flex items-center justify-end gap-2 pt-2">
-                <button type="button" onclick="closeEditUser()" class="px-4 py-2 rounded-xl text-stone-500 font-bold hover:bg-stone-100">
                     Batal
                 </button>
-                <button type="submit" class="px-5 py-2 rounded-xl bg-[#E58B9C] hover:bg-[#D77A8B] text-white font-bold">
-                    Simpan
+                <button
+                    type="submit"
+                    class="px-5 py-2 rounded-lg bg-[#E58B9C] hover:bg-[#D77487] text-white text-xs sm:text-sm font-medium transition cursor-pointer"
+                >
+                    Edit
                 </button>
             </div>
         </form>
     </div>
 </div>
+@endsection
 
 @section('scripts')
 <script>
-    function openEditUser(id, nama, email, telp, role) {
-        document.getElementById('editUserForm').action = '/admin/users/' + id;
-        document.getElementById('edit_nama').value = nama;
-        document.getElementById('edit_email').value = email;
-        document.getElementById('edit_telp').value = telp;
-        document.getElementById('edit_role').value = role;
+    function openEditUserModal(btn) {
+        const action = btn.getAttribute('data-action');
+        document.getElementById('editUserForm').action = action;
+        document.getElementById('edit_user_action_hidden').value = action;
+        document.getElementById('edit_nama').value = btn.getAttribute('data-nama');
+        document.getElementById('edit_email').value = btn.getAttribute('data-email');
+        document.getElementById('edit_telp').value = btn.getAttribute('data-telp');
+        document.getElementById('edit_role').value = btn.getAttribute('data-role');
+        document.getElementById('edit_password').value = '';
         document.getElementById('editUserModal').classList.remove('hidden');
     }
 
-    function closeEditUser() {
+    function closeEditUserModal() {
         document.getElementById('editUserModal').classList.add('hidden');
     }
+
+    const editUserModalEl = document.getElementById('editUserModal');
+    if (editUserModalEl) {
+        editUserModalEl.addEventListener('click', function (e) {
+            if (e.target === editUserModalEl) closeEditUserModal();
+        });
+    }
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeEditUserModal();
+    });
+
+    @if($errors->any() && old('_modal') === 'edit_user')
+        document.getElementById('editUserModal').classList.remove('hidden');
+    @endif
 </script>
-@endsection
 @endsection

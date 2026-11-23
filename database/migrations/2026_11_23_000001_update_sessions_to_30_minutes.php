@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Perbarui daftar sesi kunjungan menjadi durasi 30 menit (08:00 - 17:00 WITA, kuota 10 orang/sesi).
-     */
+
     public function up(): void
     {
         if (!Schema::hasTable('sessions')) {
@@ -36,7 +34,6 @@ return new class extends Migration
             ['jam_sesi' => '16:30 - 17:00', 'token_sesi' => 10],
         ];
 
-        // Update existing session IDs 1..5 in place first (if present) so old reservations keep valid references
         $existingIds = DB::table('sessions')->orderBy('id')->pluck('id')->values();
 
         foreach ($thirtyMinSessions as $index => $data) {
@@ -57,6 +54,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        // Tidak mengembalikan ke format 90 menit secara destruktif
+
     }
 };

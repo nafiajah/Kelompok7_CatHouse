@@ -24,11 +24,8 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-7 lg:gap-8 items-stretch">
 
-                <!-- ===================================================
-                     LEFT COLUMN: DETAIL RESERVASI FORM CARD
-                     =================================================== -->
                 <div class="lg:col-span-7 flex flex-col bg-[#FDF1F3] border border-[#8C7E76] rounded-[20px] shadow-[0_3px_10px_rgba(63,50,42,0.08)] overflow-hidden">
-                    <!-- Card Header -->
+
                     <div class="px-6 sm:px-8 py-4 border-b border-[#8C7E76] flex items-center justify-between gap-3">
                         <div class="flex items-center gap-2.5">
                             <i class="fa-solid fa-calendar-days text-[#5C4D44] text-lg"></i>
@@ -42,10 +39,9 @@
                         </a>
                     </div>
 
-                    <!-- Form Fields -->
                     <div class="p-6 sm:p-8 flex-1 flex flex-col">
                         <div class="space-y-5">
-                        <!-- Nama Lengkap -->
+
                         <div>
                             <label for="nama_lengkap" class="block text-sm font-medium text-[#3F322A] mb-2">
                                 Nama Lengkap
@@ -64,7 +60,6 @@
                             @enderror
                         </div>
 
-                        <!-- Email -->
                         <div>
                             <label for="email" class="block text-sm font-medium text-[#3F322A] mb-2">
                                 Email
@@ -83,7 +78,6 @@
                             @enderror
                         </div>
 
-                        <!-- Nomor HP -->
                         <div>
                             <label for="no_telp" class="block text-sm font-medium text-[#3F322A] mb-2">
                                 Nomor HP
@@ -102,7 +96,6 @@
                             @enderror
                         </div>
 
-                        <!-- Jumlah Tamu -->
                         <div>
                             <label for="jumlah_tamu" class="block text-sm font-medium text-[#3F322A] mb-2">
                                 Jumlah Tamu
@@ -134,7 +127,6 @@
                         </div>
                         </div>
 
-                        <!-- Submit Button -->
                         <div class="mt-auto pt-10 pb-1">
                             <button
                                 type="submit"
@@ -147,19 +139,14 @@
                     </div>
                 </div>
 
-                <!-- ===================================================
-                     RIGHT COLUMN: RINGKASAN PEMBAYARAN & SYARAT KETENTUAN
-                     =================================================== -->
                 <div class="lg:col-span-5 flex flex-col gap-6">
 
-                    <!-- Ringkasan Pembayaran Card -->
                     <div class="bg-[#FDF1F3] border border-[#8C7E76] rounded-[20px] shadow-[0_3px_10px_rgba(63,50,42,0.08)] p-6 sm:p-7">
                         <div class="flex items-center gap-2.5 pb-4 border-b border-[#8C7E76]">
                             <i class="fa-solid fa-receipt text-[#5C4D44] text-lg"></i>
                             <h2 class="text-base sm:text-lg font-bold text-[#3F322A]">Ringkasan Pembayaran</h2>
                         </div>
 
-                        <!-- Info Pemesan & Jadwal -->
                         <div class="py-4 space-y-3 border-b border-[#8C7E76] text-sm">
                             <div class="flex items-center justify-between gap-4">
                                 <span class="text-[#5C4D44]">Nama</span>
@@ -189,7 +176,6 @@
                             </div>
                         </div>
 
-                        <!-- Price Breakdown -->
                         <div class="py-4 space-y-3 border-b border-[#8C7E76] text-sm">
                             <div class="flex items-center justify-between gap-4">
                                 <span class="text-[#5C4D44]">
@@ -208,7 +194,6 @@
                             </div>
                         </div>
 
-                        <!-- Grand Total -->
                         <div class="pt-4 flex items-center justify-between">
                             <span class="text-lg font-bold text-[#3F322A]">Total</span>
                             <span id="summaryTotal" class="text-2xl sm:text-[28px] font-bold text-[#3F322A]">
@@ -217,7 +202,6 @@
                         </div>
                     </div>
 
-                    <!-- Syarat dan Ketentuan Card -->
                     <div class="flex-1 flex flex-col justify-between bg-[#A9C4C7] border border-[#5E7F83] rounded-[20px] shadow-[0_3px_10px_rgba(63,50,42,0.08)] p-6 sm:p-7 text-[#2E221E]">
                         <div>
                             <div class="flex items-center justify-center gap-2 pb-3 border-b border-[#3F322A]/50">
@@ -296,7 +280,6 @@
         nameInput.addEventListener('input', updateSummary);
         guestSelect.addEventListener('change', updateSummary);
 
-        // Initial render
         updateSummary();
     })();
 </script>

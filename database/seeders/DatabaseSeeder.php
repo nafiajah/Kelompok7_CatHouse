@@ -13,12 +13,10 @@ use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
+
     public function run(): void
     {
-        // 1. Seed Users
+
         $admin = User::create([
             'role' => 'admin',
             'username' => 'admin',
@@ -39,7 +37,6 @@ class DatabaseSeeder extends Seeder
             'no_telp' => '089876543210',
         ]);
 
-        // 2. Seed Variants
         $variants = [
             'Persia',
             'British Shorthair',
@@ -55,7 +52,6 @@ class DatabaseSeeder extends Seeder
             $variantModels[$jenis] = Variant::create(['jenis' => $jenis]);
         }
 
-        // 3. Seed Sessions (Sesi 30 menit, 08:00 - 17:00 WITA, kuota 10 orang per sesi)
         $sessionsData = [
             ['jam_sesi' => '08:00 - 08:30', 'token_sesi' => 10],
             ['jam_sesi' => '08:30 - 09:00', 'token_sesi' => 10],
@@ -82,7 +78,6 @@ class DatabaseSeeder extends Seeder
             $sessionModels[] = Session::create($s);
         }
 
-        // 4. Seed Cats (Data Kucing)
         $cats = [
             [
                 'id_variant' => $variantModels['British Shorthair']->id,
@@ -132,7 +127,6 @@ class DatabaseSeeder extends Seeder
             DataKucing::create($cat);
         }
 
-        // 5. Seed Reservations
         Reservation::create([
             'id_users' => $user->id,
             'id_sesi' => $sessionModels[0]->id,
@@ -142,7 +136,6 @@ class DatabaseSeeder extends Seeder
             'waktu_reservasi' => '10:00:00',
         ]);
 
-        // 6. Seed Feedbacks
         Feedback::create([
             'id_user' => $user->id,
             'tanggal_saran' => now()->subDay(),

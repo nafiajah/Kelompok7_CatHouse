@@ -5,7 +5,7 @@
 @section('content')
 <div class="py-12">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
             <div>
                 <h1 class="text-2xl sm:text-3xl font-bold font-literata text-cafe-brown">Riwayat Reservasi Saya</h1>

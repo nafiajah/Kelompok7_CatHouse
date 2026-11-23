@@ -7,9 +7,6 @@
     <div class="max-w-6xl mx-auto px-5 sm:px-8 lg:px-10">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-0 items-start">
 
-            <!-- ===================================================
-                 LEFT COLUMN: PILIH TANGGAL (Custom Calendar)
-                 =================================================== -->
             <div class="lg:col-span-5 lg:pr-10 lg:border-r lg:border-[#8C7E76]/70">
                 <div class="flex items-center gap-3 mb-5">
                     <span class="text-[#3F322A] text-2xl">
@@ -20,12 +17,11 @@
                     </h1>
                 </div>
 
-                <!-- Calendar Card -->
                 <div class="bg-white rounded-[20px] border border-[#9E9590] p-5 sm:p-6 shadow-[0_2px_8px_rgba(63,50,42,0.05)]">
-                    <!-- Month & Year Header + Navigation -->
+
                     <div class="flex items-center justify-between mb-5">
                         <h2 id="calendarMonthLabel" class="font-literata text-[22px] sm:text-[24px] font-normal text-[#3F322A]">
-                            <!-- Filled by JS -->
+
                         </h2>
                         <div class="flex items-center gap-3">
                             <button
@@ -47,7 +43,6 @@
                         </div>
                     </div>
 
-                    <!-- Day Names (Mo - Su) -->
                     <div class="grid grid-cols-7 text-center text-xs font-bold text-[#3F322A] mb-2">
                         <span>Mo</span>
                         <span>Tu</span>
@@ -58,13 +53,11 @@
                         <span>Su</span>
                     </div>
 
-                    <!-- Calendar Date Grid -->
                     <div id="calendarGrid" class="grid grid-cols-7 border-t border-l border-[#9E9590]">
-                        <!-- Filled by JS -->
+
                     </div>
                 </div>
 
-                <!-- Compact Pricing & Duration Info -->
                 <div class="mt-5 rounded-2xl bg-[#FFF5F7] border border-[#E58B9C]/35 px-4 py-3.5 text-xs text-[#3F322A] space-y-1.5">
                     <div class="flex items-center justify-between">
                         <span class="text-[#5C4D44]">Weekday (Senin – Jumat)</span>
@@ -81,9 +74,6 @@
                 </div>
             </div>
 
-            <!-- ===================================================
-                 RIGHT COLUMN: PILIH WAKTU (30-Minute Session Slots)
-                 =================================================== -->
             <div class="lg:col-span-7 lg:pl-12">
                 <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
                     <div class="flex items-center gap-3">
@@ -96,31 +86,27 @@
                     </div>
 
                     <span id="selectedDayRateBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#FFDAE1] text-[#3F322A]">
-                        <!-- Filled by JS -->
+
                     </span>
                 </div>
 
                 <p id="selectedDateSummary" class="text-xs sm:text-sm text-[#5C4D44] mb-6">
-                    <!-- Filled by JS -->
+
                 </p>
 
-                <!-- Time Slots Grid -->
                 <div id="timeSlotsGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-5">
-                    <!-- Filled by JS -->
+
                 </div>
 
-                <!-- Empty / Passed Notice -->
                 <div id="noSlotsNotice" class="hidden mt-4 p-4 rounded-2xl bg-[#FFF5F7] border border-[#E58B9C]/40 text-xs sm:text-sm text-[#5C4D44] text-center">
                     <i class="fa-regular fa-calendar-xmark text-[#E58B9C] mr-1.5"></i>
                     Semua sesi pada tanggal ini sudah lewat atau penuh. Silakan pilih tanggal lain di kalender.
                 </div>
 
-                <!-- Validation Notice -->
                 <p id="selectSlotWarning" class="hidden mt-4 text-xs sm:text-sm font-medium text-red-600 text-center">
                     Silakan pilih salah satu waktu sesi terlebih dahulu sebelum melanjutkan.
                 </p>
 
-                <!-- Step 1 -> Step 2 Form -->
                 <form id="proceedDetailForm" action="{{ route('reservasi.detail') }}" method="GET" class="mt-8">
                     <input type="hidden" name="tanggal" id="selectedDateInput" value="{{ $selectedDate }}">
                     <input type="hidden" name="sesi" id="selectedSessionInput" value="{{ $preselectedSessionId }}">
@@ -155,7 +141,7 @@
 
         const initialParts = selectedDate.split('-').map(Number);
         let viewYear = initialParts[0];
-        let viewMonth = initialParts[1] - 1; // 0-indexed
+        let viewMonth = initialParts[1] - 1;
 
         const monthNames = [
             'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
@@ -197,7 +183,7 @@
             calendarGridEl.innerHTML = '';
 
             const firstDayOfMonth = new Date(viewYear, viewMonth, 1);
-            // Convert JS getDay() (0=Sun..6=Sat) -> Monday-first index (0=Mon..6=Sun)
+
             const startOffset = (firstDayOfMonth.getDay() + 6) % 7;
             const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
             const daysInPrevMonth = new Date(viewYear, viewMonth, 0).getDate();
@@ -284,7 +270,6 @@
             timeSlotsGridEl.innerHTML = '';
             renderHeaderInfo(data);
 
-            // Reset selectedSessionId if no longer valid/available
             const stillValid = currentSlots.some(s => s.id === selectedSessionId && s.available);
             if (!stillValid) {
                 selectedSessionId = null;
@@ -373,7 +358,6 @@
 
             renderCalendar();
 
-            // Subtle loading indicator on slots
             timeSlotsGridEl.classList.add('opacity-50', 'pointer-events-none');
             try {
                 const response = await fetch(`${availabilityUrl}?tanggal=${encodeURIComponent(isoDate)}`, {
@@ -416,7 +400,6 @@
             }
         });
 
-        // Initial render
         renderCalendar();
         renderSlots(initialData);
     })();

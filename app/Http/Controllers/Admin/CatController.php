@@ -21,8 +21,9 @@ class CatController extends Controller
         }
 
         $cats = $query->orderBy('nama_kucing')->paginate(10)->withQueryString();
+        $variants = Variant::orderBy('jenis')->get();
 
-        return view('admin.cats.index', compact('cats', 'search'));
+        return view('admin.cats.index', compact('cats', 'variants', 'search'));
     }
 
     public function create()
@@ -96,7 +97,7 @@ class CatController extends Controller
 
         $fotoName = $cat->foto;
         if ($request->hasFile('foto')) {
-            // Delete old file if exists in uploads/cats
+
             if ($cat->foto && File::exists(public_path('uploads/cats/' . $cat->foto))) {
                 File::delete(public_path('uploads/cats/' . $cat->foto));
             }
