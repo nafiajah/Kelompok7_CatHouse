@@ -30,4 +30,9 @@ class HomeController extends Controller
 
         return view('home', compact('cats', 'variants', 'sessions', 'feedbacks', 'selectedVariant'));
     }
+
+    public function about()
+    {
+        return view('about');
+    }
 }

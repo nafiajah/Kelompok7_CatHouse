@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Cat House Bukit Bintang - Play • Interact • Make Memories')</title>
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Poppins (normal) & Literata (serif/judul) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..800;1,7..72,400..700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -20,9 +20,10 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                        serif: ['"Playfair Display"', 'Georgia', 'serif'],
-                        display: ['"Fredoka"', 'sans-serif'],
+                        sans: ['"Poppins"', 'sans-serif'],
+                        serif: ['"Literata"', 'Georgia', 'serif'],
+                        literata: ['"Literata"', 'Georgia', 'serif'],
+                        display: ['"Literata"', 'Georgia', 'serif'],
                     },
                     colors: {
                         cathouse: {
@@ -62,15 +63,13 @@
     </script>
     <style>
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: #FFFFFF;
             color: #3F322A;
         }
+        .font-literata,
         .font-playfair {
-            font-family: 'Playfair Display', Georgia, serif;
-        }
-        .font-fredoka {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Literata', Georgia, serif;
         }
     </style>
     @yield('styles')
@@ -94,28 +93,34 @@
                             <i class="fa-solid fa-cat"></i>
                         </span>
                     </div>
-                    <span class="text-[22px] font-semibold font-playfair tracking-tight text-[#3F322A]">
+                    <span class="text-[22px] font-semibold font-literata tracking-tight text-[#3F322A]">
                         Cat House
                     </span>
                 </a>
 
                 <!-- Desktop Navigation -->
                 <nav class="hidden md:flex items-center gap-8 lg:gap-10 text-sm font-medium text-[#3F322A]">
-                    <a href="{{ route('home') }}" class="hover:text-[#D77487] transition {{ request()->routeIs('home') ? 'font-bold text-[#3F322A]' : '' }}">
+                    <a href="{{ route('home') }}" class="hover:text-[#E58B9C] transition {{ request()->routeIs('home') ? 'font-semibold text-[#E58B9C]' : '' }}">
                         Beranda
                     </a>
-                    <a href="{{ route('home') }}#tentang-kami" class="hover:text-[#D77487] transition">
+                    <a href="{{ route('about') }}" class="hover:text-[#E58B9C] transition {{ request()->routeIs('about') ? 'font-semibold text-[#E58B9C]' : '' }}">
                         Tentang Kami
                     </a>
-                    <a href="{{ route('reservasi.create') }}" class="hover:text-[#D77487] transition {{ request()->routeIs('reservasi.*') ? 'font-bold text-[#D77487]' : '' }}">
+                    <a href="{{ route('reservasi.create') }}" class="hover:text-[#E58B9C] transition {{ request()->routeIs('reservasi.*') ? 'font-semibold text-[#E58B9C]' : '' }}">
                         Reservasi
                     </a>
-                    <a href="{{ route('cats.index') }}" class="hover:text-[#D77487] transition {{ request()->routeIs('cats.*') ? 'font-bold text-[#D77487]' : '' }}">
+                    <a href="{{ route('cats.index') }}" class="hover:text-[#E58B9C] transition {{ request()->routeIs('cats.*') ? 'font-semibold text-[#E58B9C]' : '' }}">
                         Kucing Kami
                     </a>
-                    <a href="{{ route('home') }}#kontak" class="hover:text-[#D77487] transition">
-                        Kontak
-                    </a>
+                    @auth
+                        <a href="{{ route('feedback.create') }}" class="hover:text-[#E58B9C] transition {{ request()->routeIs('feedback.*') ? 'font-semibold text-[#E58B9C]' : '' }}">
+                            Feedback
+                        </a>
+                    @else
+                        <a href="{{ route('home') }}#kontak" class="hover:text-[#E58B9C] transition">
+                            Kontak
+                        </a>
+                    @endauth
                 </nav>
 
                 <!-- Action / Auth Controls -->
@@ -129,12 +134,12 @@
 
                         <!-- User Profile Dropdown -->
                         <div class="relative group">
-                            <button type="button" class="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#3F322A] hover:bg-[#2E221E] transition text-sm font-medium text-white cursor-pointer">
-                                <span class="w-6 h-6 rounded-full bg-[#E58B9C] text-white flex items-center justify-center text-xs font-bold">
+                            <button type="button" class="flex items-center gap-2.5 px-2 py-1.5 rounded-full hover:bg-white/40 transition text-sm font-semibold text-[#3F322A] cursor-pointer">
+                                <span class="w-8 h-8 rounded-full bg-[#E58B9C] text-white flex items-center justify-center text-sm font-semibold shadow-2xs">
                                     {{ strtoupper(substr(Auth::user()->nama_lengkap, 0, 1)) }}
                                 </span>
-                                <span class="max-w-[110px] truncate">{{ Auth::user()->nama_lengkap }}</span>
-                                <i class="fa-solid fa-chevron-down text-[10px] text-white/80"></i>
+                                <span class="max-w-[110px] truncate">{{ explode(' ', trim(Auth::user()->nama_lengkap))[0] }}</span>
+                                <i class="fa-solid fa-chevron-down text-[11px] text-[#3F322A]/80"></i>
                             </button>
 
                             <div class="absolute right-0 pt-2 w-56 hidden group-hover:block z-50">
@@ -184,10 +189,14 @@
         <!-- Mobile Navigation Drawer -->
         <div id="mobileMenu" class="hidden md:hidden bg-[#FFF5F7] border-t border-[#E58B9C]/25 px-5 pt-3 pb-5 space-y-2">
             <a href="{{ route('home') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-[#3F322A] hover:bg-[#FFDAE1]/60">Beranda</a>
-            <a href="{{ route('home') }}#tentang-kami" class="block px-3 py-2 rounded-lg text-sm font-medium text-[#3F322A] hover:bg-[#FFDAE1]/60">Tentang Kami</a>
+            <a href="{{ route('about') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-[#3F322A] hover:bg-[#FFDAE1]/60">Tentang Kami</a>
             <a href="{{ route('reservasi.create') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-[#3F322A] hover:bg-[#FFDAE1]/60">Reservasi</a>
             <a href="{{ route('cats.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-[#3F322A] hover:bg-[#FFDAE1]/60">Kucing Kami</a>
-            <a href="{{ route('home') }}#kontak" class="block px-3 py-2 rounded-lg text-sm font-medium text-[#3F322A] hover:bg-[#FFDAE1]/60">Kontak</a>
+            @auth
+                <a href="{{ route('feedback.create') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-[#3F322A] hover:bg-[#FFDAE1]/60">Feedback</a>
+            @else
+                <a href="{{ route('home') }}#kontak" class="block px-3 py-2 rounded-lg text-sm font-medium text-[#3F322A] hover:bg-[#FFDAE1]/60">Kontak</a>
+            @endauth
 
             @auth
                 <div class="border-t border-[#E58B9C]/25 pt-3 mt-2 space-y-1.5">
@@ -266,7 +275,7 @@
                             </span>
                         </div>
                         <div>
-                            <span class="text-lg font-semibold font-playfair text-[#3F322A] block leading-tight">Cat House</span>
+                            <span class="text-lg font-semibold font-literata text-[#3F322A] block leading-tight">Cat House</span>
                             <span class="text-xs font-bold text-[#3F322A] tracking-tight">Play &bull; Interact &bull; Make Memories</span>
                         </div>
                     </div>
@@ -293,7 +302,7 @@
                     <h4 class="text-sm font-bold text-[#3F322A] mb-3.5">Navigasi Cepat</h4>
                     <ul class="space-y-2 text-xs sm:text-sm text-[#3F322A]/90">
                         <li><a href="{{ route('home') }}" class="hover:text-[#D77487] transition">Beranda</a></li>
-                        <li><a href="{{ route('home') }}#tentang-kami" class="hover:text-[#D77487] transition">Tentang Kami</a></li>
+                        <li><a href="{{ route('about') }}" class="hover:text-[#D77487] transition">Tentang Kami</a></li>
                         <li><a href="{{ route('reservasi.create') }}" class="hover:text-[#D77487] transition">Reservasi</a></li>
                         <li><a href="{{ route('cats.index') }}" class="hover:text-[#D77487] transition">Kucing Kami</a></li>
                         <li><a href="{{ route('home') }}#kontak" class="hover:text-[#D77487] transition">Kontak</a></li>

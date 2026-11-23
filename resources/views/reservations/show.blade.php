@@ -26,7 +26,7 @@
                     <i class="fa-solid fa-ticket"></i>
                 </div>
                 <span class="text-xs uppercase font-extrabold tracking-widest text-emerald-200 block">Bukti Reservasi Resmi</span>
-                <h1 class="text-3xl font-bold font-playfair mt-1">CAT HOUSE</h1>
+                <h1 class="text-3xl font-bold font-literata mt-1">CAT HOUSE</h1>
                 <p class="text-xs text-emerald-100 mt-1">Kode Reservasi: <strong class="font-mono text-white text-sm">#CPY-{{ str_pad($reservation->id, 5, '0', STR_PAD_LEFT) }}</strong></p>
 
                 <!-- Status Badge -->
@@ -67,7 +67,7 @@
                             {{ \Carbon\Carbon::parse($reservation->tanggal_reservasi)->translatedFormat('l, d F Y') }}
                         </p>
                         <p class="text-xs text-amber-800 font-semibold flex items-center gap-1.5 mt-0.5">
-                            <i class="fa-regular fa-clock"></i> Sesi: {{ $reservation->session ? $reservation->session->jam_sesi : $reservation->waktu_reservasi }} (90 Menit)
+                            <i class="fa-regular fa-clock"></i> Sesi: {{ $reservation->session ? $reservation->session->jam_sesi : $reservation->waktu_reservasi }} ({{ $durasiMenit ?? 30 }} Menit)
                         </p>
                     </div>
                     <div class="text-right">
@@ -87,12 +87,12 @@
                         </div>
                         <div class="p-3.5 space-y-2 bg-white">
                             <div class="flex justify-between text-slate-600">
-                                <span>Tiket Kunjungan Cat House ({{ $reservation->jumlah_tamu ?? 1 }} x Rp 35.000)</span>
+                                <span>Tiket Kunjungan Cat House ({{ $reservation->jumlah_tamu ?? 1 }} x Rp {{ number_format($hargaSatuan ?? 25000, 0, ',', '.') }} &middot; {{ ($isWeekend ?? false) ? 'Weekend' : 'Weekday' }})</span>
                                 <span class="font-semibold text-slate-800">Rp {{ number_format($reservation->total_harga ?? 0, 0, ',', '.') }}</span>
                             </div>
                             <div class="flex justify-between text-slate-600">
-                                <span>Free Welcome Drink & Cat Play Set</span>
-                                <span class="font-semibold text-emerald-600">Termasuk</span>
+                                <span>Durasi Sesi Bermain</span>
+                                <span class="font-semibold text-emerald-600">{{ $durasiMenit ?? 30 }} Menit</span>
                             </div>
                             <div class="flex justify-between text-slate-600">
                                 <span>Status Reservasi</span>
@@ -101,7 +101,7 @@
                         </div>
                         <div class="p-4 bg-emerald-50/50 border-t border-slate-200 flex justify-between items-center text-sm">
                             <span class="font-bold text-slate-800">Total Harga:</span>
-                            <span class="text-2xl font-extrabold text-emerald-700 font-playfair">
+                            <span class="text-2xl font-extrabold text-emerald-700 font-literata">
                                 Rp {{ number_format($reservation->total_harga ?? 0, 0, ',', '.') }}
                             </span>
                         </div>

@@ -73,7 +73,7 @@
 
     <!-- Hero Content -->
     <div class="relative z-10 max-w-4xl mx-auto px-5 sm:px-8 text-center py-16">
-        <h1 class="font-playfair font-bold text-white text-4xl sm:text-5xl lg:text-[62px] leading-[1.15] tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]">
+        <h1 class="font-literata font-bold text-white text-4xl sm:text-5xl lg:text-[62px] leading-[1.15] tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]">
             Cat House Bukit Bintang
         </h1>
         <p class="mt-3 sm:mt-4 text-base sm:text-xl font-medium text-white/95 drop-shadow-[0_1px_6px_rgba(0,0,0,0.3)]">
@@ -101,7 +101,7 @@
             <p class="text-[#E58B9C] font-bold text-base sm:text-lg tracking-normal">
                 Mengapa Harus Cat House?
             </p>
-            <h2 class="mt-3 font-playfair font-bold text-[#3F322A] text-3xl sm:text-4xl lg:text-[42px] leading-[1.2]">
+            <h2 class="mt-3 font-literata font-bold text-[#3F322A] text-3xl sm:text-4xl lg:text-[42px] leading-[1.2]">
                 Ciptakan Momen Menyenangkan<br class="hidden sm:inline"> Bersama Anabul
             </h2>
             <p class="mt-4 text-xs sm:text-sm md:text-base text-[#5C4D44] leading-relaxed max-w-xl mx-auto">
@@ -119,7 +119,7 @@
                         <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1.06 13.54L7.4 12l1.41-1.41 2.12 2.12 4.24-4.24 1.41 1.41-5.64 5.66z"/>
                     </svg>
                 </div>
-                <h3 class="font-playfair font-semibold text-base sm:text-lg text-[#3F322A] mb-2">
+                <h3 class="font-literata font-semibold text-base sm:text-lg text-[#3F322A] mb-2">
                     Lingkungan Bersih dan Nyaman
                 </h3>
                 <p class="text-xs sm:text-sm text-[#5C4D44] leading-relaxed">
@@ -135,7 +135,7 @@
                         <path d="M5.5 4.5L9.2 8.2C10.05 7.9 11 7.75 12 7.75s1.95.15 2.8.45l3.7-3.7c.4-.4 1.1-.15 1.1.42V13c0 4.14-3.36 7.5-7.6 7.5S4.4 17.14 4.4 13V4.92c0-.57.7-.82 1.1-.42zM9.25 13a1.15 1.15 0 100 2.3 1.15 1.15 0 000-2.3zm5.5 0a1.15 1.15 0 100 2.3 1.15 1.15 0 000-2.3zM12 16.75l-1.1-.95h2.2L12 16.75z"/>
                     </svg>
                 </div>
-                <h3 class="font-playfair font-semibold text-base sm:text-lg text-[#3F322A] mb-2">
+                <h3 class="font-literata font-semibold text-base sm:text-lg text-[#3F322A] mb-2">
                     Interaksi Bersama Kucing
                 </h3>
                 <p class="text-xs sm:text-sm text-[#5C4D44] leading-relaxed">
@@ -148,7 +148,7 @@
                 <div class="w-12 h-12 rounded-xl bg-[#E58B9C] text-white flex items-center justify-center mb-5 shadow-xs">
                     <i class="fa-regular fa-calendar-check text-xl"></i>
                 </div>
-                <h3 class="font-playfair font-semibold text-base sm:text-lg text-[#3F322A] mb-2">
+                <h3 class="font-literata font-semibold text-base sm:text-lg text-[#3F322A] mb-2">
                     Sesi Kunjungan Teratur
                 </h3>
                 <p class="text-xs sm:text-sm text-[#5C4D44] leading-relaxed">
@@ -169,7 +169,7 @@
         <div class="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-14 items-center">
             <!-- Left Text Column -->
             <div class="md:col-span-6 space-y-5">
-                <h2 class="font-playfair font-bold text-[#3F322A] text-3xl sm:text-4xl lg:text-[44px] leading-tight">
+                <h2 class="font-literata font-bold text-[#3F322A] text-3xl sm:text-4xl lg:text-[44px] leading-tight">
                     Tentang Kami
                 </h2>
                 <p class="text-sm sm:text-base text-[#3F322A] leading-relaxed">
@@ -206,7 +206,7 @@
                     <!-- Outlined View all button below photo -->
                     <div class="mt-4 flex justify-end">
                         <a
-                            href="{{ route('cats.index') }}"
+                            href="{{ route('about') }}"
                             class="inline-flex items-center justify-center px-5 py-1.5 rounded-lg border border-[#3F322A] text-[#3F322A] text-xs font-semibold hover:bg-[#3F322A] hover:text-white transition"
                         >
                             View all
@@ -233,7 +233,7 @@
                 Kucing Favorit
             </p>
             <div class="mt-1 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-                <h2 class="font-playfair font-bold text-[#E58B9C] text-3xl sm:text-4xl lg:text-[44px] leading-tight">
+                <h2 class="font-literata font-bold text-[#E58B9C] text-3xl sm:text-4xl lg:text-[44px] leading-tight">
                     Temui Sahabat Berbulu Kami
                 </h2>
                 <a
@@ -256,7 +256,7 @@
                     <span class="text-[11px] font-medium text-white/95 tracking-wide">
                         Hi, my name is
                     </span>
-                    <h3 class="font-fredoka font-bold text-white text-3xl sm:text-[34px] leading-tight mt-0.5 mb-3.5 tracking-wide">
+                    <h3 class="font-sans font-bold text-white text-3xl sm:text-[34px] leading-tight mt-0.5 mb-3.5 tracking-wide">
                         {{ $cat['name'] }}
                     </h3>
 

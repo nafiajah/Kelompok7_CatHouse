@@ -55,13 +55,26 @@ class DatabaseSeeder extends Seeder
             $variantModels[$jenis] = Variant::create(['jenis' => $jenis]);
         }
 
-        // 3. Seed Sessions
+        // 3. Seed Sessions (Sesi 30 menit, 08:00 - 17:00 WITA, kuota 10 orang per sesi)
         $sessionsData = [
-            ['jam_sesi' => '10:00 - 11:30', 'token_sesi' => 15],
-            ['jam_sesi' => '12:00 - 13:30', 'token_sesi' => 15],
-            ['jam_sesi' => '14:00 - 15:30', 'token_sesi' => 15],
-            ['jam_sesi' => '16:00 - 17:30', 'token_sesi' => 15],
-            ['jam_sesi' => '18:00 - 19:30', 'token_sesi' => 15],
+            ['jam_sesi' => '08:00 - 08:30', 'token_sesi' => 10],
+            ['jam_sesi' => '08:30 - 09:00', 'token_sesi' => 10],
+            ['jam_sesi' => '09:00 - 09:30', 'token_sesi' => 10],
+            ['jam_sesi' => '09:30 - 10:00', 'token_sesi' => 10],
+            ['jam_sesi' => '10:00 - 10:30', 'token_sesi' => 10],
+            ['jam_sesi' => '10:30 - 11:00', 'token_sesi' => 10],
+            ['jam_sesi' => '11:00 - 11:30', 'token_sesi' => 10],
+            ['jam_sesi' => '11:30 - 12:00', 'token_sesi' => 10],
+            ['jam_sesi' => '12:00 - 12:30', 'token_sesi' => 10],
+            ['jam_sesi' => '12:30 - 13:00', 'token_sesi' => 10],
+            ['jam_sesi' => '13:00 - 13:30', 'token_sesi' => 10],
+            ['jam_sesi' => '13:30 - 14:00', 'token_sesi' => 10],
+            ['jam_sesi' => '14:00 - 14:30', 'token_sesi' => 10],
+            ['jam_sesi' => '14:30 - 15:00', 'token_sesi' => 10],
+            ['jam_sesi' => '15:00 - 15:30', 'token_sesi' => 10],
+            ['jam_sesi' => '15:30 - 16:00', 'token_sesi' => 10],
+            ['jam_sesi' => '16:00 - 16:30', 'token_sesi' => 10],
+            ['jam_sesi' => '16:30 - 17:00', 'token_sesi' => 10],
         ];
 
         $sessionModels = [];

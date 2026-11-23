@@ -27,10 +27,10 @@
                     id="jam_sesi" 
                     value="{{ old('jam_sesi') }}" 
                     required 
-                    placeholder="Contoh: 10.00-11.35" 
+                    placeholder="Contoh: 08:00 - 08:30" 
                     class="w-full px-4 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-accent @error('jam_sesi') border-red-500 @enderror bg-white"
                 >
-                <span class="text-[11px] text-stone-400 mt-1 block">Format: Jam mulai-Jam selesai</span>
+                <span class="text-[11px] text-stone-400 mt-1 block">Format: Jam mulai - Jam selesai (durasi 30 menit)</span>
                 @error('jam_sesi')
                     <p class="mt-1 text-red-600 font-medium text-xs">{{ $message }}</p>
                 @enderror

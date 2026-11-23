@@ -20,8 +20,13 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 |--------------------------------------------------------------------------
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/tentang-kami', [HomeController::class, 'about'])->name('about');
 Route::get('/kucing', [CatController::class, 'index'])->name('cats.index');
 Route::get('/kucing/{id}', [CatController::class, 'show'])->name('cats.show');
+
+// Reservasi Step 1 (Pilih Tanggal & Waktu) & Cek Ketersediaan Slot
+Route::get('/reservasi', [ReservationController::class, 'create'])->name('reservasi.create');
+Route::get('/reservasi/availability', [ReservationController::class, 'availability'])->name('reservasi.availability');
 
 // Authentication Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -45,7 +50,7 @@ Route::get('/logout-idle', function (\Illuminate\Http\Request $request) {
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth')->group(function () {
-    Route::get('/reservasi', [ReservationController::class, 'create'])->name('reservasi.create');
+    Route::get('/reservasi/detail', [ReservationController::class, 'detail'])->name('reservasi.detail');
     Route::post('/reservasi', [ReservationController::class, 'store'])->name('reservasi.store');
     Route::get('/reservasi/{id}', [ReservationController::class, 'show'])->name('reservasi.show');
     Route::get('/riwayat-reservasi', [ReservationController::class, 'history'])->name('reservasi.history');

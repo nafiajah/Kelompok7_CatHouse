@@ -8,7 +8,7 @@
         
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
             <div>
-                <h1 class="text-2xl sm:text-3xl font-bold font-playfair text-cafe-brown">Riwayat Reservasi Saya</h1>
+                <h1 class="text-2xl sm:text-3xl font-bold font-literata text-cafe-brown">Riwayat Reservasi Saya</h1>
                 <p class="text-sm text-cafe-muted mt-1">Daftar seluruh tiket kunjungan yang pernah Anda pesan</p>
             </div>
             <a href="{{ route('reservasi.create') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-md transition">

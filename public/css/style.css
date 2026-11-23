@@ -3,8 +3,8 @@
    File: public/css/style.css
    ========================================================================== */
 
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@300;400;500;600;700&display=swap');
+/* Import Google Fonts: Poppins & Literata */
+@import url('https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..800;1,7..72,400..700&family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 /* Color Variables & Design Tokens */
 :root {
@@ -20,8 +20,8 @@
   --btn-primary: #E58396;
   --btn-primary-hover: #D76E81;
   --btn-primary-active: #C95E72;
-  --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+  --font-serif: 'Literata', Georgia, serif;
+  --font-sans: 'Poppins', sans-serif;
   --radius-lg: 14px;
   --radius-md: 10px;
   --shadow-btn: 0 4px 14px rgba(229, 131, 150, 0.35);

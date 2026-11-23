@@ -11,7 +11,7 @@
                 <div class="w-16 h-16 rounded-2xl bg-amber-500 text-white text-3xl flex items-center justify-center mx-auto mb-4 shadow-md">
                     <i class="fa-solid fa-star"></i>
                 </div>
-                <h1 class="text-2xl font-bold font-playfair text-cafe-brown">Tulis Ulasan Anda</h1>
+                <h1 class="text-2xl font-bold font-literata text-cafe-brown">Tulis Ulasan Anda</h1>
                 <p class="text-sm text-cafe-muted mt-1">Bagikan pengalaman seru Anda saat berkunjung ke Capyca Pet Cafe</p>
             </div>
 

@@ -20,6 +20,8 @@
                 extend: {
                     fontFamily: {
                         sans: ['Poppins', 'sans-serif'],
+                        serif: ['Literata', 'Georgia', 'serif'],
+                        literata: ['Literata', 'Georgia', 'serif'],
                     },
                     colors: {
                         admintext: '#7A5E48',
