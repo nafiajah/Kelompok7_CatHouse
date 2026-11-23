@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class FeedbackController extends Controller
 {
-    public function create()
+    public function create(Request $request)
     {
         if (!Auth::check()) {
-            return redirect()->route('login')->with('info', 'Silakan masuk ke akun Anda untuk memberikan ulasan.');
+            $request->session()->put('url.intended', route('feedback.create'));
         }
 
         return view('feedbacks.create');

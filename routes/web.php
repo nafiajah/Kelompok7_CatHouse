@@ -28,6 +28,9 @@ Route::get('/kucing/{id}', [CatController::class, 'show'])->name('cats.show');
 Route::get('/reservasi', [ReservationController::class, 'create'])->name('reservasi.create');
 Route::get('/reservasi/availability', [ReservationController::class, 'availability'])->name('reservasi.availability');
 
+// Halaman Feedback (tampil dengan overlay wajib login jika guest)
+Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
+
 // Authentication Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -55,7 +58,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/reservasi/{id}', [ReservationController::class, 'show'])->name('reservasi.show');
     Route::get('/riwayat-reservasi', [ReservationController::class, 'history'])->name('reservasi.history');
 
-    Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
     Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 });
 

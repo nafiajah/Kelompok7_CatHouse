@@ -112,15 +112,9 @@
                     <a href="{{ route('cats.index') }}" class="hover:text-[#E58B9C] transition {{ request()->routeIs('cats.*') ? 'font-semibold text-[#E58B9C]' : '' }}">
                         Kucing Kami
                     </a>
-                    @auth
-                        <a href="{{ route('feedback.create') }}" class="hover:text-[#E58B9C] transition {{ request()->routeIs('feedback.*') ? 'font-semibold text-[#E58B9C]' : '' }}">
-                            Feedback
-                        </a>
-                    @else
-                        <a href="{{ route('home') }}#kontak" class="hover:text-[#E58B9C] transition">
-                            Kontak
-                        </a>
-                    @endauth
+                    <a href="{{ route('feedback.create') }}" class="hover:text-[#E58B9C] transition {{ request()->routeIs('feedback.*') ? 'font-semibold text-[#E58B9C]' : '' }}">
+                        Feedback
+                    </a>
                 </nav>
 
                 <!-- Action / Auth Controls -->
@@ -190,11 +184,7 @@
             <a href="{{ route('about') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-[#3F322A] hover:bg-[#FFDAE1]/60">Tentang Kami</a>
             <a href="{{ route('reservasi.create') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-[#3F322A] hover:bg-[#FFDAE1]/60">Reservasi</a>
             <a href="{{ route('cats.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-[#3F322A] hover:bg-[#FFDAE1]/60">Kucing Kami</a>
-            @auth
-                <a href="{{ route('feedback.create') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-[#3F322A] hover:bg-[#FFDAE1]/60">Feedback</a>
-            @else
-                <a href="{{ route('home') }}#kontak" class="block px-3 py-2 rounded-lg text-sm font-medium text-[#3F322A] hover:bg-[#FFDAE1]/60">Kontak</a>
-            @endauth
+            <a href="{{ route('feedback.create') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-[#3F322A] hover:bg-[#FFDAE1]/60">Feedback</a>
 
             @auth
                 <div class="border-t border-[#E58B9C]/25 pt-3 mt-2 space-y-1.5">

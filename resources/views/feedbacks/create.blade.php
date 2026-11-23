@@ -45,7 +45,7 @@
                                 type="text"
                                 name="nama_lengkap"
                                 id="nama_lengkap"
-                                value="{{ old('nama_lengkap', Auth::user()->nama_lengkap) }}"
+                                value="{{ old('nama_lengkap', Auth::check() ? Auth::user()->nama_lengkap : '') }}"
                                 placeholder="Masukan nama lengkap Anda"
                                 class="w-full px-4 py-2.5 rounded-xl bg-white border border-[#9E9590] text-sm text-[#3F322A] placeholder:text-[#9E9590] shadow-[0_2px_4px_rgba(0,0,0,0.06)] focus:outline-none focus:border-[#E58B9C] focus:ring-2 focus:ring-[#E58B9C]/25"
                             >
@@ -119,6 +119,8 @@
 
     </div>
 </section>
+
+@include('partials.guest-lock-overlay')
 @endsection
 
 @section('scripts')

@@ -104,6 +104,10 @@ class ReservationController extends Controller
      */
     public function create(Request $request)
     {
+        if (!Auth::check()) {
+            $request->session()->put('url.intended', route('reservasi.create'));
+        }
+
         $requestedDate = $request->query('tanggal');
         $todayStr = now()->format('Y-m-d');
 

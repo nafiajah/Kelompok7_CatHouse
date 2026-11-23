@@ -138,6 +138,8 @@
         </div>
     </div>
 </section>
+
+@include('partials.guest-lock-overlay')
 @endsection
 
 @section('scripts')

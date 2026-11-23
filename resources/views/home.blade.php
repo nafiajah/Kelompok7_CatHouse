@@ -249,50 +249,94 @@
             </p>
         </div>
 
-        <!-- 3 Pink Arched Cat Cards -->
+        <!-- 3 Kotak Slot Foto Kucing Favorit (foto sudah lengkap dengan bordernya) -->
         <div class="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-7 lg:gap-10">
             @foreach($favoriteCats as $cat)
-                <div class="bg-[#E39797] rounded-[18px] px-6 pt-5 pb-4 flex flex-col items-center text-center shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                    <span class="text-[11px] font-medium text-white/95 tracking-wide">
-                        Hi, my name is
-                    </span>
-                    <h3 class="font-sans font-bold text-white text-3xl sm:text-[34px] leading-tight mt-0.5 mb-3.5 tracking-wide">
-                        {{ $cat['name'] }}
-                    </h3>
+                @if($cat['photo'])
+                    <div class="rounded-[18px] overflow-hidden hover:-translate-y-1 transition-all duration-300">
+                        <img
+                            src="{{ $cat['photo'] }}"
+                            alt="{{ $cat['name'] }}"
+                            class="w-full h-auto block rounded-[18px]"
+                        >
+                    </div>
+                @else
+                    <!-- Placeholder Kotak Slot Foto Kucing -->
+                    <div class="aspect-square rounded-[18px] border-2 border-dashed border-[#E58B9C] bg-[#FFF5F7] flex flex-col items-center justify-center p-6 text-center text-[#5C4D44] hover:border-[#D77487] transition">
+                        <div class="w-12 h-12 rounded-full bg-[#FFDAE1] text-[#E58B9C] flex items-center justify-center text-xl mb-3">
+                            <i class="fa-regular fa-image"></i>
+                        </div>
+                        <p class="text-sm font-semibold text-[#3F322A]">Slot Foto {{ $cat['name'] }}</p>
+                        <p class="text-xs text-[#5C4D44] mt-1">Simpan foto di:</p>
+                        <code class="mt-1.5 px-2.5 py-1 rounded-md bg-white text-[11px] font-mono text-[#3F322A] border border-[#E58B9C]/40 break-all">public/images/{{ $cat['file'] }}.jpg</code>
+                    </div>
+                @endif
+            @endforeach
+        </div>
+    </div>
+</section>
 
-                    <!-- Arched Photo Frame + Paw Print Accents -->
-                    <div class="relative w-[84%] aspect-[4/4.3] mx-auto">
-                        <div class="w-full h-full rounded-t-full border-[1.5px] border-[#2E221E] overflow-hidden bg-[#F9EFEF] flex items-center justify-center">
-                            @if($cat['photo'])
-                                <img
-                                    src="{{ $cat['photo'] }}"
-                                    alt="{{ $cat['name'] }}"
-                                    class="w-full h-full object-cover"
-                                >
-                            @else
-                                <!-- Placeholder Foto Kucing -->
-                                <div class="w-full h-full flex flex-col items-center justify-center px-4 text-center text-[#5C4D44]">
-                                    <i class="fa-solid fa-cat text-3xl text-[#E39797] mb-2"></i>
-                                    <p class="text-[11px] font-semibold text-[#3F322A]">Foto {{ $cat['name'] }}</p>
-                                    <code class="mt-1 text-[10px] font-mono text-[#5C4D44] break-all">images/{{ $cat['file'] }}.jpg</code>
-                                </div>
-                            @endif
+<!-- =========================================================
+     5. FEEDBACK / CERITA MEREKA SETELAH BERKUNJUNG SECTION
+     Menampilkan ulasan pengunjung dari database (status tampil)
+     ========================================================= -->
+<section id="feedback" class="bg-white pt-4 pb-16 sm:pt-8 sm:pb-24">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8 lg:px-10">
+        <!-- Header -->
+        <div>
+            <p class="text-lg sm:text-xl font-bold text-[#3F322A]">
+                Feedback
+            </p>
+            <h2 class="mt-1 font-literata font-bold text-[#E58B9C] text-3xl sm:text-4xl lg:text-[44px] leading-tight">
+                Cerita Mereka Setelah Berkunjung
+            </h2>
+            <p class="mt-3 text-xs sm:text-sm text-[#5C4D44] leading-relaxed max-w-2xl">
+                Setiap kunjungan memiliki cerita dan pengalaman tersendiri. Simak berbagai kesan dari pengunjung yang telah menghabiskan waktu bersama kucing-kucing menggemaskan di Cat House.
+            </p>
+        </div>
+
+        @php
+            $displayFeedbacks = ($feedbacks ?? collect())->isNotEmpty()
+                ? $feedbacks->take(6)
+                : collect([
+                    (object) ['bintang' => 5, 'teks_saran' => 'Kucingnya ramah, tempatnya bersih dan nyaman.', 'user' => (object) ['nama_lengkap' => 'Nafi']],
+                    (object) ['bintang' => 5, 'teks_saran' => 'Suka banget dengan suasananya.', 'user' => (object) ['nama_lengkap' => 'Mutia']],
+                    (object) ['bintang' => 5, 'teks_saran' => 'Pengalaman yang menyenangkan.', 'user' => (object) ['nama_lengkap' => 'Rara']],
+                ]);
+        @endphp
+
+        <!-- 3-Column Feedback Cards -->
+        <div class="mt-10 sm:mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            @foreach($displayFeedbacks as $fb)
+                <div class="bg-white rounded-[18px] border border-[#8C7E76] px-6 py-5 flex flex-col justify-between min-h-[210px] shadow-[0_2px_6px_rgba(63,50,42,0.04)] hover:border-[#E58B9C] hover:shadow-md transition-all duration-200">
+                    <!-- Top Stars Row -->
+                    <div>
+                        <div class="flex items-center gap-1 pb-3.5 border-b border-[#8C7E76]/70">
+                            @for($s = 1; $s <= 5; $s++)
+                                <i class="fa-solid fa-star text-base {{ $s <= ($fb->bintang ?? 5) ? 'text-[#FCE14B]' : 'text-stone-200' }}"></i>
+                            @endfor
                         </div>
 
-                        <!-- Top-right Decorative Paw Print -->
-                        <span class="pointer-events-none select-none absolute top-[28%] -right-3.5 rotate-[25deg] text-[#1A1412] text-2xl sm:text-[26px] leading-none" aria-hidden="true">
-                            <i class="fa-solid fa-paw"></i>
-                        </span>
-
-                        <!-- Bottom-left Decorative Paw Print -->
-                        <span class="pointer-events-none select-none absolute bottom-[10%] -left-3.5 -rotate-[25deg] text-[#1A1412] text-2xl sm:text-[26px] leading-none" aria-hidden="true">
-                            <i class="fa-solid fa-paw"></i>
-                        </span>
+                        <!-- Feedback Quote -->
+                        <p class="py-4 text-sm sm:text-[15px] text-[#3F322A] leading-relaxed">
+                            "{{ $fb->teks_saran }}"
+                        </p>
                     </div>
 
-                    <p class="mt-3 text-[11px] sm:text-xs font-medium text-white/95">
-                        {{ $cat['tagline'] }}
-                    </p>
+                    <!-- Reviewer Profile -->
+                    <div class="flex items-center gap-3 pt-2">
+                        <div class="w-9 h-9 rounded-full bg-[#E58B9C] text-white flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-user text-sm"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-xs sm:text-sm font-bold text-[#3F322A] truncate leading-tight">
+                                {{ $fb->user ? $fb->user->nama_lengkap : 'Pengunjung' }}
+                            </p>
+                            <p class="text-[11px] text-[#8C7E76] leading-tight mt-0.5">
+                                Pengunjung
+                            </p>
+                        </div>
+                    </div>
                 </div>
             @endforeach
         </div>
