@@ -147,13 +147,11 @@
                                     <div class="px-4 py-2.5 border-b border-[#FFDAE1]/60">
                                         <p class="text-[11px] text-[#5C4D44]">Masuk sebagai</p>
                                         <p class="text-sm font-bold text-[#3F322A] truncate">{{ Auth::user()->nama_lengkap }}</p>
-                                        <span class="inline-block mt-1 text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-[#FFDAE1] text-[#3F322A]">{{ Auth::user()->role }}</span>
+                                        <p class="text-[11px] text-[#7A6B62] truncate mt-0.5">{{ Auth::user()->email }}</p>
+                                        <span class="inline-block mt-1.5 text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-[#FFDAE1] text-[#3F322A]">{{ Auth::user()->role }}</span>
                                     </div>
                                     <a href="{{ route('reservasi.history') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-[#3F322A] hover:bg-[#FFF5F7] transition">
                                         <i class="fa-solid fa-calendar-check text-[#E58B9C] w-4"></i> Riwayat Reservasi
-                                    </a>
-                                    <a href="{{ route('feedback.create') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-[#3F322A] hover:bg-[#FFF5F7] transition">
-                                        <i class="fa-solid fa-star text-[#E58B9C] w-4"></i> Tulis Ulasan / Saran
                                     </a>
                                     <div class="border-t border-[#FFDAE1]/60 my-1"></div>
                                     <form action="{{ route('logout') }}" method="POST" class="w-full">
@@ -200,9 +198,11 @@
 
             @auth
                 <div class="border-t border-[#E58B9C]/25 pt-3 mt-2 space-y-1.5">
-                    <p class="text-xs text-[#5C4D44] px-3 mb-1">Masuk sebagai: <strong>{{ Auth::user()->nama_lengkap }}</strong></p>
+                    <div class="px-3 mb-1">
+                        <p class="text-xs text-[#5C4D44]">Masuk sebagai: <strong>{{ Auth::user()->nama_lengkap }}</strong></p>
+                        <p class="text-[11px] text-[#7A6B62] truncate">{{ Auth::user()->email }}</p>
+                    </div>
                     <a href="{{ route('reservasi.history') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-[#3F322A] hover:bg-[#FFDAE1]/60">Riwayat Reservasi</a>
-                    <a href="{{ route('feedback.create') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-[#3F322A] hover:bg-[#FFDAE1]/60">Tulis Ulasan</a>
                     @if(Auth::user()->role === 'admin')
                         <a href="{{ route('admin.dashboard') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-[#3F322A] bg-[#FFDAE1]">Panel Admin</a>
                     @endif
