@@ -1,149 +1,244 @@
 @extends('layouts.app')
 
-@section('title', 'Daftar Akun Baru - Capyca Pet Cafe')
+@section('title', 'Register - CAT HOUSE')
+
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/style.css') }}?v={{ time() }}">
+@endsection
 
 @section('content')
-<div class="py-12 sm:py-16">
-    <div class="max-w-lg mx-auto px-4 sm:px-6">
-        <div class="bg-white rounded-3xl shadow-xl border border-amber-100 p-8 sm:p-10 relative overflow-hidden">
-            <!-- Decorative circle -->
-            <div class="absolute -top-12 -right-12 w-32 h-32 bg-amber-100/60 rounded-full blur-2xl pointer-events-none"></div>
+<div class="login-container register-container">
+    <!-- Back to Home Floating Link -->
+    <a href="{{ route('home') }}" class="login-back-btn">
+        <i class="fa-solid fa-arrow-left"></i> Beranda
+    </a>
 
-            <div class="text-center mb-8">
-                <div class="w-16 h-16 rounded-2xl bg-amber-500 text-white text-3xl flex items-center justify-center mx-auto mb-4 shadow-md">
-                    <i class="fa-solid fa-paw"></i>
+    <!-- LEFT COLUMN: Photo Frame Section -->
+    <div class="login-photo-section">
+        <div class="login-photo-wrapper">
+            <img 
+                src="{{ asset('images/cat-photo.png') }}?v={{ time() }}" 
+                alt="Cat House Photo" 
+                class="login-photo-img" 
+                id="registerCatPhoto"
+                onerror="if (this.src.indexOf('.png') !== -1) { this.src='{{ asset('images/cat-photo.jpg') }}?v={{ time() }}'; } else { this.style.display='none'; document.getElementById('catPhotoFallback').style.display='flex'; }"
+            >
+            <div id="catPhotoFallback" class="login-photo-fallback">
+                <i class="fa-solid fa-cat"></i>
+                <p>Frame Foto Kucing</p>
+                <span style="font-size: 11px; opacity: 0.7; margin-top: 4px;">Simpan foto Anda di <code>public/images/cat-photo.png</code></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Register Form Section -->
+    <div class="login-form-section register-form-section">
+        <div class="register-form-content">
+            
+            <!-- Logo Frame -->
+            <div class="register-logo-frame">
+                <img 
+                    src="{{ asset('images/logo.png') }}" 
+                    alt="CAT HOUSE Logo" 
+                    class="login-logo-img" 
+                    id="registerLogoImg"
+                    onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='flex';"
+                >
+                <div id="logoFallback" class="login-logo-fallback">
+                    <div class="logo-icon-house">
+                        <i class="fa-solid fa-cat text-2xl text-amber-800"></i>
+                    </div>
+                    <span class="logo-text-fallback">CAT HOUSE</span>
                 </div>
-                <h1 class="text-2xl font-bold font-playfair text-cafe-brown">Daftar Akun Baru</h1>
-                <p class="text-sm text-cafe-muted mt-1">Bergabung bersama komunitas pecinta anabul Capyca Pet Cafe</p>
             </div>
 
-            <form action="{{ route('register') }}" method="POST" class="space-y-4">
+            <!-- Subtitle -->
+            <p class="register-subtitle">Please register to create account</p>
+
+            <!-- Alerts for Session & Validation Messages -->
+            @if(session('error'))
+                <div class="login-alert login-alert-danger">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span>{{ session('error') }}</span>
+                </div>
+            @endif
+
+            @if(session('success'))
+                <div class="login-alert login-alert-success">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>{{ session('success') }}</span>
+                </div>
+            @endif
+
+            <!-- Register Form -->
+            <form action="{{ route('register') }}" method="POST" class="register-form">
                 @csrf
 
-                <div>
-                    <label for="nama_pelanggan" class="block text-xs font-bold uppercase tracking-wider text-cafe-brown mb-1">
-                        Nama Lengkap
-                    </label>
-                    <input 
-                        type="text" 
-                        name="nama_pelanggan" 
-                        id="nama_pelanggan" 
-                        value="{{ old('nama_pelanggan') }}" 
-                        required 
-                        placeholder="Contoh: Nabila Putri" 
-                        class="w-full px-4 py-2.5 rounded-xl border border-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm bg-amber-50/20 text-cafe-brown @error('nama_pelanggan') border-red-500 @enderror"
-                    >
-                    @error('nama_pelanggan')
-                        <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label for="username" class="block text-xs font-bold uppercase tracking-wider text-cafe-brown mb-1">
-                            Username
-                        </label>
+                <!-- Username Input Group -->
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <div class="input-wrapper">
                         <input 
                             type="text" 
                             name="username" 
                             id="username" 
                             value="{{ old('username') }}" 
                             required 
-                            placeholder="username123" 
-                            class="w-full px-4 py-2.5 rounded-xl border border-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm bg-amber-50/20 text-cafe-brown @error('username') border-red-500 @enderror"
+                            autofocus
+                            placeholder="User" 
+                            class="form-input @error('username') is-invalid @enderror"
                         >
-                        @error('username')
-                            <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
-                        @enderror
+                        <span class="input-icon">
+                            <i class="fa-solid fa-user input-icon-fa"></i>
+                        </span>
                     </div>
-
-                    <div>
-                        <label for="no_telp" class="block text-xs font-bold uppercase tracking-wider text-cafe-brown mb-1">
-                            Nomor WhatsApp / Telp
-                        </label>
-                        <input 
-                            type="text" 
-                            name="no_telp" 
-                            id="no_telp" 
-                            value="{{ old('no_telp') }}" 
-                            required 
-                            placeholder="08123456789" 
-                            class="w-full px-4 py-2.5 rounded-xl border border-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm bg-amber-50/20 text-cafe-brown @error('no_telp') border-red-500 @enderror"
-                        >
-                        @error('no_telp')
-                            <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-
-                <div>
-                    <label for="email" class="block text-xs font-bold uppercase tracking-wider text-cafe-brown mb-1">
-                        Alamat Email
-                    </label>
-                    <input 
-                        type="email" 
-                        name="email" 
-                        id="email" 
-                        value="{{ old('email') }}" 
-                        required 
-                        placeholder="nama@email.com" 
-                        class="w-full px-4 py-2.5 rounded-xl border border-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm bg-amber-50/20 text-cafe-brown @error('email') border-red-500 @enderror"
-                    >
-                    @error('email')
-                        <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
+                    @error('username')
+                        <p class="error-message">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label for="password" class="block text-xs font-bold uppercase tracking-wider text-cafe-brown mb-1">
-                            Password
-                        </label>
+                <!-- Password Input Group -->
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-wrapper">
                         <input 
                             type="password" 
                             name="password" 
                             id="password" 
                             required 
-                            placeholder="Min. 6 karakter" 
-                            class="w-full px-4 py-2.5 rounded-xl border border-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm bg-amber-50/20 text-cafe-brown @error('password') border-red-500 @enderror"
+                            placeholder="12345678" 
+                            class="form-input @error('password') is-invalid @enderror"
                         >
-                        @error('password')
-                            <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
-                        @enderror
+                        <!-- Right Key Icon (Password Visibility Toggle) -->
+                        <button type="button" class="input-icon input-icon-toggle password-icon-box" id="togglePasswordBtn" aria-label="Toggle password visibility" title="Lihat password">
+                            <img 
+                                src="{{ asset('images/key-icon.png') }}" 
+                                alt="Password Hidden" 
+                                id="passwordToggleImg" 
+                                class="login-input-icon-img password-icon-img" 
+                                width="20" 
+                                height="20"
+                                data-hidden-src="{{ asset('images/key-icon.png') }}"
+                                data-visible-src="{{ asset('images/key-slash-icon.png') }}"
+                            >
+                        </button>
                     </div>
+                    @error('password')
+                        <p class="error-message">{{ $message }}</p>
+                    @enderror
+                </div>
 
-                    <div>
-                        <label for="password_confirmation" class="block text-xs font-bold uppercase tracking-wider text-cafe-brown mb-1">
-                            Ulangi Password
-                        </label>
+                <!-- Email Input Group -->
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <div class="input-wrapper">
                         <input 
-                            type="password" 
-                            name="password_confirmation" 
-                            id="password_confirmation" 
+                            type="email" 
+                            name="email" 
+                            id="email" 
+                            value="{{ old('email') }}" 
                             required 
-                            placeholder="Konfirmasi" 
-                            class="w-full px-4 py-2.5 rounded-xl border border-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm bg-amber-50/20 text-cafe-brown"
+                            placeholder="user@gmail.com" 
+                            class="form-input @error('email') is-invalid @enderror"
                         >
+                        <span class="input-icon">
+                            <i class="fa-solid fa-envelope input-icon-fa"></i>
+                        </span>
                     </div>
+                    @error('email')
+                        <p class="error-message">{{ $message }}</p>
+                    @enderror
                 </div>
 
-                <div class="pt-3">
-                    <button 
-                        type="submit" 
-                        class="w-full py-3.5 px-4 bg-gradient-to-r from-amber-600 to-amber-500 text-white font-bold text-sm rounded-xl shadow-lg hover:from-amber-700 hover:to-amber-600 transition-all duration-200 flex items-center justify-center gap-2"
-                    >
-                        <i class="fa-solid fa-user-plus"></i> Daftar Sekarang
-                    </button>
+                <!-- Address Input Group -->
+                <div class="form-group">
+                    <label for="alamat" class="form-label">Address</label>
+                    <div class="input-wrapper">
+                        <input 
+                            type="text" 
+                            name="alamat" 
+                            id="alamat" 
+                            value="{{ old('alamat') }}" 
+                            placeholder="Jl. Kambing Guling" 
+                            class="form-input @error('alamat') is-invalid @enderror"
+                        >
+                        <span class="input-icon">
+                            <i class="fa-solid fa-address-book input-icon-fa"></i>
+                        </span>
+                    </div>
+                    @error('alamat')
+                        <p class="error-message">{{ $message }}</p>
+                    @enderror
                 </div>
+
+                <!-- Phone Number Input Group -->
+                <div class="form-group">
+                    <label for="no_telp" class="form-label">Phone Number</label>
+                    <div class="phone-input-group">
+                        <div class="phone-prefix-box">+62</div>
+                        <div class="phone-input-wrapper">
+                            <input 
+                                type="text" 
+                                name="no_telp" 
+                                id="no_telp" 
+                                value="{{ old('no_telp') }}" 
+                                required 
+                                placeholder="0812345678910" 
+                                class="form-input @error('no_telp') is-invalid @enderror"
+                            >
+                            <span class="input-icon">
+                                <i class="fa-solid fa-phone input-icon-fa"></i>
+                            </span>
+                        </div>
+                    </div>
+                    @error('no_telp')
+                        <p class="error-message">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-login">
+                    Register
+                </button>
             </form>
 
-            <div class="mt-8 text-center border-t border-amber-100 pt-6">
-                <p class="text-xs text-cafe-muted">
-                    Sudah memiliki akun? 
-                    <a href="{{ route('login') }}" class="font-bold text-amber-600 hover:text-amber-700 underline">Masuk di sini</a>
-                </p>
+            <!-- Login Link -->
+            <div class="register-footer-links">
+                <p>Already have an account ? <a href="{{ route('login') }}">Login</a></p>
             </div>
+
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    document.body.classList.add('login-page-body', 'register-page-body');
+
+    // Toggle password visibility
+    const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+    const passwordInput = document.getElementById('password');
+    const passwordToggleImg = document.getElementById('passwordToggleImg');
+
+    if (togglePasswordBtn && passwordInput && passwordToggleImg) {
+        togglePasswordBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const isPassword = passwordInput.getAttribute('type') === 'password';
+            
+            if (isPassword) {
+                passwordInput.setAttribute('type', 'text');
+                passwordToggleImg.src = passwordToggleImg.getAttribute('data-visible-src');
+                passwordToggleImg.alt = 'Password Visible';
+                togglePasswordBtn.setAttribute('title', 'Sembunyikan password');
+            } else {
+                passwordInput.setAttribute('type', 'password');
+                passwordToggleImg.src = passwordToggleImg.getAttribute('data-hidden-src');
+                passwordToggleImg.alt = 'Password Hidden';
+                togglePasswordBtn.setAttribute('title', 'Lihat password');
+            }
+            passwordInput.focus();
+        });
+    }
+</script>
 @endsection

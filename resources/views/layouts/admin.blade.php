@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Admin Dashboard - Cat House')</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/admin-cat-logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/admin-cat-logo.png') }}?v={{ time() }}">
 
     <!-- Admin Styles (Poppins font + custom CSS) -->
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}?v={{ time() }}">
@@ -20,6 +20,8 @@
                 extend: {
                     fontFamily: {
                         sans: ['Poppins', 'sans-serif'],
+                        serif: ['Literata', 'Georgia', 'serif'],
+                        literata: ['Literata', 'Georgia', 'serif'],
                     },
                     colors: {
                         admintext: '#7A5E48',
@@ -46,7 +48,7 @@
         <!-- Logo & Mobile Close Button -->
         <div class="h-16 sm:h-20 flex items-center justify-between px-5 sm:px-6 border-b border-white/10 flex-shrink-0">
             <div class="flex items-center gap-3 min-w-0">
-                <img src="{{ asset('images/admin-cat-logo.png') }}" alt="Cat House Logo" class="w-10 h-10 rounded-xl object-contain shadow-md flex-shrink-0">
+                <img src="{{ asset('images/admin-cat-logo.png') }}?v={{ time() }}" alt="Cat House Logo" class="w-10 h-10 rounded-xl object-contain shadow-md flex-shrink-0">
                 <div class="min-w-0">
                     <span class="text-cream font-bold text-base leading-none block truncate">Cat House Admin</span>
                     <span class="text-xs text-tan font-semibold tracking-wider truncate block">Cat House Management</span>
@@ -82,16 +84,11 @@
                 <span>Sesi & Kuota</span>
             </a>
 
-            <div class="pt-4 pb-1 px-3 text-[11px] font-bold text-accent uppercase tracking-wider">Transaksi & Layanan</div>
+            <div class="pt-4 pb-1 px-3 text-[11px] font-bold text-accent uppercase tracking-wider">Layanan & Reservasi</div>
 
             <a href="{{ route('admin.reservations.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition {{ request()->routeIs('admin.reservations.*') ? 'bg-accent text-cream font-bold shadow-sm' : 'text-cream/80 hover:bg-accent/50 hover:text-cream' }}">
                 <i class="fa-solid fa-calendar-check w-5 text-center"></i>
                 <span>Data Reservasi</span>
-            </a>
-
-            <a href="{{ route('admin.payments.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition {{ request()->routeIs('admin.payments.*') ? 'bg-accent text-cream font-bold shadow-sm' : 'text-cream/80 hover:bg-accent/50 hover:text-cream' }}">
-                <i class="fa-solid fa-receipt w-5 text-center"></i>
-                <span>Laporan Pembayaran</span>
             </a>
 
             <a href="{{ route('admin.feedbacks.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition {{ request()->routeIs('admin.feedbacks.*') ? 'bg-accent text-cream font-bold shadow-sm' : 'text-cream/80 hover:bg-accent/50 hover:text-cream' }}">
@@ -121,7 +118,7 @@
                     <i class="fa-solid fa-user-shield text-sm"></i>
                 </div>
                 <div class="text-xs min-w-0">
-                    <p class="font-bold text-cream truncate max-w-[120px]">{{ Auth::user()->nama_pelanggan }}</p>
+                    <p class="font-bold text-cream truncate max-w-[120px]">{{ Auth::user()->nama_lengkap }}</p>
                     <p class="text-tan">Admin</p>
                 </div>
             </div>
@@ -224,6 +221,109 @@
                     });
                 });
             }
+        });
+
+        // Mencegah halaman ditampilkan dari back-forward cache browser setelah logout
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+    </script>
+
+    <!-- Logout Confirmation Modal Admin -->
+    <div id="logoutConfirmModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white rounded-3xl p-6 sm:p-7 max-w-sm w-full shadow-2xl border border-stone-200 transform scale-95 transition-all duration-300 text-center relative" id="logoutModalCard">
+            <button type="button" onclick="closeLogoutModal()" class="absolute top-4 right-4 text-stone-400 hover:text-stone-600 p-1.5 rounded-full hover:bg-stone-100 transition cursor-pointer" aria-label="Tutup">
+                <i class="fa-solid fa-xmark text-base"></i>
+            </button>
+            <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center text-2xl shadow-sm border border-red-100">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </div>
+            <h3 class="text-xl font-bold text-stone-800 mb-2">Yakin Ingin Logout?</h3>
+            <p class="text-sm text-stone-600 mb-6 leading-relaxed">
+                Sesi administrator Anda akan diakhiri. Silakan login kembali untuk mengakses panel admin.
+            </p>
+            <div class="grid grid-cols-2 gap-3">
+                <button type="button" onclick="closeLogoutModal()" class="w-full py-2.5 px-4 rounded-xl border border-stone-200 text-stone-700 font-bold text-sm hover:bg-stone-100 transition active:scale-95 cursor-pointer">
+                    Batal
+                </button>
+                <button type="button" id="confirmLogoutSubmitBtn" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-red-500 to-rose-600 text-white font-bold text-sm shadow-md hover:from-red-600 hover:to-rose-700 hover:shadow-lg transition active:scale-95 cursor-pointer">
+                    Ya, Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let pendingLogoutForm = null;
+
+        function openLogoutModal(form) {
+            pendingLogoutForm = form;
+            const modal = document.getElementById('logoutConfirmModal');
+            const card = document.getElementById('logoutModalCard');
+            if (!modal) return;
+
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('opacity-100', 'pointer-events-auto');
+            if (card) {
+                card.classList.remove('scale-95');
+                card.classList.add('scale-100');
+            }
+        }
+
+        function closeLogoutModal() {
+            pendingLogoutForm = null;
+            const modal = document.getElementById('logoutConfirmModal');
+            const card = document.getElementById('logoutModalCard');
+            if (!modal) return;
+
+            modal.classList.remove('opacity-100', 'pointer-events-auto');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            if (card) {
+                card.classList.remove('scale-100');
+                card.classList.add('scale-95');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const confirmBtn = document.getElementById('confirmLogoutSubmitBtn');
+            if (confirmBtn) {
+                confirmBtn.addEventListener('click', function () {
+                    if (pendingLogoutForm) {
+                        pendingLogoutForm.dataset.confirmed = 'true';
+                        pendingLogoutForm.submit();
+                    }
+                });
+            }
+
+            // Intercept all logout form submissions
+            document.addEventListener('submit', function (e) {
+                const form = e.target;
+                if (form && form.getAttribute('action') && form.getAttribute('action').includes('/logout')) {
+                    if (!form.dataset.confirmed) {
+                        e.preventDefault();
+                        openLogoutModal(form);
+                    }
+                }
+            });
+
+            // Close on backdrop click
+            const modal = document.getElementById('logoutConfirmModal');
+            if (modal) {
+                modal.addEventListener('click', function (e) {
+                    if (e.target === modal) {
+                        closeLogoutModal();
+                    }
+                });
+            }
+
+            // Close on Escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    closeLogoutModal();
+                }
+            });
         });
     </script>
 

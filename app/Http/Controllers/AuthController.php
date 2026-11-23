@@ -39,10 +39,10 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             if ($user->role === 'admin') {
-                return redirect()->route('admin.dashboard')->with('success', 'Selamat datang kembali, Administrator ' . $user->nama_pelanggan . '!');
+                return redirect()->route('admin.dashboard')->with('success', 'Selamat datang kembali, Administrator ' . $user->nama_lengkap . '!');
             }
 
-            return redirect()->intended(route('home'))->with('success', 'Halo ' . $user->nama_pelanggan . ', selamat datang di Capyca Pet Cafe!');
+            return redirect()->intended(route('home'))->with('success', 'Halo ' . $user->nama_lengkap . ', selamat datang di Capyca Pet Cafe!');
         }
 
         return back()->withInput($request->only('login'))->withErrors([
@@ -65,18 +65,18 @@ class AuthController extends Controller
 
         $validated = $request->validate([
             'username' => 'required|string|max:50|unique:' . $userTable . ',username',
-            'password' => 'required|string|min:6|confirmed',
-            'nama_pelanggan' => 'required|string|max:50',
+            'password' => 'required|string|min:6',
             'email' => 'required|email|max:50|unique:' . $userTable . ',email',
+            'alamat' => 'nullable|string|max:100',
             'no_telp' => 'required|string|max:50',
+            'nama_lengkap' => 'nullable|string|max:50',
         ], [
             'username.required' => 'Username wajib diisi.',
             'username.unique' => 'Username sudah digunakan, silakan pilih yang lain.',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 6 karakter.',
-            'password.confirmed' => 'Konfirmasi password tidak cocok.',
-            'nama_pelanggan.required' => 'Nama lengkap wajib diisi.',
             'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah terdaftar.',
             'no_telp.required' => 'Nomor telepon wajib diisi.',
         ]);
@@ -85,8 +85,9 @@ class AuthController extends Controller
             'role' => 'user',
             'username' => $validated['username'],
             'password' => Hash::make($validated['password']),
-            'nama_pelanggan' => $validated['nama_pelanggan'],
+            'nama_lengkap' => $request->filled('nama_lengkap') ? $validated['nama_lengkap'] : $validated['username'],
             'email' => $validated['email'],
+            'alamat' => $validated['alamat'] ?? null,
             'no_telp' => $validated['no_telp'],
         ]);
 
@@ -102,6 +103,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')->with('success', 'Anda telah berhasil logout.');
+        return redirect()->route('home')->with('success', 'Anda telah berhasil logout.');
     }
 }

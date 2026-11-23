@@ -1,267 +1,422 @@
 @extends('layouts.app')
 
-@section('title', 'Formulir Reservasi - Capyca Pet Cafe')
+@section('title', 'Reservasi - Pilih Tanggal & Waktu | Cat House')
 
 @section('content')
-<div class="py-12">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="text-center mb-10">
-            <span class="text-xs font-bold uppercase tracking-widest text-amber-600 block mb-2">Booking Online</span>
-            <h1 class="text-3xl sm:text-4xl font-bold font-playfair text-cafe-brown">Reservasi Sesi Kunjungan</h1>
-            <p class="text-sm text-cafe-muted mt-2">Pilih waktu kunjungan, jumlah pengunjung, dan metode pembayaran Anda</p>
-        </div>
+<section class="bg-white py-10 sm:py-14">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8 lg:px-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-0 items-start">
 
-        <form action="{{ route('reservasi.store') }}" method="POST" id="bookingForm">
-            @csrf
+            <!-- ===================================================
+                 LEFT COLUMN: PILIH TANGGAL (Custom Calendar)
+                 =================================================== -->
+            <div class="lg:col-span-5 lg:pr-10 lg:border-r lg:border-[#8C7E76]/70">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="text-[#3F322A] text-2xl">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </span>
+                    <h1 class="font-literata text-[26px] sm:text-[28px] font-medium text-[#3F322A] leading-tight">
+                        Pilih Tanggal
+                    </h1>
+                </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                
-                <!-- Left Form Fields -->
-                <div class="lg:col-span-7 bg-white p-6 sm:p-8 rounded-3xl border border-amber-100 shadow-sm space-y-6">
-                    
-                    <!-- 1. Customer info summary -->
-                    <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/60 flex items-center justify-between text-xs">
-                        <div>
-                            <span class="text-cafe-muted block">Data Pemesan:</span>
-                            <span class="font-bold text-cafe-brown text-sm">{{ Auth::user()->nama_pelanggan }}</span>
-                            <span class="text-cafe-muted block">{{ Auth::user()->email }} | {{ Auth::user()->no_telp }}</span>
-                        </div>
-                        <span class="px-2.5 py-1 bg-amber-200 text-amber-900 rounded-full font-bold uppercase text-[10px]">Pelanggan</span>
-                    </div>
-
-                    <!-- 2. Tanggal Reservasi -->
-                    <div>
-                        <label for="tanggal_reservasi" class="block text-xs font-bold uppercase tracking-wider text-cafe-brown mb-2">
-                            1. Pilih Tanggal Kunjungan <span class="text-red-500">*</span>
-                        </label>
-                        <input 
-                            type="date" 
-                            name="tanggal_reservasi" 
-                            id="tanggal_reservasi" 
-                            min="{{ date('Y-m-d') }}"
-                            value="{{ old('tanggal_reservasi', date('Y-m-d')) }}" 
-                            required
-                            class="w-full px-4 py-3 rounded-xl border border-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm bg-amber-50/20 text-cafe-brown font-medium @error('tanggal_reservasi') border-red-500 @enderror"
-                        >
-                        @error('tanggal_reservasi')
-                            <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <!-- 3. Sesi Kunjungan -->
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-cafe-brown mb-2">
-                            2. Pilih Jam Sesi (90 Menit) <span class="text-red-500">*</span>
-                        </label>
-                        
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            @foreach($sessions as $session)
-                                <label class="relative flex items-center p-3.5 rounded-2xl border-2 cursor-pointer transition select-none session-card {{ old('id_sesi', request('sesi')) == $session->id ? 'border-amber-600 bg-amber-50/60' : 'border-amber-100 hover:border-amber-300 bg-white' }}">
-                                    <input 
-                                        type="radio" 
-                                        name="id_sesi" 
-                                        value="{{ $session->id }}" 
-                                        class="sr-only"
-                                        {{ old('id_sesi', request('sesi')) == $session->id ? 'checked' : '' }}
-                                        required
-                                        onchange="updateSelection()"
-                                    >
-                                    <div class="flex-1">
-                                        <div class="flex items-center justify-between">
-                                            <span class="text-sm font-bold text-cafe-brown">{{ $session->jam_sesi }}</span>
-                                            <i class="fa-solid fa-check-circle text-amber-600 text-sm check-icon {{ old('id_sesi', request('sesi')) == $session->id ? 'inline' : 'hidden' }}"></i>
-                                        </div>
-                                        <span class="text-[11px] text-cafe-muted mt-0.5 block">
-                                            Kuota Maks. {{ $session->token_sesi }} Orang
-                                        </span>
-                                    </div>
-                                </label>
-                            @endforeach
-                        </div>
-                        @error('id_sesi')
-                            <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <!-- 4. Jumlah Tamu -->
-                    <div>
-                        <label for="jumlah_tamu" class="block text-xs font-bold uppercase tracking-wider text-cafe-brown mb-2">
-                            3. Jumlah Pengunjung / Tamu <span class="text-red-500">*</span>
-                        </label>
+                <!-- Calendar Card -->
+                <div class="bg-white rounded-[20px] border border-[#9E9590] p-5 sm:p-6 shadow-[0_2px_8px_rgba(63,50,42,0.05)]">
+                    <!-- Month & Year Header + Navigation -->
+                    <div class="flex items-center justify-between mb-5">
+                        <h2 id="calendarMonthLabel" class="font-literata text-[22px] sm:text-[24px] font-normal text-[#3F322A]">
+                            <!-- Filled by JS -->
+                        </h2>
                         <div class="flex items-center gap-3">
-                            <button type="button" onclick="adjustGuest(-1)" class="w-11 h-11 rounded-xl bg-amber-100 text-amber-800 font-bold hover:bg-amber-200 transition text-lg flex items-center justify-center">
-                                -
-                            </button>
-                            <input 
-                                type="number" 
-                                name="jumlah_tamu" 
-                                id="jumlah_tamu" 
-                                min="1" 
-                                max="10" 
-                                value="{{ old('jumlah_tamu', 1) }}" 
-                                required 
-                                readonly
-                                class="w-24 py-2.5 text-center font-bold text-lg rounded-xl border border-amber-200 bg-amber-50/40 text-cafe-brown focus:outline-none"
+                            <button
+                                type="button"
+                                id="prevMonthBtn"
+                                aria-label="Bulan sebelumnya"
+                                class="w-8 h-8 rounded-full flex items-center justify-center text-[#3F322A] hover:bg-[#FFDAE1]/60 transition cursor-pointer"
                             >
-                            <button type="button" onclick="adjustGuest(1)" class="w-11 h-11 rounded-xl bg-amber-100 text-amber-800 font-bold hover:bg-amber-200 transition text-lg flex items-center justify-center">
-                                +
+                                <i class="fa-solid fa-chevron-left text-xs"></i>
                             </button>
-                            <span class="text-xs text-cafe-muted font-medium">Orang (Maks. 10 per reservasi)</span>
+                            <button
+                                type="button"
+                                id="nextMonthBtn"
+                                aria-label="Bulan berikutnya"
+                                class="w-8 h-8 rounded-full flex items-center justify-center text-[#3F322A] hover:bg-[#FFDAE1]/60 transition cursor-pointer"
+                            >
+                                <i class="fa-solid fa-chevron-right text-xs"></i>
+                            </button>
                         </div>
-                        @error('jumlah_tamu')
-                            <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
-                        @enderror
                     </div>
 
-                    <!-- 5. Metode Pembayaran -->
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-cafe-brown mb-2">
-                            4. Metode Pembayaran <span class="text-red-500">*</span>
-                        </label>
-                        <div class="grid grid-cols-2 gap-3">
-                            <label class="p-4 rounded-2xl border-2 cursor-pointer transition select-none flex items-center gap-3 payment-card {{ old('metode_pembayaran', 'qris') === 'qris' ? 'border-amber-600 bg-amber-50/60' : 'border-amber-100 hover:border-amber-300' }}">
-                                <input 
-                                    type="radio" 
-                                    name="metode_pembayaran" 
-                                    value="qris" 
-                                    class="sr-only" 
-                                    {{ old('metode_pembayaran', 'qris') === 'qris' ? 'checked' : '' }}
-                                    onchange="updatePaymentCard()"
-                                >
-                                <div class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center text-lg">
-                                    <i class="fa-solid fa-qrcode"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-bold text-cafe-brown">QRIS</p>
-                                    <p class="text-[11px] text-cafe-muted">Gopay, OVO, Dana, BCA</p>
-                                </div>
-                            </label>
-
-                            <label class="p-4 rounded-2xl border-2 cursor-pointer transition select-none flex items-center gap-3 payment-card {{ old('metode_pembayaran') === 'bank' ? 'border-amber-600 bg-amber-50/60' : 'border-amber-100 hover:border-amber-300' }}">
-                                <input 
-                                    type="radio" 
-                                    name="metode_pembayaran" 
-                                    value="bank" 
-                                    class="sr-only" 
-                                    {{ old('metode_pembayaran') === 'bank' ? 'checked' : '' }}
-                                    onchange="updatePaymentCard()"
-                                >
-                                <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-lg">
-                                    <i class="fa-solid fa-building-columns"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-bold text-cafe-brown">Bank Transfer</p>
-                                    <p class="text-[11px] text-cafe-muted">BCA / Mandiri / BRI</p>
-                                </div>
-                            </label>
-                        </div>
-                        @error('metode_pembayaran')
-                            <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
-                        @enderror
+                    <!-- Day Names (Mo - Su) -->
+                    <div class="grid grid-cols-7 text-center text-xs font-bold text-[#3F322A] mb-2">
+                        <span>Mo</span>
+                        <span>Tu</span>
+                        <span>We</span>
+                        <span>Th</span>
+                        <span>Fr</span>
+                        <span>Sa</span>
+                        <span>Su</span>
                     </div>
 
+                    <!-- Calendar Date Grid -->
+                    <div id="calendarGrid" class="grid grid-cols-7 border-t border-l border-[#9E9590]">
+                        <!-- Filled by JS -->
+                    </div>
                 </div>
 
-                <!-- Right Summary Card -->
-                <div class="lg:col-span-5 bg-white p-6 sm:p-8 rounded-3xl border border-amber-100 shadow-sm sticky top-24 space-y-6">
-                    <h3 class="text-lg font-bold font-playfair text-cafe-brown border-b border-amber-100 pb-3 flex items-center gap-2">
-                        <i class="fa-solid fa-receipt text-amber-600"></i> Ringkasan Reservasi
-                    </h3>
-
-                    <div class="space-y-3 text-sm">
-                        <div class="flex justify-between text-cafe-muted">
-                            <span>Harga Tiket per Tamu:</span>
-                            <span class="font-semibold text-cafe-brown">Rp {{ number_format($hargaPerTamu, 0, ',', '.') }}</span>
-                        </div>
-                        <div class="flex justify-between text-cafe-muted">
-                            <span>Jumlah Tamu:</span>
-                            <span id="summaryGuest" class="font-semibold text-cafe-brown">1 Orang</span>
-                        </div>
-                        <div class="flex justify-between text-cafe-muted">
-                            <span>Fasilitas Termasuk:</span>
-                            <span class="font-semibold text-emerald-600">Free Welcome Drink</span>
-                        </div>
-                        
-                        <div class="border-t border-amber-100 pt-3 flex justify-between items-center text-base">
-                            <span class="font-bold text-cafe-brown">Total Pembayaran:</span>
-                            <span id="summaryTotal" class="text-2xl font-extrabold text-amber-600 font-playfair">
-                                Rp {{ number_format($hargaPerTamu, 0, ',', '.') }}
-                            </span>
-                        </div>
+                <!-- Compact Pricing & Duration Info -->
+                <div class="mt-5 rounded-2xl bg-[#FFF5F7] border border-[#E58B9C]/35 px-4 py-3.5 text-xs text-[#3F322A] space-y-1.5">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[#5C4D44]">Weekday (Senin – Jumat)</span>
+                        <span class="font-semibold">Rp {{ number_format($hargaWeekday, 0, ',', '.') }} / tamu</span>
                     </div>
-
-                    <div class="p-3 bg-amber-50 rounded-2xl text-xs text-amber-800 space-y-1">
-                        <p class="font-bold"><i class="fa-solid fa-circle-info text-amber-600"></i> Catatan Kunjungan:</p>
-                        <p>Harap tiba 10 menit sebelum sesi dimulai. Tiket berlaku sesuai jam sesi yang dipilih.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[#5C4D44]">Weekend (Sabtu – Minggu)</span>
+                        <span class="font-semibold text-[#D77487]">Rp {{ number_format($hargaWeekend, 0, ',', '.') }} / tamu</span>
                     </div>
-
-                    <button 
-                        type="submit" 
-                        class="w-full py-4 px-4 bg-gradient-to-r from-amber-600 to-amber-500 text-white font-bold text-sm rounded-2xl shadow-lg shadow-amber-500/25 hover:from-amber-700 hover:to-amber-600 transition-all duration-200 flex items-center justify-center gap-2"
-                    >
-                        <i class="fa-solid fa-lock"></i> Konfirmasi & Bayar Sekarang
-                    </button>
+                    <div class="flex items-center justify-between pt-1 border-t border-[#E58B9C]/25">
+                        <span class="text-[#5C4D44]">Durasi per Sesi</span>
+                        <span class="font-semibold">{{ $durasiMenit }} Menit</span>
+                    </div>
                 </div>
-
             </div>
-        </form>
+
+            <!-- ===================================================
+                 RIGHT COLUMN: PILIH WAKTU (30-Minute Session Slots)
+                 =================================================== -->
+            <div class="lg:col-span-7 lg:pl-12">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                    <div class="flex items-center gap-3">
+                        <span class="text-[#3F322A] text-2xl">
+                            <i class="fa-regular fa-clock"></i>
+                        </span>
+                        <h2 class="font-literata text-[26px] sm:text-[28px] font-medium text-[#3F322A] leading-tight">
+                            Pilih Waktu
+                        </h2>
+                    </div>
+
+                    <span id="selectedDayRateBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#FFDAE1] text-[#3F322A]">
+                        <!-- Filled by JS -->
+                    </span>
+                </div>
+
+                <p id="selectedDateSummary" class="text-xs sm:text-sm text-[#5C4D44] mb-6">
+                    <!-- Filled by JS -->
+                </p>
+
+                <!-- Time Slots Grid -->
+                <div id="timeSlotsGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-5">
+                    <!-- Filled by JS -->
+                </div>
+
+                <!-- Empty / Passed Notice -->
+                <div id="noSlotsNotice" class="hidden mt-4 p-4 rounded-2xl bg-[#FFF5F7] border border-[#E58B9C]/40 text-xs sm:text-sm text-[#5C4D44] text-center">
+                    <i class="fa-regular fa-calendar-xmark text-[#E58B9C] mr-1.5"></i>
+                    Semua sesi pada tanggal ini sudah lewat atau penuh. Silakan pilih tanggal lain di kalender.
+                </div>
+
+                <!-- Validation Notice -->
+                <p id="selectSlotWarning" class="hidden mt-4 text-xs sm:text-sm font-medium text-red-600 text-center">
+                    Silakan pilih salah satu waktu sesi terlebih dahulu sebelum melanjutkan.
+                </p>
+
+                <!-- Step 1 -> Step 2 Form -->
+                <form id="proceedDetailForm" action="{{ route('reservasi.detail') }}" method="GET" class="mt-8">
+                    <input type="hidden" name="tanggal" id="selectedDateInput" value="{{ $selectedDate }}">
+                    <input type="hidden" name="sesi" id="selectedSessionInput" value="{{ $preselectedSessionId }}">
+
+                    <button
+                        type="submit"
+                        id="proceedDetailBtn"
+                        class="w-full py-3.5 px-6 rounded-xl bg-[#E58B9C] hover:bg-[#D77487] text-white font-medium text-base transition-all duration-200 shadow-xs cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        Lanjut Ke Detail
+                    </button>
+                </form>
+            </div>
+
+        </div>
     </div>
-</div>
+</section>
+@endsection
 
 @section('scripts')
 <script>
-    const hargaPerTamu = {{ $hargaPerTamu }};
+    (function () {
+        const availabilityUrl = "{{ route('reservasi.availability') }}";
+        const todayStr = "{{ now()->format('Y-m-d') }}";
+        const initialData = @json($initialData);
 
-    function adjustGuest(delta) {
-        const input = document.getElementById('jumlah_tamu');
-        let current = parseInt(input.value) || 1;
-        let next = current + delta;
-        if (next >= 1 && next <= 10) {
-            input.value = next;
-            updateCalculation();
+        let selectedDate = "{{ $selectedDate }}";
+        let selectedSessionId = "{{ $preselectedSessionId }}" ? Number("{{ $preselectedSessionId }}") : null;
+        let currentSlots = initialData.slots || [];
+
+        const initialParts = selectedDate.split('-').map(Number);
+        let viewYear = initialParts[0];
+        let viewMonth = initialParts[1] - 1; // 0-indexed
+
+        const monthNames = [
+            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+            'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+        ];
+        const dayNamesId = [
+            'Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'
+        ];
+
+        const monthLabelEl = document.getElementById('calendarMonthLabel');
+        const calendarGridEl = document.getElementById('calendarGrid');
+        const timeSlotsGridEl = document.getElementById('timeSlotsGrid');
+        const noSlotsNoticeEl = document.getElementById('noSlotsNotice');
+        const selectSlotWarningEl = document.getElementById('selectSlotWarning');
+        const selectedDateSummaryEl = document.getElementById('selectedDateSummary');
+        const selectedDayRateBadgeEl = document.getElementById('selectedDayRateBadge');
+        const selectedDateInputEl = document.getElementById('selectedDateInput');
+        const selectedSessionInputEl = document.getElementById('selectedSessionInput');
+        const proceedForm = document.getElementById('proceedDetailForm');
+        const prevMonthBtn = document.getElementById('prevMonthBtn');
+        const nextMonthBtn = document.getElementById('nextMonthBtn');
+
+        function pad2(n) {
+            return String(n).padStart(2, '0');
         }
-    }
 
-    function updateCalculation() {
-        const guests = parseInt(document.getElementById('jumlah_tamu').value) || 1;
-        const total = guests * hargaPerTamu;
-        document.getElementById('summaryGuest').textContent = guests + ' Orang';
-        document.getElementById('summaryTotal').textContent = 'Rp ' + total.toLocaleString('id-ID');
-    }
+        function formatIsoDate(year, monthIndex, day) {
+            return `${year}-${pad2(monthIndex + 1)}-${pad2(day)}`;
+        }
 
-    function updateSelection() {
-        document.querySelectorAll('.session-card').forEach(card => {
-            const radio = card.querySelector('input[type="radio"]');
-            const icon = card.querySelector('.check-icon');
-            if (radio.checked) {
-                card.classList.add('border-amber-600', 'bg-amber-50/60');
-                card.classList.remove('border-amber-100', 'bg-white');
-                if (icon) icon.classList.remove('hidden');
+        function formatDateIndonesia(isoStr) {
+            const [y, m, d] = isoStr.split('-').map(Number);
+            const dt = new Date(y, m - 1, d);
+            return `${dayNamesId[dt.getDay()]}, ${d} ${monthNames[m - 1]} ${y}`;
+        }
+
+        function renderCalendar() {
+            monthLabelEl.textContent = `${monthNames[viewMonth]} ${viewYear}`;
+            calendarGridEl.innerHTML = '';
+
+            const firstDayOfMonth = new Date(viewYear, viewMonth, 1);
+            // Convert JS getDay() (0=Sun..6=Sat) -> Monday-first index (0=Mon..6=Sun)
+            const startOffset = (firstDayOfMonth.getDay() + 6) % 7;
+            const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+            const daysInPrevMonth = new Date(viewYear, viewMonth, 0).getDate();
+
+            const totalCells = Math.ceil((startOffset + daysInMonth) / 7) * 7;
+
+            for (let cellIndex = 0; cellIndex < totalCells; cellIndex++) {
+                let cellYear = viewYear;
+                let cellMonth = viewMonth;
+                let cellDay;
+                let isOtherMonth = false;
+
+                if (cellIndex < startOffset) {
+                    isOtherMonth = true;
+                    cellDay = daysInPrevMonth - startOffset + cellIndex + 1;
+                    cellMonth = viewMonth - 1;
+                    if (cellMonth < 0) {
+                        cellMonth = 11;
+                        cellYear -= 1;
+                    }
+                } else if (cellIndex >= startOffset + daysInMonth) {
+                    isOtherMonth = true;
+                    cellDay = cellIndex - (startOffset + daysInMonth) + 1;
+                    cellMonth = viewMonth + 1;
+                    if (cellMonth > 11) {
+                        cellMonth = 0;
+                        cellYear += 1;
+                    }
+                } else {
+                    cellDay = cellIndex - startOffset + 1;
+                }
+
+                const cellIso = formatIsoDate(cellYear, cellMonth, cellDay);
+                const isPast = cellIso < todayStr;
+                const isSelected = cellIso === selectedDate;
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.textContent = cellDay;
+                btn.dataset.date = cellIso;
+
+                let baseClasses = 'aspect-square border-r border-b border-[#9E9590] flex items-center justify-center text-xs sm:text-[13px] transition-colors select-none ';
+
+                if (isSelected) {
+                    baseClasses += 'bg-[#E58B9C] text-white font-semibold cursor-pointer';
+                } else if (isPast) {
+                    baseClasses += isOtherMonth
+                        ? 'bg-[#FFDAE1]/55 text-[#3F322A]/35 cursor-not-allowed'
+                        : 'bg-stone-50 text-stone-300 cursor-not-allowed';
+                } else if (isOtherMonth) {
+                    baseClasses += 'bg-[#FFDAE1] text-[#3F322A]/85 hover:bg-[#F5C5CF] cursor-pointer';
+                } else {
+                    baseClasses += 'bg-white text-[#3F322A] hover:bg-[#FFF0F3] cursor-pointer';
+                }
+
+                btn.className = baseClasses;
+
+                if (isPast) {
+                    btn.disabled = true;
+                } else {
+                    btn.addEventListener('click', function () {
+                        selectDate(cellIso, cellYear, cellMonth);
+                    });
+                }
+
+                calendarGridEl.appendChild(btn);
+            }
+        }
+
+        function renderHeaderInfo(data) {
+            const labelDayType = data.is_weekend ? 'Weekend' : 'Weekday';
+            const formattedPrice = 'Rp ' + Number(data.harga_per_tamu).toLocaleString('id-ID');
+            selectedDayRateBadgeEl.textContent = `${labelDayType} • ${formattedPrice} / tamu`;
+
+            let summaryText = `${formatDateIndonesia(data.tanggal)} • 1 Sesi ${data.durasi_menit} Menit`;
+            if (data.is_friday) {
+                summaryText += ' • Khusus Jumat mulai pukul 13.00 WITA';
+            }
+            selectedDateSummaryEl.textContent = summaryText;
+        }
+
+        function renderSlots(data) {
+            currentSlots = data.slots || [];
+            timeSlotsGridEl.innerHTML = '';
+            renderHeaderInfo(data);
+
+            // Reset selectedSessionId if no longer valid/available
+            const stillValid = currentSlots.some(s => s.id === selectedSessionId && s.available);
+            if (!stillValid) {
+                selectedSessionId = null;
+                selectedSessionInputEl.value = '';
+            }
+
+            let availableCount = 0;
+
+            currentSlots.forEach(slot => {
+                if (slot.available) {
+                    availableCount++;
+                }
+
+                const isSelected = slot.id === selectedSessionId && slot.available;
+
+                const card = document.createElement('button');
+                card.type = 'button';
+                card.dataset.sessionId = slot.id;
+
+                let cardClasses = 'rounded-[20px] px-4 py-5 flex flex-col items-center justify-center text-center transition-all duration-150 ';
+
+                if (!slot.available) {
+                    cardClasses += 'border border-stone-200 bg-stone-50 opacity-55 cursor-not-allowed';
+                    card.disabled = true;
+                } else if (isSelected) {
+                    cardClasses += 'border-2 border-[#E58B9C] bg-[#FFF5F7] shadow-sm ring-2 ring-[#E58B9C]/25 cursor-pointer';
+                } else {
+                    cardClasses += 'border border-[#B5ADA8] bg-white hover:border-[#E58B9C] hover:bg-[#FFF9FA] hover:shadow-xs cursor-pointer';
+                }
+
+                card.className = cardClasses;
+
+                let pillText = `${slot.remaining} tersisa`;
+                let pillClass = 'bg-[#E58B9C] text-white';
+
+                if (slot.is_past) {
+                    pillText = 'Sudah lewat';
+                    pillClass = 'bg-stone-300 text-stone-600';
+                } else if (slot.is_full) {
+                    pillText = 'Penuh';
+                    pillClass = 'bg-stone-400 text-white';
+                }
+
+                card.innerHTML = `
+                    <span class="text-2xl sm:text-[26px] font-bold text-[#3F322A] tracking-tight leading-none">
+                        ${slot.display_time}
+                    </span>
+                    <span class="text-[11px] text-[#7A6B62] mt-1 mb-2.5">
+                        ${slot.jam_sesi.replace(/:/g, '.')}
+                    </span>
+                    <span class="inline-block px-4 py-1 rounded-full text-xs font-medium ${pillClass}">
+                        ${pillText}
+                    </span>
+                `;
+
+                if (slot.available) {
+                    card.addEventListener('click', function () {
+                        selectedSessionId = slot.id;
+                        selectedSessionInputEl.value = slot.id;
+                        selectSlotWarningEl.classList.add('hidden');
+                        renderSlots(data);
+                    });
+                }
+
+                timeSlotsGridEl.appendChild(card);
+            });
+
+            if (availableCount === 0) {
+                noSlotsNoticeEl.classList.remove('hidden');
             } else {
-                card.classList.remove('border-amber-600', 'bg-amber-50/60');
-                card.classList.add('border-amber-100', 'bg-white');
-                if (icon) icon.classList.add('hidden');
+                noSlotsNoticeEl.classList.add('hidden');
+            }
+        }
+
+        async function selectDate(isoDate, targetYear, targetMonth) {
+            selectedDate = isoDate;
+            selectedDateInputEl.value = isoDate;
+            selectedSessionId = null;
+            selectedSessionInputEl.value = '';
+            selectSlotWarningEl.classList.add('hidden');
+
+            if (typeof targetYear === 'number' && typeof targetMonth === 'number') {
+                viewYear = targetYear;
+                viewMonth = targetMonth;
+            }
+
+            renderCalendar();
+
+            // Subtle loading indicator on slots
+            timeSlotsGridEl.classList.add('opacity-50', 'pointer-events-none');
+            try {
+                const response = await fetch(`${availabilityUrl}?tanggal=${encodeURIComponent(isoDate)}`, {
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    renderSlots(data);
+                }
+            } catch (err) {
+                console.error('Gagal memuat jadwal:', err);
+            } finally {
+                timeSlotsGridEl.classList.remove('opacity-50', 'pointer-events-none');
+            }
+        }
+
+        prevMonthBtn.addEventListener('click', function () {
+            viewMonth -= 1;
+            if (viewMonth < 0) {
+                viewMonth = 11;
+                viewYear -= 1;
+            }
+            renderCalendar();
+        });
+
+        nextMonthBtn.addEventListener('click', function () {
+            viewMonth += 1;
+            if (viewMonth > 11) {
+                viewMonth = 0;
+                viewYear += 1;
+            }
+            renderCalendar();
+        });
+
+        proceedForm.addEventListener('submit', function (e) {
+            if (!selectedDateInputEl.value || !selectedSessionInputEl.value) {
+                e.preventDefault();
+                selectSlotWarningEl.classList.remove('hidden');
+                selectSlotWarningEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         });
-    }
 
-    function updatePaymentCard() {
-        document.querySelectorAll('.payment-card').forEach(card => {
-            const radio = card.querySelector('input[type="radio"]');
-            if (radio.checked) {
-                card.classList.add('border-amber-600', 'bg-amber-50/60');
-                card.classList.remove('border-amber-100');
-            } else {
-                card.classList.remove('border-amber-600', 'bg-amber-50/60');
-                card.classList.add('border-amber-100');
-            }
-        });
-    }
-
-    // Initial setup
-    updateSelection();
-    updateCalculation();
+        // Initial render
+        renderCalendar();
+        renderSlots(initialData);
+    })();
 </script>
-@endsection
 @endsection

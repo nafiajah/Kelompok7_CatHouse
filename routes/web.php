@@ -20,8 +20,13 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 |--------------------------------------------------------------------------
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/tentang-kami', [HomeController::class, 'about'])->name('about');
 Route::get('/kucing', [CatController::class, 'index'])->name('cats.index');
 Route::get('/kucing/{id}', [CatController::class, 'show'])->name('cats.show');
+
+// Reservasi Step 1 (Pilih Tanggal & Waktu) & Cek Ketersediaan Slot
+Route::get('/reservasi', [ReservationController::class, 'create'])->name('reservasi.create');
+Route::get('/reservasi/availability', [ReservationController::class, 'availability'])->name('reservasi.availability');
 
 // Authentication Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -34,9 +39,9 @@ Route::get('/logout-idle', function (\Illuminate\Http\Request $request) {
         \Illuminate\Support\Facades\Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login')->with('info', 'Sesi Anda telah berakhir secara otomatis karena tidak ada aktivitas selama 15 menit. Silakan masuk kembali.');
+        return redirect()->route('home')->with('info', 'Sesi Anda telah berakhir secara otomatis karena tidak ada aktivitas selama 15 menit. Silakan masuk kembali.');
     }
-    return redirect()->route('login');
+    return redirect()->route('home');
 })->name('logout.idle');
 
 /*
@@ -45,7 +50,7 @@ Route::get('/logout-idle', function (\Illuminate\Http\Request $request) {
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth')->group(function () {
-    Route::get('/reservasi', [ReservationController::class, 'create'])->name('reservasi.create');
+    Route::get('/reservasi/detail', [ReservationController::class, 'detail'])->name('reservasi.detail');
     Route::post('/reservasi', [ReservationController::class, 'store'])->name('reservasi.store');
     Route::get('/reservasi/{id}', [ReservationController::class, 'show'])->name('reservasi.show');
     Route::get('/riwayat-reservasi', [ReservationController::class, 'history'])->name('reservasi.history');
@@ -100,10 +105,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::put('/sessions/{id}', [AdminSessionController::class, 'update'])->name('sessions.update');
     Route::delete('/sessions/{id}', [AdminSessionController::class, 'destroy'])->name('sessions.destroy');
 
-    // Reservations & Payments Management
+    // Reservations Management
     Route::get('/reservations', [AdminReservationController::class, 'index'])->name('reservations.index');
+    Route::get('/reservations/{id}', [AdminReservationController::class, 'show'])->name('reservations.show');
     Route::delete('/reservations/{id}', [AdminReservationController::class, 'destroy'])->name('reservations.destroy');
-    Route::get('/payments', [AdminReservationController::class, 'payments'])->name('payments.index');
 
     // Feedbacks Moderation
     Route::get('/feedbacks', [AdminFeedbackController::class, 'index'])->name('feedbacks.index');

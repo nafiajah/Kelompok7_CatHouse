@@ -32,15 +32,15 @@
             </div>
         </div>
 
-        <!-- Total Pendapatan -->
+        <!-- Total Pelanggan -->
         <div class="bg-white p-5 sm:p-6 rounded-2xl border border-stone-300 shadow-md flex items-center justify-between gap-4">
             <div class="min-w-0">
-                <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-stone-400 truncate">Total Pemasukan</p>
-                <h3 class="text-xl sm:text-2xl font-extrabold text-stone-800 mt-1 truncate">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</h3>
-                <span class="text-xs text-[#96384C] font-semibold truncate block">Dari Tiket Sesi</span>
+                <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-stone-400 truncate">Total Pelanggan</p>
+                <h3 class="text-2xl sm:text-3xl font-extrabold text-stone-800 mt-1 truncate">{{ $totalUsers }}</h3>
+                <span class="text-xs text-[#96384C] font-semibold truncate block">Pengguna Terdaftar</span>
             </div>
             <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-rose-50 text-rose-400 flex items-center justify-center text-lg sm:text-xl flex-shrink-0">
-                <i class="fa-solid fa-money-bill-wave"></i>
+                <i class="fa-solid fa-users"></i>
             </div>
         </div>
 
@@ -77,16 +77,16 @@
                     <div class="p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs hover:bg-stone-50 transition">
                         <div class="flex items-center gap-3 min-w-0">
                             <div class="w-9 h-9 rounded-xl bg-[#F5BFC9]/50 text-[#96384C] font-bold flex items-center justify-center text-xs flex-shrink-0 shadow-2xs">
-                                {{ strtoupper(substr($res->user ? $res->user->nama_pelanggan : 'T', 0, 1)) }}
+                                {{ strtoupper(substr($res->user ? $res->user->nama_lengkap : 'T', 0, 1)) }}
                             </div>
                             <div class="min-w-0">
-                                <p class="font-bold text-stone-800 text-sm truncate">{{ $res->user ? $res->user->nama_pelanggan : '-' }}</p>
+                                <p class="font-bold text-stone-800 text-sm truncate">{{ $res->user ? $res->user->nama_lengkap : '-' }}</p>
                                 <p class="text-stone-400 text-xs">{{ \Carbon\Carbon::parse($res->tanggal_reservasi)->format('d M Y') }} &bull; {{ $res->session ? $res->session->jam_sesi : $res->waktu_reservasi }}</p>
                             </div>
                         </div>
                         <div class="sm:text-right flex sm:flex-col justify-between items-center sm:items-end border-t sm:border-t-0 pt-2 sm:pt-0 border-stone-100 flex-shrink-0">
-                            <span class="font-bold text-stone-800 text-sm block">Rp {{ number_format($res->payment ? $res->payment->total_harga : 0, 0, ',', '.') }}</span>
-                            <span class="text-[10px] uppercase font-bold text-stone-400">{{ $res->payment ? $res->payment->metode_pembayaran : '-' }} ({{ $res->payment ? $res->payment->jumlah_tamu : 1 }} Tamu)</span>
+                            <span class="font-bold text-stone-800 text-sm block">Rp {{ number_format($res->total_harga ?? 0, 0, ',', '.') }}</span>
+                            <span class="text-[10px] uppercase font-bold text-stone-400">{{ $res->jumlah_tamu ?? 1 }} Tamu</span>
                         </div>
                     </div>
                 @empty
@@ -113,7 +113,7 @@
                 @forelse($recentFeedbacks as $fb)
                     <div class="p-3.5 sm:p-4 text-xs space-y-1.5 hover:bg-stone-50 transition">
                         <div class="flex items-center justify-between gap-2">
-                            <span class="font-bold text-stone-800 truncate">{{ $fb->user ? $fb->user->nama_pelanggan : 'Anonim' }}</span>
+                            <span class="font-bold text-stone-800 truncate">{{ $fb->user ? $fb->user->nama_lengkap : 'Anonim' }}</span>
                             <div class="flex text-amber-400 text-[11px] flex-shrink-0">
                                 @for($i = 1; $i <= 5; $i++)
                                     <i class="fa-solid fa-star {{ $i <= $fb->bintang ? 'text-amber-400' : 'text-stone-200' }}"></i>

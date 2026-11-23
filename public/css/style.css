@@ -3,8 +3,8 @@
    File: public/css/style.css
    ========================================================================== */
 
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@300;400;500;600;700&display=swap');
+/* Import Google Fonts: Poppins & Literata */
+@import url('https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..800;1,7..72,400..700&family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 /* Color Variables & Design Tokens */
 :root {
@@ -20,8 +20,8 @@
   --btn-primary: #E58396;
   --btn-primary-hover: #D76E81;
   --btn-primary-active: #C95E72;
-  --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+  --font-serif: 'Literata', Georgia, serif;
+  --font-sans: 'Poppins', sans-serif;
   --radius-lg: 14px;
   --radius-md: 10px;
   --shadow-btn: 0 4px 14px rgba(229, 131, 150, 0.35);
@@ -36,18 +36,18 @@
 }
 
 /* Hide ALL layout wrappers (announcement bar, header, flash banners, footer) on login page */
-body:has(.login-container) > div,
-body:has(.login-container) > header,
-body:has(.login-container) > footer,
-body.login-page-body > div,
-body.login-page-body > header,
-body.login-page-body > footer {
+body:has(.login-container)>div,
+body:has(.login-container)>header,
+body:has(.login-container)>footer,
+body.login-page-body>div,
+body.login-page-body>header,
+body.login-page-body>footer {
   display: none !important;
 }
 
 /* Ensure main occupies full viewport without any margins or padding */
-body:has(.login-container) > main,
-body.login-page-body > main {
+body:has(.login-container)>main,
+body.login-page-body>main {
   display: block !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -91,7 +91,7 @@ body.login-page-body {
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background-color: rgba(255, 255, 255, 0.92);
+  background-color: #F5F5F5;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(92, 77, 68, 0.18);
@@ -195,13 +195,16 @@ body.login-page-body {
 .login-form-section::-webkit-scrollbar {
   width: 6px;
 }
+
 .login-form-section::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .login-form-section::-webkit-scrollbar-thumb {
   background-color: rgba(229, 131, 150, 0.4);
   border-radius: 9999px;
 }
+
 .login-form-section::-webkit-scrollbar-thumb:hover {
   background-color: var(--btn-primary);
 }
@@ -219,7 +222,7 @@ body.login-page-body {
 .login-logo-frame {
   width: clamp(100px, 12vw, 130px);
   max-height: clamp(65px, 9vh, 95px);
-  margin-bottom: clamp(14px, 2.2vh, 20px);
+  margin-bottom: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -276,7 +279,7 @@ body.login-page-body {
   font-size: clamp(12.5px, 1.5vw, 13.5px);
   font-weight: 400;
   color: var(--text-subtitle);
-  margin-bottom: clamp(18px, 3vh, 28px);
+  margin-bottom: 56px;
   text-align: center;
 }
 
@@ -312,15 +315,17 @@ body.login-page-body {
 
 .form-group {
   width: 100%;
-  margin-bottom: clamp(14px, 2vh, 18px);
+  margin-bottom: 24px;
 }
 
 .form-label {
   display: block;
-  font-size: 13.5px;
+  font-size: 16px;
   font-weight: 700;
-  color: var(--text-label);
-  margin-bottom: 6px;
+  color: #3F322A;
+  margin-bottom: 8px;
+  padding-left: 16px;
+  /* Sejajar dengan teks di dalam form input */
 }
 
 /* Input Wrapper & Icon positioning */
@@ -337,10 +342,10 @@ body.login-page-body {
   border: 1.5px solid var(--border-input);
   border-radius: var(--radius-lg);
   font-family: var(--font-sans);
-  font-size: 15px;
-  color: var(--text-title);
+  font-size: 16px;
   outline: none;
   transition: all 0.2s ease;
+  color: #7A5E48;
 }
 
 /* Hide default browser password reveal button */
@@ -503,6 +508,7 @@ button.input-icon.input-icon-toggle:focus-visible {
   .login-photo-section {
     flex: 1;
   }
+
   .login-form-section {
     flex: 1.1;
     padding: 32px 28px;
@@ -545,7 +551,8 @@ button.input-icon.input-icon-toggle:focus-visible {
   }
 
   .form-input {
-    font-size: 16px; /* Prevents auto-zoom on mobile iOS/Android */
+    font-size: 16px;
+    /* Prevents auto-zoom on mobile iOS/Android */
   }
 
   .login-back-btn {
@@ -561,15 +568,167 @@ button.input-icon.input-icon-toggle:focus-visible {
   .login-photo-section {
     height: 130px;
   }
+
   .login-form-section {
     padding-top: 16px;
     padding-bottom: 24px;
   }
+
   .login-logo-frame {
-    margin-bottom: 10px;
+    margin-bottom: 35px;
     max-height: 50px;
   }
+
   .login-subtitle {
     margin-bottom: 14px;
   }
+}
+
+/* ==========================================================================
+   Register Page Specific Styling
+   ========================================================================== */
+body:has(.register-container)>div,
+body:has(.register-container)>header,
+body:has(.register-container)>footer,
+body.register-page-body>div,
+body.register-page-body>header,
+body.register-page-body>footer {
+  display: none !important;
+}
+
+body:has(.register-container)>main,
+body.register-page-body>main {
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  min-height: 100vh !important;
+}
+
+body:has(.register-container),
+body.register-page-body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-main) !important;
+  color: var(--text-title);
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin: 0 !important;
+  padding: 0 !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+.register-form-content {
+  width: 100%;
+  max-width: 390px;
+  margin: auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 0;
+}
+
+.register-logo-frame {
+  width: clamp(100px, 11vw, 125px);
+  max-height: clamp(60px, 8vh, 85px);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-subtitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #78685C;
+  margin-bottom: 22px;
+  text-align: center;
+}
+
+.register-form {
+  width: 100%;
+}
+
+.register-form .form-group {
+  margin-bottom: 15px;
+}
+
+.register-form .form-label {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #3F322A;
+  margin-bottom: 6px;
+  padding-left: 12px;
+}
+
+.register-form .form-input {
+  height: 46px;
+  border-radius: var(--radius-lg);
+  font-size: 14.5px;
+  padding: 0 46px 0 16px;
+}
+
+/* Phone input group with country code box */
+.phone-input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.phone-prefix-box {
+  width: 60px;
+  height: 46px;
+  background-color: var(--bg-input);
+  border: 1.5px solid var(--border-input);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #3F322A;
+  flex-shrink: 0;
+}
+
+.phone-input-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.phone-input-wrapper .form-input {
+  width: 100%;
+}
+
+.input-icon-fa {
+  font-size: 16px;
+  color: #3F322A;
+}
+
+.register-form .btn-login {
+  height: 48px;
+  margin-top: 14px;
+  font-size: 15px;
+}
+
+.register-footer-links {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--text-subtitle);
+}
+
+.register-footer-links a {
+  color: var(--btn-primary-hover);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.register-footer-links a:hover {
+  text-decoration: underline;
+  color: var(--btn-primary-active);
 }

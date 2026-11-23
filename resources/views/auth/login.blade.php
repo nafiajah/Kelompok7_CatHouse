@@ -8,10 +8,12 @@
 
 @section('content')
 <div class="login-container">
-    <!-- Back to Home Floating Link -->
+    <!-- Back to Home Floating Link (Disembunyikan jika setelah logout agar user wajib login) -->
+    @if(!session('success'))
     <a href="{{ route('home') }}" class="login-back-btn">
         <i class="fa-solid fa-arrow-left"></i> Beranda
     </a>
+    @endif
 
     <!-- LEFT COLUMN: Photo Frame Section -->
     <div class="login-photo-section">
@@ -156,6 +158,22 @@
 @section('scripts')
 <script>
     document.body.classList.add('login-page-body');
+
+    // Kunci tombol Back browser di halaman login:
+    // Mencegah user kembali ke halaman sebelumnya setelah logout
+    (function () {
+        window.history.pushState(null, "", window.location.href);
+        window.onpopstate = function () {
+            window.history.pushState(null, "", window.location.href);
+        };
+    })();
+
+    // Cegah pemuatan dari bfcache browser
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    });
 
     // Toggle password visibility
     const togglePasswordBtn = document.getElementById('togglePasswordBtn');

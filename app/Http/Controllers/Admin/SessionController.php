@@ -20,7 +20,7 @@ class SessionController extends Controller
             'jam_sesi' => 'required|string|max:20|unique:sessions,jam_sesi',
             'token_sesi' => 'required|integer|min:1|max:100',
         ], [
-            'jam_sesi.required' => 'Jam sesi wajib diisi (contoh: 10:00 - 11:30).',
+            'jam_sesi.required' => 'Jam sesi wajib diisi (contoh: 08:00 - 08:30).',
             'jam_sesi.unique' => 'Jam sesi ini sudah ada.',
             'token_sesi.required' => 'Kuota token pengunjung wajib ditentukan.',
             'token_sesi.min' => 'Kuota token minimal 1 orang.',

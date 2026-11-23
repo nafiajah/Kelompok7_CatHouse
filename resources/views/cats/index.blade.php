@@ -9,7 +9,7 @@
         <!-- Header Banner -->
         <div class="text-center max-w-3xl mx-auto mb-12">
             <span class="text-xs font-bold uppercase tracking-widest text-amber-600 block mb-2">Galeri Lengkap</span>
-            <h1 class="text-3xl sm:text-5xl font-bold font-playfair text-cafe-brown">Temui Keluarga Anabul Kami</h1>
+            <h1 class="text-3xl sm:text-5xl font-bold font-literata text-cafe-brown">Temui Keluarga Anabul Kami</h1>
             <p class="text-sm sm:text-base text-cafe-muted mt-3">
                 Semua kucing di Capyca Pet Cafe telah divaksinasi lengkap, rutin mendapatkan perawatan grooming, dan terbiasa berinteraksi ramah dengan manusia.
             </p>
@@ -78,7 +78,7 @@
                     <div class="p-6 flex-1 flex flex-col justify-between">
                         <div>
                             <div class="flex items-center justify-between mb-2">
-                                <h3 class="text-xl font-bold font-playfair text-cafe-brown">{{ $cat->nama_kucing }}</h3>
+                                <h3 class="text-xl font-bold font-literata text-cafe-brown">{{ $cat->nama_kucing }}</h3>
                                 <span class="text-xs bg-emerald-50 text-emerald-700 font-semibold px-2.5 py-0.5 rounded-full border border-emerald-200">
                                     Sehat & Ramah
                                 </span>
@@ -128,7 +128,7 @@
             <span id="modalVariant" class="absolute bottom-4 left-4 bg-amber-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm"></span>
         </div>
         <div class="p-6">
-            <h3 id="modalName" class="text-2xl font-bold font-playfair text-cafe-brown mb-2"></h3>
+            <h3 id="modalName" class="text-2xl font-bold font-literata text-cafe-brown mb-2"></h3>
             <p id="modalDesc" class="text-sm text-cafe-muted leading-relaxed mb-6"></p>
 
             <div class="flex items-center justify-between pt-4 border-t border-amber-100">

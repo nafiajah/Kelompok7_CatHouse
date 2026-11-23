@@ -7,7 +7,6 @@ use App\Models\Variant;
 use App\Models\Session;
 use App\Models\DataKucing;
 use App\Models\Feedback;
-use App\Models\Payment;
 use App\Models\Reservation;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -24,8 +23,9 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
             'username' => 'admin',
             'password' => Hash::make('admin123'),
-            'nama_pelanggan' => 'Administrator Capyca',
+            'nama_lengkap' => 'Administrator Capyca',
             'email' => 'admin@cathouse.com',
+            'alamat' => 'Jl. Boulevard Raya No. 1, Jakarta',
             'no_telp' => '081234567890',
         ]);
 
@@ -33,8 +33,9 @@ class DatabaseSeeder extends Seeder
             'role' => 'user',
             'username' => 'user',
             'password' => Hash::make('user123'),
-            'nama_pelanggan' => 'Nabila Putri',
+            'nama_lengkap' => 'Nabila Putri',
             'email' => 'nabila@gmail.com',
+            'alamat' => 'Jl. Kambing Guling No. 10, Jakarta',
             'no_telp' => '089876543210',
         ]);
 
@@ -54,13 +55,26 @@ class DatabaseSeeder extends Seeder
             $variantModels[$jenis] = Variant::create(['jenis' => $jenis]);
         }
 
-        // 3. Seed Sessions
+        // 3. Seed Sessions (Sesi 30 menit, 08:00 - 17:00 WITA, kuota 10 orang per sesi)
         $sessionsData = [
-            ['jam_sesi' => '10:00 - 11:30', 'token_sesi' => 15],
-            ['jam_sesi' => '12:00 - 13:30', 'token_sesi' => 15],
-            ['jam_sesi' => '14:00 - 15:30', 'token_sesi' => 15],
-            ['jam_sesi' => '16:00 - 17:30', 'token_sesi' => 15],
-            ['jam_sesi' => '18:00 - 19:30', 'token_sesi' => 15],
+            ['jam_sesi' => '08:00 - 08:30', 'token_sesi' => 10],
+            ['jam_sesi' => '08:30 - 09:00', 'token_sesi' => 10],
+            ['jam_sesi' => '09:00 - 09:30', 'token_sesi' => 10],
+            ['jam_sesi' => '09:30 - 10:00', 'token_sesi' => 10],
+            ['jam_sesi' => '10:00 - 10:30', 'token_sesi' => 10],
+            ['jam_sesi' => '10:30 - 11:00', 'token_sesi' => 10],
+            ['jam_sesi' => '11:00 - 11:30', 'token_sesi' => 10],
+            ['jam_sesi' => '11:30 - 12:00', 'token_sesi' => 10],
+            ['jam_sesi' => '12:00 - 12:30', 'token_sesi' => 10],
+            ['jam_sesi' => '12:30 - 13:00', 'token_sesi' => 10],
+            ['jam_sesi' => '13:00 - 13:30', 'token_sesi' => 10],
+            ['jam_sesi' => '13:30 - 14:00', 'token_sesi' => 10],
+            ['jam_sesi' => '14:00 - 14:30', 'token_sesi' => 10],
+            ['jam_sesi' => '14:30 - 15:00', 'token_sesi' => 10],
+            ['jam_sesi' => '15:00 - 15:30', 'token_sesi' => 10],
+            ['jam_sesi' => '15:30 - 16:00', 'token_sesi' => 10],
+            ['jam_sesi' => '16:00 - 16:30', 'token_sesi' => 10],
+            ['jam_sesi' => '16:30 - 17:00', 'token_sesi' => 10],
         ];
 
         $sessionModels = [];
@@ -118,19 +132,12 @@ class DatabaseSeeder extends Seeder
             DataKucing::create($cat);
         }
 
-        // 5. Seed Payments & Reservations
-        $payment = Payment::create([
-            'id_user' => $user->id,
-            'jumlah_tamu' => 2,
-            'total_harga' => 70000.00,
-            'metode_pembayaran' => 'qris',
-            'tanggal_pembayaran' => now(),
-        ]);
-
+        // 5. Seed Reservations
         Reservation::create([
-            'id_payments' => $payment->id,
             'id_users' => $user->id,
             'id_sesi' => $sessionModels[0]->id,
+            'jumlah_tamu' => 2,
+            'total_harga' => 70000.00,
             'tanggal_reservasi' => now()->addDays(2)->format('Y-m-d'),
             'waktu_reservasi' => '10:00:00',
         ]);

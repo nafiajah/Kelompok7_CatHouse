@@ -1,134 +1,183 @@
 @extends('layouts.app')
 
-@section('title', 'Bukti Pembayaran & Reservasi - Cat House')
+@section('title', 'Bukti Reservasi - Cat House')
+
+@section('styles')
+<style>
+    @media print {
+        header, footer, .print\:hidden {
+            display: none !important;
+        }
+        body {
+            background: #FFFFFF !important;
+        }
+        #printableReceipt {
+            box-shadow: none !important;
+            border: 1px solid #D6D3D1 !important;
+            margin: 0 auto !important;
+        }
+    }
+</style>
+@endsection
 
 @section('content')
-<div class="py-12">
-    <div class="max-w-2xl mx-auto px-4 sm:px-6">
-        
-        <!-- Success Alert Header -->
-        <div class="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center gap-3 shadow-xs">
-            <div class="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center text-lg flex-shrink-0">
-                <i class="fa-solid fa-circle-check"></i>
-            </div>
-            <div>
-                <h4 class="text-sm font-bold text-emerald-900">Data Reservasi Telah Masuk ke Sistem!</h4>
-                <p class="text-xs text-emerald-700 mt-0.5">Pembayaran Anda telah tervalidasi dan tercatat di database Cat House.</p>
-            </div>
+@php
+    $kodeReservasi = '#CPY-' . str_pad($reservation->id, 5, '0', STR_PAD_LEFT);
+    $namaPelanggan = $reservation->user ? $reservation->user->nama_lengkap : 'Tamu Cat House';
+    $jumlahPengunjung = $reservation->jumlah_tamu ?? 1;
+    $tanggalFormatted = \Carbon\Carbon::parse($reservation->tanggal_reservasi)
+        ->locale('id')
+        ->translatedFormat('l, d F Y');
+    $jamSesiDisplay = $reservation->session
+        ? preg_replace('/\s*-\s*/', '-', trim($reservation->session->jam_sesi))
+        : substr((string) $reservation->waktu_reservasi, 0, 5);
+    $hargaSatuanDisplay = $hargaSatuan ?? 25000;
+@endphp
+
+<section class="bg-white py-8 sm:py-12">
+    <div class="max-w-[640px] mx-auto px-4 sm:px-6">
+
+        <!-- Top Status Notification Pill -->
+        <div class="mb-6 px-4 py-2.5 rounded-xl bg-[#FDF1F3] border border-[#E5B6C0] flex items-center gap-3 print:hidden">
+            <span class="w-6 h-6 rounded-full bg-[#E5B6C0] flex items-center justify-center shrink-0">
+                <span class="w-2.5 h-2.5 rounded-full bg-white"></span>
+            </span>
+            <p class="text-xs sm:text-[13px] text-[#4A3D36]">
+                Data reservasi telah masuk ke sistem dan tercatat di database Cat House
+            </p>
         </div>
 
-        <!-- Receipt / Bukti Pembayaran Card -->
-        <div class="bg-white rounded-3xl shadow-xl border border-amber-100 overflow-hidden print:shadow-none print:border-none print:m-0" id="printableReceipt">
-            
-            <!-- Receipt Header -->
-            <div class="bg-gradient-to-r from-emerald-600 to-teal-700 p-8 text-white text-center relative">
-                <div class="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md text-white text-3xl flex items-center justify-center mx-auto mb-3 shadow-inner">
-                    <i class="fa-solid fa-receipt"></i>
-                </div>
-                <span class="text-xs uppercase font-extrabold tracking-widest text-emerald-200 block">Bukti Pembayaran Resmi</span>
-                <h1 class="text-3xl font-bold font-playfair mt-1">CAT HOUSE</h1>
-                <p class="text-xs text-emerald-100 mt-1">No. Bukti Pembayaran: <strong class="font-mono text-white text-sm">#PAY-{{ str_pad($reservation->payment ? $reservation->payment->id : $reservation->id, 5, '0', STR_PAD_LEFT) }}</strong></p>
-
-                <!-- Status Badge -->
-                <div class="mt-4 inline-flex items-center gap-2 px-5 py-1.5 rounded-full bg-white text-emerald-800 text-xs font-extrabold shadow-md">
-                    <i class="fa-solid fa-check-circle text-emerald-600 text-sm"></i> PEMBAYARAN BERHASIL & LUNAS
+        <!-- Main Reservation Receipt Card -->
+        <div
+            id="printableReceipt"
+            class="bg-white rounded-2xl border border-stone-200/90 shadow-[0_8px_28px_rgba(63,50,42,0.10)] overflow-hidden"
+        >
+            <!-- Sage/Teal Gradient Header -->
+            <div class="bg-gradient-to-r from-[#BACFD1] via-[#98B7BA] to-[#7BA1A5] px-6 py-9 sm:py-10 text-center text-white">
+                <p class="text-sm sm:text-[15px] font-normal text-white/95 tracking-normal">
+                    Bukti reservasi resmi
+                </p>
+                <h1 class="font-literata text-4xl sm:text-[44px] font-bold tracking-tight mt-1 text-white leading-tight">
+                    Cat House
+                </h1>
+                <div class="mt-4 inline-flex items-center gap-2 px-4 py-1 rounded-full bg-white text-[#5B7A7D] text-[11px] font-semibold shadow-2xs">
+                    <span class="w-3.5 h-3.5 rounded-full border-[2.5px] border-[#9BB9BC] bg-white inline-block"></span>
+                    <span>Reservasi Terkonfirmasi</span>
                 </div>
             </div>
 
-            <!-- Receipt Body -->
-            <div class="p-8 space-y-6">
-                
-                <!-- Booking & Customer Info -->
-                <div class="grid grid-cols-2 gap-4 pb-6 border-b border-dashed border-slate-200 text-sm">
+            <!-- Card Body -->
+            <div class="p-6 sm:p-8 space-y-6">
+
+                <!-- 2x2 Reservation Info Grid -->
+                <div class="grid grid-cols-2 gap-x-6 sm:gap-x-10 gap-y-5 pb-6 border-b border-stone-200/80">
                     <div>
-                        <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">Kode Reservasi</span>
-                        <span class="font-bold text-slate-800 text-base font-mono">#CPY-{{ str_pad($reservation->id, 5, '0', STR_PAD_LEFT) }}</span>
+                        <p class="text-xs sm:text-[13px] text-stone-400">Kode reservasi</p>
+                        <p class="mt-1 text-sm sm:text-[15px] font-medium text-[#D98497]">{{ $kodeReservasi }}</p>
                     </div>
                     <div>
-                        <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">Waktu Transaksi</span>
-                        <span class="font-bold text-slate-800 text-xs">
-                            {{ $reservation->payment ? \Carbon\Carbon::parse($reservation->payment->tanggal_pembayaran)->translatedFormat('d M Y, H:i') : now()->format('d M Y, H:i') }} WIB
-                        </span>
+                        <p class="text-xs sm:text-[13px] text-stone-400">Jumlah Pengunjung</p>
+                        <p class="mt-1 text-sm sm:text-[15px] font-medium text-[#D98497]">{{ $jumlahPengunjung }} Orang</p>
                     </div>
-                    <div class="pt-2">
-                        <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">Nama Pelanggan</span>
-                        <span class="font-bold text-slate-800">{{ $reservation->user ? $reservation->user->nama_pelanggan : 'Tamu Cat House' }}</span>
-                        <span class="text-xs text-slate-500 block">{{ $reservation->user ? $reservation->user->no_telp : '' }}</span>
+                    <div>
+                        <p class="text-xs sm:text-[13px] text-stone-400">Nama Pelanggan</p>
+                        <p class="mt-1 text-sm sm:text-[15px] font-medium text-[#D98497]">{{ $namaPelanggan }}</p>
                     </div>
-                    <div class="pt-2">
-                        <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">Jumlah Pengunjung</span>
-                        <span class="font-bold text-slate-800">{{ $reservation->payment ? $reservation->payment->jumlah_tamu : 1 }} Orang</span>
+                    <div>
+                        <p class="text-xs sm:text-[13px] text-stone-400">Jumlah Sesi</p>
+                        <p class="mt-1 text-sm sm:text-[15px] font-medium text-[#D98497]">1 sesi</p>
                     </div>
                 </div>
 
-                <!-- Schedule Section -->
-                <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/60 flex items-center justify-between">
+                <!-- Jadwal Sesi Kunjungan Box -->
+                <div class="rounded-xl bg-[#DCE8E9] border border-[#9EB8BB] px-5 py-4 flex items-center justify-between gap-4">
                     <div>
-                        <span class="text-xs font-bold text-amber-900 uppercase tracking-wider block">Jadwal Sesi Kunjungan:</span>
-                        <p class="text-base font-bold text-slate-800 mt-0.5">
-                            {{ \Carbon\Carbon::parse($reservation->tanggal_reservasi)->translatedFormat('l, d F Y') }}
+                        <p class="text-sm sm:text-[15px] font-medium text-[#2E221E]">
+                            Jadwal Sesi Kunjungan
                         </p>
-                        <p class="text-xs text-amber-800 font-semibold flex items-center gap-1.5 mt-0.5">
-                            <i class="fa-regular fa-clock"></i> Sesi: {{ $reservation->session ? $reservation->session->jam_sesi : $reservation->waktu_reservasi }} (90 Menit)
+                        <p class="mt-1 text-sm font-semibold text-[#5A8388]">
+                            {{ $tanggalFormatted }}
+                        </p>
+                        <p class="mt-1 text-xs sm:text-[13px] text-[#3F322A] flex items-center gap-1.5">
+                            <i class="fa-solid fa-clock text-[#2E221E] text-xs"></i>
+                            <span>{{ $jamSesiDisplay }}</span>
                         </p>
                     </div>
-                    <div class="text-right">
-                        <span class="px-3 py-1 bg-amber-200 text-amber-900 rounded-full font-bold text-xs uppercase">
-                            Terkonfirmasi
-                        </span>
-                    </div>
+
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-[#7C9A9D] text-[11px] font-medium shadow-2xs shrink-0">
+                        <span class="w-3 h-3 rounded-full border-[2px] border-[#A7C2C5] bg-white inline-block"></span>
+                        <span>Terkonfirmasi</span>
+                    </span>
                 </div>
 
-                <!-- Payment Breakdown Table -->
-                <div>
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Rincian Pembayaran</h3>
-                    <div class="rounded-2xl border border-slate-200 overflow-hidden text-xs">
-                        <div class="bg-slate-50 p-3 flex justify-between font-bold text-slate-700 border-b border-slate-200">
-                            <span>Keterangan</span>
-                            <span>Jumlah</span>
+                <!-- Rincian Harga -->
+                <div class="pt-1 border-t border-stone-200/80">
+                    <p class="text-xs sm:text-[13px] text-stone-400 mb-3 mt-4">Rincian Harga</p>
+
+                    <div class="rounded-xl border border-[#B5C6C8] overflow-hidden shadow-[0_2px_6px_rgba(0,0,0,0.04)]">
+                        <!-- Table Header -->
+                        <div class="bg-[#BDD0D2] px-4 py-3 grid grid-cols-12 text-xs sm:text-sm font-medium text-[#2E221E]">
+                            <span class="col-span-5">Keterangan</span>
+                            <span class="col-span-4 text-center">Harga Satuan</span>
+                            <span class="col-span-3 text-right">Total</span>
                         </div>
-                        <div class="p-3.5 space-y-2 bg-white">
-                            <div class="flex justify-between text-slate-600">
-                                <span>Tiket Kunjungan Cat House ({{ $reservation->payment ? $reservation->payment->jumlah_tamu : 1 }} x Rp 35.000)</span>
-                                <span class="font-semibold text-slate-800">Rp {{ number_format($reservation->payment ? $reservation->payment->total_harga : 0, 0, ',', '.') }}</span>
-                            </div>
-                            <div class="flex justify-between text-slate-600">
-                                <span>Free Welcome Drink & Cat Play Set</span>
-                                <span class="font-semibold text-emerald-600">Termasuk</span>
-                            </div>
-                            <div class="flex justify-between text-slate-600">
-                                <span>Metode Pembayaran</span>
-                                <span class="font-bold uppercase text-slate-800 px-2 py-0.5 rounded bg-slate-100">{{ $reservation->payment ? $reservation->payment->metode_pembayaran : '-' }}</span>
-                            </div>
-                            <div class="flex justify-between text-slate-600">
-                                <span>Status Verifikasi</span>
-                                <span class="font-bold text-emerald-600 flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Berhasil Divalidasi</span>
-                            </div>
+
+                        <!-- Item Row -->
+                        <div class="bg-white px-4 py-3.5 grid grid-cols-12 items-center text-xs sm:text-sm text-[#D98497] border-b border-stone-200/80">
+                            <span class="col-span-5">Tiket Reservasi {{ $jumlahPengunjung }}x</span>
+                            <span class="col-span-4 text-center">Rp. {{ number_format($hargaSatuanDisplay, 0, ',', '.') }}</span>
+                            <span class="col-span-3 text-right">Rp. {{ number_format($reservation->total_harga ?? 0, 0, ',', '.') }}</span>
                         </div>
-                        <div class="p-4 bg-emerald-50/50 border-t border-slate-200 flex justify-between items-center text-sm">
-                            <span class="font-bold text-slate-800">Total Dibayar:</span>
-                            <span class="text-2xl font-extrabold text-emerald-700 font-playfair">
-                                Rp {{ number_format($reservation->payment ? $reservation->payment->total_harga : 0, 0, ',', '.') }}
-                            </span>
+
+                        <!-- Payment Method Row -->
+                        <div class="bg-white px-4 py-3.5">
+                            <p class="text-xs text-stone-400">Metode Pembayaran:</p>
+                            <p class="text-xs sm:text-sm text-[#D98497] mt-0.5">Di Tempat</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Validation Stamp Footer -->
-                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-1 text-xs text-slate-500">
-                    <p class="font-bold text-slate-700 flex items-center justify-center gap-1.5">
-                        <i class="fa-solid fa-stamp text-emerald-600"></i> Sah Diterbitkan oleh Sistem Cat House
+                <!-- S&K Reminder Box -->
+                <div class="rounded-xl bg-[#DCE8E9] border border-[#9EB8BB] px-5 py-4 text-center space-y-1">
+                    <p class="text-xs sm:text-sm text-[#8F9D9E]">
+                        Pastikan anda benar-benar telah membaca S&amp;K yang berlaku
                     </p>
-                    <p class="text-[11px]">Tunjukkan bukti pembayaran ini kepada staf resepsionis saat tiba di kafe.</p>
+                    <p class="text-xs sm:text-sm font-medium text-[#2E221E]">
+                        Tunjukkan bukti reservasi ini kepada staff yang bertugas
+                    </p>
                 </div>
 
-                <!-- Action Buttons -->
-                <div class="pt-2 flex flex-col sm:flex-row gap-3 print:hidden">
-                    <button onclick="window.print()" class="flex-1 py-3.5 px-4 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs transition flex items-center justify-center gap-2 shadow-md">
-                        <i class="fa-solid fa-print text-sm"></i> Cetak / Simpan Bukti Pembayaran
+                <!-- Bottom 3 Action Buttons -->
+                <div class="pt-3 pb-2 grid grid-cols-1 sm:grid-cols-3 gap-4 print:hidden">
+                    <button
+                        type="button"
+                        onclick="window.print()"
+                        class="flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-[#B0C7C9] hover:bg-[#9BB6B9] text-white transition cursor-pointer shadow-2xs"
+                    >
+                        <i class="fa-solid fa-print text-lg shrink-0"></i>
+                        <span class="text-left text-xs sm:text-[13px] font-medium leading-tight">
+                            Cetak atau<br>Simpan PDF
+                        </span>
                     </button>
-                    <a href="{{ route('home') }}" class="py-3.5 px-5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-xs transition flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-house text-sm"></i> Selesai (Ke Beranda)
+
+                    <a
+                        href="{{ route('reservasi.create') }}"
+                        class="flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-[#6D5E56] hover:bg-[#5A4C45] text-white transition shadow-2xs"
+                    >
+                        <i class="fa-solid fa-calendar-check text-lg shrink-0"></i>
+                        <span class="text-left text-xs sm:text-[13px] font-medium leading-tight">
+                            Tambah<br>Reservasi
+                        </span>
+                    </a>
+
+                    <a
+                        href="{{ route('home') }}"
+                        class="flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-[#F3B7C3] hover:bg-[#E79FAE] text-white transition shadow-2xs"
+                    >
+                        <i class="fa-solid fa-house text-lg shrink-0"></i>
+                        <span class="text-left text-xs sm:text-[13px] font-medium leading-tight">
+                            Kembali ke<br>Beranda
+                        </span>
                     </a>
                 </div>
 
@@ -136,5 +185,5 @@
         </div>
 
     </div>
-</div>
+</section>
 @endsection
