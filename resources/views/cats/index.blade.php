@@ -17,7 +17,7 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7 lg:gap-9">
             @forelse($cats as $cat)
-                <article class="bg-[#413128] rounded-[24px] p-4 pb-6 flex flex-col shadow-[0_6px_18px_rgba(63,50,42,0.14)] hover:-translate-y-1 hover:shadow-[0_10px_24px_rgba(63,50,42,0.18)] transition-all duration-300">
+                <article class="min-w-0 bg-[#413128] rounded-[24px] p-4 pb-6 flex flex-col shadow-[0_6px_18px_rgba(63,50,42,0.14)] hover:-translate-y-1 hover:shadow-[0_10px_24px_rgba(63,50,42,0.18)] transition-all duration-300">
 
                     <div class="w-full aspect-[4/4.3] rounded-[18px] overflow-hidden bg-[#E39797]">
                         <img
@@ -28,18 +28,20 @@
                         >
                     </div>
 
-                    <div class="pt-4 px-1.5 flex-1 flex flex-col">
-                        <h2 class="font-literata font-bold text-white text-xl sm:text-[22px] leading-snug">
+                    <div class="min-w-0 pt-4 px-1.5 flex-1 flex flex-col">
+                        <h2 class="break-words font-literata font-bold text-white text-xl sm:text-[22px] leading-snug">
                             {{ $cat->nama_kucing }}
                         </h2>
 
                         <div class="mt-1.5">
-                            <span class="inline-flex items-center px-3 py-0.5 rounded-full bg-[#DC8E9B] text-white text-[11px] font-medium">
-                                {{ $cat->variant ? $cat->variant->jenis : 'Kucing Cat House' }}
+                            <span class="inline-flex max-w-full flex-wrap items-center gap-x-1 whitespace-normal break-words px-3 py-1 rounded-full bg-[#DC8E9B] text-white text-[11px] font-medium leading-relaxed">
+                                <span>{{ $cat->variant ? $cat->variant->jenis : 'Kucing Cat House' }}</span>
+                                <span aria-hidden="true">&bull;</span>
+                                <span>{{ $cat->gender }}</span>
                             </span>
                         </div>
 
-                        <p class="mt-2.5 text-xs text-white/90 leading-relaxed">
+                        <p class="mt-2.5 break-words text-xs text-white/90 leading-relaxed">
                             {{ $cat->deskripsi }}
                         </p>
                     </div>
