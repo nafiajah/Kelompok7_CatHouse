@@ -75,16 +75,16 @@ $resolveManualPhoto = function (string $baseName): ?string {
             </div>
 
             <div class="md:col-span-4 flex justify-center md:justify-end">
-                <div class="w-full max-w-[240px] sm:max-w-[260px] aspect-[5/4] rounded-[24px] overflow-hidden border-[3px] border-white bg-white/75 shadow-sm">
+                <div class="w-full max-w-[240px] sm:max-w-[260px] rounded-[24px] overflow-hidden border-[3px] border-white bg-white/75 shadow-sm">
                     @if($aboutVisionPhoto)
                         <img
                             src="{{ $aboutVisionPhoto }}"
                             alt="Our Vision Cat House"
-                            class="w-full h-full object-cover"
+                            class="w-full h-auto block object-contain"
                         >
                     @else
 
-                        <div class="w-full h-full border-2 border-dashed border-[#E58B9C] rounded-[21px] bg-white/70 flex flex-col items-center justify-center p-4 text-center text-[#5C4D44]">
+                        <div class="w-full aspect-square border-2 border-dashed border-[#E58B9C] rounded-[21px] bg-white/70 flex flex-col items-center justify-center p-4 text-center text-[#5C4D44]">
                             <div class="w-11 h-11 rounded-full bg-[#FFDAE1] text-[#E58B9C] flex items-center justify-center text-lg mb-2">
                                 <i class="fa-regular fa-image"></i>
                             </div>
