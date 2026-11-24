@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class DataKucing extends Model
 {
@@ -24,18 +25,39 @@ class DataKucing extends Model
 
     public function getFotoUrlAttribute()
     {
-        if (!$this->foto) {
-            return 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&auto=format&fit=crop&q=80';
+        if ($this->foto) {
+            $filename = basename($this->foto);
+            $uploadPath = 'uploads/cats/' . $filename;
+            if (file_exists(public_path($uploadPath))) {
+                return asset($uploadPath);
+            }
         }
 
-        if (str_starts_with($this->foto, 'http://') || str_starts_with($this->foto, 'https://')) {
-            return $this->foto;
+        if ($this->nama_kucing) {
+            foreach (['png', 'jpg', 'jpeg', 'webp'] as $extension) {
+                $namedPhotoPath = 'images/cats/' . Str::slug($this->nama_kucing) . '.' . $extension;
+                if (file_exists(public_path($namedPhotoPath))) {
+                    return asset($namedPhotoPath);
+                }
+            }
         }
 
-        if (file_exists(public_path('uploads/cats/' . $this->foto))) {
-            return asset('uploads/cats/' . $this->foto);
+        if ($this->foto) {
+            if (str_starts_with($this->foto, 'http://') || str_starts_with($this->foto, 'https://')) {
+                return $this->foto;
+            }
+
+            $storagePath = 'storage/' . $this->foto;
+            if (file_exists(public_path($storagePath))) {
+                return asset($storagePath);
+            }
+
+            $namedPhotoPath = 'images/cat-' . pathinfo($filename, PATHINFO_FILENAME) . '.jpg';
+            if (file_exists(public_path($namedPhotoPath))) {
+                return asset($namedPhotoPath);
+            }
         }
 
-        return asset('storage/' . $this->foto);
+        return asset('images/cat-photo.png');
     }
 }

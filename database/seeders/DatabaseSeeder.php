@@ -127,6 +127,8 @@ class DatabaseSeeder extends Seeder
             DataKucing::create($cat);
         }
 
+        $this->call(ProfileCatsSeeder::class);
+
         Reservation::create([
             'id_users' => $user->id,
             'id_sesi' => $sessionModels[0]->id,
