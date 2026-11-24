@@ -22,7 +22,7 @@ class CatController extends Controller
             });
         }
 
-        $cats = $query->orderBy('nama_kucing')->paginate(10)->withQueryString();
+        $cats = $query->orderByDesc('id')->paginate(10)->withQueryString();
         $variants = Variant::orderBy('jenis')->get();
 
         return view('admin.cats.index', compact('cats', 'variants', 'search'));

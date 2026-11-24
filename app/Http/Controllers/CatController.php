@@ -26,7 +26,7 @@ class CatController extends Controller
             $query->where('id_variant', $variantId);
         }
 
-        $cats = $query->orderBy('nama_kucing')->paginate(9)->withQueryString();
+        $cats = $query->orderByDesc('id')->paginate(18)->withQueryString();
         $variants = Variant::withCount('dataKucing')->get();
 
         return view('cats.index', compact('cats', 'variants', 'search', 'variantId'));

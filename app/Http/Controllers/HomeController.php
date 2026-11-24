@@ -14,7 +14,7 @@ class HomeController extends Controller
     {
         $selectedVariant = $request->query('variant');
 
-        $catsQuery = DataKucing::with('variant');
+        $catsQuery = DataKucing::with('variant')->orderByDesc('id');
         if ($selectedVariant) {
             $catsQuery->where('id_variant', $selectedVariant);
         }
