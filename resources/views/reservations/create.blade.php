@@ -57,21 +57,6 @@
 
                     </div>
                 </div>
-
-                <div class="mt-5 rounded-2xl bg-[#FFF5F7] border border-[#E58B9C]/35 px-4 py-3.5 text-xs text-[#3F322A] space-y-1.5">
-                    <div class="flex items-center justify-between">
-                        <span class="text-[#5C4D44]">Weekday (Senin – Jumat)</span>
-                        <span class="font-semibold">Rp {{ number_format($hargaWeekday, 0, ',', '.') }} / tamu</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-[#5C4D44]">Weekend (Sabtu – Minggu)</span>
-                        <span class="font-semibold text-[#D77487]">Rp {{ number_format($hargaWeekend, 0, ',', '.') }} / tamu</span>
-                    </div>
-                    <div class="flex items-center justify-between pt-1 border-t border-[#E58B9C]/25">
-                        <span class="text-[#5C4D44]">Durasi per Sesi</span>
-                        <span class="font-semibold">{{ $durasiMenit }} Menit</span>
-                    </div>
-                </div>
             </div>
 
             <div class="lg:col-span-7 lg:pl-12">

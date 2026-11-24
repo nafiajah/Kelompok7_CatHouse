@@ -45,28 +45,23 @@ class DataKucing extends Model
         if ($this->foto) {
             $filename = basename($this->foto);
 
-            // 1. Check direct upload path
             if (file_exists(public_path('uploads/cats/' . $filename))) {
                 return asset('uploads/cats/' . $filename);
             }
 
-            // 2. Check public/images/cats/
             if (file_exists(public_path('images/cats/' . $filename))) {
                 return asset('images/cats/' . $filename);
             }
 
-            // 3. Check public/images/
             if (file_exists(public_path('images/' . $filename))) {
                 return asset('images/' . $filename);
             }
 
-            // 4. Check public/images/cat-{filename}
             if (file_exists(public_path('images/cat-' . $filename))) {
                 return asset('images/cat-' . $filename);
             }
         }
 
-        // 5. Match by cat name slug in images/cats/ or images/
         if ($this->nama_kucing) {
             $slug = Str::slug($this->nama_kucing);
             foreach (['png', 'jpg', 'jpeg', 'webp'] as $extension) {
@@ -82,7 +77,6 @@ class DataKucing extends Model
             }
         }
 
-        // 6. External URL check
         if ($this->foto) {
             if (str_starts_with($this->foto, 'http://') || str_starts_with($this->foto, 'https://')) {
                 return $this->foto;

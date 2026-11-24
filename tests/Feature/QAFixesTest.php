@@ -33,7 +33,6 @@ class QAFixesTest extends TestCase
             'foto' => 'milo_bengal.png',
         ]);
 
-        // When searching for 'Milo' under Persia ($v1) only
         $response = $this->get('/kucing?search=Milo&variant=' . $v1->id);
         $response->assertStatus(200);
         $response->assertSee('Milo Persia');
@@ -134,12 +133,10 @@ class QAFixesTest extends TestCase
             'status_konfirmasi' => 'belum',
         ]);
 
-        // Search by name containing digits should still find the reservation
         $response = $this->actingAs($admin)->get('/admin/reservations?search=Budi');
         $response->assertStatus(200);
         $response->assertSee('Budi Susanto 2');
 
-        // Search by booking ID
         $response2 = $this->actingAs($admin)->get('/admin/reservations?search=' . $res->id);
         $response2->assertStatus(200);
         $response2->assertSee('Budi Susanto 2');

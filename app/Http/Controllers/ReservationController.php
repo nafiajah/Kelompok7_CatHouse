@@ -269,7 +269,6 @@ class ReservationController extends Controller
 
         try {
             $reservation = DB::transaction(function () use ($validated, $session, $waktu, $totalHarga) {
-                // Lock the session and existing reservations to prevent race conditions & overbooking
                 $currentSession = Session::lockForUpdate()->findOrFail($session->id);
                 $existingGuests = (int) Reservation::where('id_sesi', $currentSession->id)
                     ->where('tanggal_reservasi', $validated['tanggal_reservasi'])

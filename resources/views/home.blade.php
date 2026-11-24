@@ -78,61 +78,69 @@ $resolveManualPhoto = function (string $baseName): ?string {
     </div>
 </section>
 
-<section class="bg-white py-16 sm:py-24">
-    <div class="max-w-6xl mx-auto px-5 sm:px-8 lg:px-10">
+<section class="bg-white py-16 sm:py-20 lg:py-24">
+    <div class="max-w-[1360px] mx-auto px-5 sm:px-8 lg:px-10">
 
-        <div class="text-center max-w-2xl mx-auto">
-            <p class="text-[#E58B9C] font-bold text-base sm:text-lg tracking-normal">
+        <div class="text-center max-w-3xl mx-auto">
+            <p class="text-[#E58B9C] font-bold text-lg sm:text-[21px] tracking-normal">
                 Mengapa Harus Cat House?
             </p>
-            <h2 class="mt-3 font-literata font-bold text-[#3F322A] text-3xl sm:text-4xl lg:text-[42px] leading-[1.2]">
+            <h2 class="mt-4 font-literata font-medium text-[#3F322A] text-3xl sm:text-4xl lg:text-[42px] leading-[1.2] tracking-[-0.01em]">
                 Ciptakan Momen Menyenangkan<br class="hidden sm:inline"> Bersama Anabul
             </h2>
-            <p class="mt-4 text-xs sm:text-sm md:text-base text-[#5C4D44] leading-relaxed max-w-xl mx-auto">
-                Hadirkan pengalaman menyenangkan melalui interaksi langsung dengan kucing dalam lingkungan yang bersih, nyaman, dan penuh kehangatan.
+            <p class="mt-4 text-xs sm:text-sm md:text-[15px] text-[#4A3F39] leading-[1.65] max-w-2xl mx-auto">
+                Hadirkan pengalaman menyenangkan melalui interaksi langsung dengan kucing<br class="hidden md:inline"> dalam lingkungan yang bersih, nyaman, dan penuh kehangatan.
             </p>
         </div>
 
-        <div class="mt-12 sm:mt-14 grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+        <div class="mt-10 sm:mt-12 grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
 
-            <div class="bg-white rounded-[20px] border border-[#D5CBC5] p-7 sm:p-8 hover:border-[#E58B9C] hover:shadow-md transition-all duration-200">
-                <div class="w-12 h-12 rounded-xl bg-[#E58B9C] text-white flex items-center justify-center mb-5 shadow-xs">
-
-                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1.06 13.54L7.4 12l1.41-1.41 2.12 2.12 4.24-4.24 1.41 1.41-5.64 5.66z"/>
+            <div class="bg-white rounded-[20px] border border-[#BEB7B2] px-6 py-5 sm:px-7 sm:py-6 hover:border-[#E58B9C] hover:shadow-sm transition-all duration-200">
+                <div class="w-11 h-11 rounded-[12px] bg-[#E58B9C] text-white flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 2.5L4.75 5.45C4.3 5.64 4 6.08 4 6.57V11.3C4 16.05 7.41 20.38 12 21.75C16.59 20.38 20 16.05 20 11.3V6.57C20 6.08 19.7 5.64 19.25 5.45L12 2.5Z" fill="#FFFFFF"/>
+                        <path d="M9.1 12.15L11.05 14.1L15.1 9.95" stroke="#E58B9C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>
-                <h3 class="font-literata font-semibold text-base sm:text-lg text-[#3F322A] mb-2">
+                <h3 class="font-literata font-medium text-[15px] sm:text-base text-[#3F322A] leading-snug mb-1.5">
                     Lingkungan Bersih dan Nyaman
                 </h3>
-                <p class="text-xs sm:text-sm text-[#5C4D44] leading-relaxed">
+                <p class="text-[11.5px] sm:text-[12px] text-[#4A3F39] leading-[1.55]">
                     Area bermain yang terjaga kebersihannya demi kenyamanan pengunjung dan kesehatan kucing.
                 </p>
             </div>
 
-            <div class="bg-white rounded-[20px] border border-[#D5CBC5] p-7 sm:p-8 hover:border-[#E58B9C] hover:shadow-md transition-all duration-200">
-                <div class="w-12 h-12 rounded-xl bg-[#E58B9C] text-white flex items-center justify-center mb-5 shadow-xs">
-
-                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <path d="M5.5 4.5L9.2 8.2C10.05 7.9 11 7.75 12 7.75s1.95.15 2.8.45l3.7-3.7c.4-.4 1.1-.15 1.1.42V13c0 4.14-3.36 7.5-7.6 7.5S4.4 17.14 4.4 13V4.92c0-.57.7-.82 1.1-.42zM9.25 13a1.15 1.15 0 100 2.3 1.15 1.15 0 000-2.3zm5.5 0a1.15 1.15 0 100 2.3 1.15 1.15 0 000-2.3zM12 16.75l-1.1-.95h2.2L12 16.75z"/>
+            <div class="bg-white rounded-[20px] border border-[#BEB7B2] px-6 py-5 sm:px-7 sm:py-6 hover:border-[#E58B9C] hover:shadow-sm transition-all duration-200">
+                <div class="w-11 h-11 rounded-[12px] bg-[#E58B9C] text-white flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M5.4 5.2C5.05 4.85 4.45 5.1 4.45 5.6V13.2C4.45 17.15 7.8 20 12 20C16.2 20 19.55 17.15 19.55 13.2V5.6C19.55 5.1 18.95 4.85 18.6 5.2L15.3 8.45C14.3 8.05 13.18 7.85 12 7.85C10.82 7.85 9.7 8.05 8.7 8.45L5.4 5.2Z" fill="#FFFFFF"/>
+                        <circle cx="9.4" cy="13.2" r="1.15" fill="#E58B9C"/>
+                        <circle cx="14.6" cy="13.2" r="1.15" fill="#E58B9C"/>
+                        <path d="M10.9 15.2H13.1L12 16.5L10.9 15.2Z" fill="#E58B9C"/>
+                        <path d="M3.6 13.6H6.2M3.8 15.5H6.4M17.8 13.6H20.4M17.6 15.5H20.2" stroke="#E58B9C" stroke-width="1.2" stroke-linecap="round"/>
                     </svg>
                 </div>
-                <h3 class="font-literata font-semibold text-base sm:text-lg text-[#3F322A] mb-2">
+                <h3 class="font-literata font-medium text-[15px] sm:text-base text-[#3F322A] leading-snug mb-1.5">
                     Interaksi Bersama Kucing
                 </h3>
-                <p class="text-xs sm:text-sm text-[#5C4D44] leading-relaxed">
+                <p class="text-[11.5px] sm:text-[12px] text-[#4A3F39] leading-[1.55]">
                     Nikmati waktu bermain, berkenalan, dan membangun kedekatan dengan berbagai kucing.
                 </p>
             </div>
 
-            <div class="bg-white rounded-[20px] border border-[#D5CBC5] p-7 sm:p-8 hover:border-[#E58B9C] hover:shadow-md transition-all duration-200">
-                <div class="w-12 h-12 rounded-xl bg-[#E58B9C] text-white flex items-center justify-center mb-5 shadow-xs">
-                    <i class="fa-regular fa-calendar-check text-xl"></i>
+            <div class="bg-white rounded-[20px] border border-[#BEB7B2] px-6 py-5 sm:px-7 sm:py-6 hover:border-[#E58B9C] hover:shadow-sm transition-all duration-200">
+                <div class="w-11 h-11 rounded-[12px] bg-[#E58B9C] text-white flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <rect x="4" y="5.5" width="16" height="15" rx="2.5" fill="#FFFFFF"/>
+                        <path d="M8.25 3.5V6.5M15.75 3.5V6.5" stroke="#FFFFFF" stroke-width="2.1" stroke-linecap="round"/>
+                        <path d="M4 9.6H20" stroke="#E58B9C" stroke-width="1.5"/>
+                        <path d="M9.1 14.8L11.05 16.75L15.1 12.6" stroke="#E58B9C" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </div>
-                <h3 class="font-literata font-semibold text-base sm:text-lg text-[#3F322A] mb-2">
+                <h3 class="font-literata font-medium text-[15px] sm:text-base text-[#3F322A] leading-snug mb-1.5">
                     Sesi Kunjungan Teratur
                 </h3>
-                <p class="text-xs sm:text-sm text-[#5C4D44] leading-relaxed">
+                <p class="text-[11.5px] sm:text-[12px] text-[#4A3F39] leading-[1.55]">
                     Pembatasan jumlah pengunjung di setiap sesi untuk menjaga kenyamanan bersama kucing.
                 </p>
             </div>

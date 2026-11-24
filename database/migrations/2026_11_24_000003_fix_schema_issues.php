@@ -9,7 +9,6 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // 1. Ensure members.id is AUTO_INCREMENT in MySQL
         $table = Schema::hasTable('members') ? 'members' : (Schema::hasTable('users') ? 'users' : null);
         if ($table && DB::getDriverName() === 'mysql') {
             try {
@@ -17,11 +16,9 @@ return new class extends Migration
                 DB::statement("ALTER TABLE `{$table}` MODIFY `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT");
                 DB::statement("SET FOREIGN_KEY_CHECKS=1;");
             } catch (\Throwable $e) {
-                // If already auto_increment or error, proceed safely
             }
         }
 
-        // 2. Add customer contact columns to reservations table if missing
         if (Schema::hasTable('reservations')) {
             Schema::table('reservations', function (Blueprint $t) {
                 if (!Schema::hasColumn('reservations', 'nama_pemesan')) {
@@ -36,7 +33,6 @@ return new class extends Migration
             });
         }
 
-        // 3. Make feedbacks.id_user nullable and add nama_pengirim
         if (Schema::hasTable('feedbacks')) {
             if (DB::getDriverName() === 'mysql') {
                 try {
