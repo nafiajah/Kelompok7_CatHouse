@@ -29,7 +29,7 @@ class ReservationController extends Controller
             $query->where(function ($q) use ($search, $digitsOnly) {
                 if ($digitsOnly !== '') {
                     $q->where('id', (int) $digitsOnly)
-                      ->orWhereRaw('CAST(id AS TEXT) LIKE ?', ["%{$digitsOnly}%"]);
+                      ->orWhereRaw('CAST(id AS CHAR) LIKE ?', ["%{$digitsOnly}%"]);
                 } else {
 
                     $q->whereHas('user', function ($uq) use ($search) {
