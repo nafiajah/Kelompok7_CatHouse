@@ -59,6 +59,10 @@
         }
     </script>
     <style>
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #FFFFFF;

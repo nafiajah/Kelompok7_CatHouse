@@ -17,25 +17,29 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        $admin = User::create([
-            'role' => 'admin',
-            'username' => 'admin',
-            'password' => Hash::make('admin123'),
-            'nama_lengkap' => 'Administrator Capyca',
-            'email' => 'admin@cathouse.com',
-            'alamat' => 'Jl. Boulevard Raya No. 1, Jakarta',
-            'no_telp' => '081234567890',
-        ]);
+        $admin = User::firstOrCreate(
+            ['username' => 'admin'],
+            [
+                'role' => 'admin',
+                'password' => Hash::make('admin123'),
+                'nama_lengkap' => 'Administrator Capyca',
+                'email' => 'admin@cathouse.com',
+                'alamat' => 'Jl. Boulevard Raya No. 1, Jakarta',
+                'no_telp' => '081234567890',
+            ]
+        );
 
-        $user = User::create([
-            'role' => 'user',
-            'username' => 'user',
-            'password' => Hash::make('user123'),
-            'nama_lengkap' => 'Nabila Putri',
-            'email' => 'nabila@gmail.com',
-            'alamat' => 'Jl. Kambing Guling No. 10, Jakarta',
-            'no_telp' => '089876543210',
-        ]);
+        $user = User::firstOrCreate(
+            ['username' => 'user'],
+            [
+                'role' => 'user',
+                'password' => Hash::make('user123'),
+                'nama_lengkap' => 'Nabila Putri',
+                'email' => 'nabila@gmail.com',
+                'alamat' => 'Jl. Kambing Guling No. 10, Jakarta',
+                'no_telp' => '089876543210',
+            ]
+        );
 
         $variants = [
             'Persia',
@@ -49,7 +53,7 @@ class DatabaseSeeder extends Seeder
 
         $variantModels = [];
         foreach ($variants as $jenis) {
-            $variantModels[$jenis] = Variant::create(['jenis' => $jenis]);
+            $variantModels[$jenis] = Variant::firstOrCreate(['jenis' => $jenis]);
         }
 
         $sessionsData = [
@@ -75,56 +79,7 @@ class DatabaseSeeder extends Seeder
 
         $sessionModels = [];
         foreach ($sessionsData as $s) {
-            $sessionModels[] = Session::create($s);
-        }
-
-        $cats = [
-            [
-                'id_variant' => $variantModels['British Shorthair']->id,
-                'nama_kucing' => 'Mochi',
-                'deskripsi' => 'Kucing berbulu abu-abu lebat yang sangat tenang dan gemar tidur siang di pangkuan pengunjung.',
-                'foto' => 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&auto=format&fit=crop&q=80',
-            ],
-            [
-                'id_variant' => $variantModels['Persia']->id,
-                'nama_kucing' => 'Milo',
-                'deskripsi' => 'Memiliki bulu putih halus seperti kapas, sangat manja dan suka diajak bermain bulu ayam.',
-                'foto' => 'https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=600&auto=format&fit=crop&q=80',
-            ],
-            [
-                'id_variant' => $variantModels['Scottish Fold']->id,
-                'nama_kucing' => 'Luna',
-                'deskripsi' => 'Kucing dengan telinga terlipat yang imut dan mata bulat besar. Suka duduk santai mengamati sekitar.',
-                'foto' => 'https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=600&auto=format&fit=crop&q=80',
-            ],
-            [
-                'id_variant' => $variantModels['Ragdoll']->id,
-                'nama_kucing' => 'Bella',
-                'deskripsi' => 'Berbulu halus dengan mata biru mempesona. Sangat ramah, jinak, dan suka digendong.',
-                'foto' => 'https://images.unsplash.com/photo-1513360309081-38f076278f1d?w=600&auto=format&fit=crop&q=80',
-            ],
-            [
-                'id_variant' => $variantModels['Maine Coon']->id,
-                'nama_kucing' => 'Simba',
-                'deskripsi' => 'Kucing bertubuh gagah seperti singa mini namun berhati lembut. Sangat aktif dan senang dielus.',
-                'foto' => 'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=600&auto=format&fit=crop&q=80',
-            ],
-            [
-                'id_variant' => $variantModels['Bengal']->id,
-                'nama_kucing' => 'Leo',
-                'deskripsi' => 'Corak tutul eksotis seperti macan tutul, sangat lincah dan gemar memanjat cat condo.',
-                'foto' => 'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=600&auto=format&fit=crop&q=80',
-            ],
-            [
-                'id_variant' => $variantModels['Munchkin']->id,
-                'nama_kucing' => 'Choco',
-                'deskripsi' => 'Kucing berkaki pendek yang lincah dan sangat menggemaskan saat berlarian menyapa pengunjung.',
-                'foto' => 'https://images.unsplash.com/photo-1561948955-570b270e7c36?w=600&auto=format&fit=crop&q=80',
-            ],
-        ];
-
-        foreach ($cats as $cat) {
-            DataKucing::create($cat);
+            $sessionModels[] = Session::firstOrCreate(['jam_sesi' => $s['jam_sesi']], $s);
         }
 
         $this->call(ProfileCatsSeeder::class);
@@ -149,7 +104,7 @@ class DatabaseSeeder extends Seeder
         Feedback::create([
             'id_user' => $user->id,
             'tanggal_saran' => now()->subHours(5),
-            'teks_saran' => 'Pelayanan ramah, kopi dan kuenya enak. Anak-anak sangat senang bermain dengan Bella dan Simba!',
+            'teks_saran' => 'Pelayanan ramah, kopi dan kuenya enak. Anak-anak sangat senang bermain dengan Luna dan Bentley!',
             'bintang' => 5,
             'status_tampil' => 'tampil',
         ]);

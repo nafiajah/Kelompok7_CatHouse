@@ -38,7 +38,7 @@ class User extends Authenticatable
     }
 
     public $timestamps = false;
-    public $incrementing = false;
+    public $incrementing = true;
 
     protected $fillable = [
         'id',
@@ -75,7 +75,8 @@ class User extends Authenticatable
         parent::boot();
 
         static::creating(function ($model) {
-            if (!$model->id) {
+            // Keep safe fallback only if id is not automatically assigned
+            if (empty($model->id) && $model->incrementing === false) {
                 $model->id = (static::max('id') ?? 0) + 1;
             }
         });

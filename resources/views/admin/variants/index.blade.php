@@ -7,9 +7,28 @@
 <div class="space-y-6">
 
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <p class="text-xs sm:text-sm text-stone-500 font-medium">
-            Total: <strong class="text-stone-800">{{ count($variants) }}</strong> Varian Jenis Terdaftar
-        </p>
+        <form action="{{ route('admin.variants.index') }}" method="GET" class="flex items-center gap-2 max-w-lg w-full">
+            <div class="relative flex-1">
+                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-stone-400">
+                    <i class="fa-solid fa-magnifying-glass text-sm"></i>
+                </span>
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ request('search') }}"
+                    placeholder="Cari nama varian jenis kucing..."
+                    class="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-accent bg-white shadow-xs"
+                >
+            </div>
+            <button type="submit" class="px-5 py-2.5 bg-[#2E2421] text-white rounded-xl text-xs sm:text-sm font-bold hover:bg-stone-900 transition shadow-xs flex-shrink-0 cursor-pointer">
+                Cari
+            </button>
+            @if(request('search'))
+                <a href="{{ route('admin.variants.index') }}" class="px-4 py-2.5 bg-stone-100 text-stone-600 rounded-xl text-xs sm:text-sm font-bold hover:bg-stone-200 transition flex-shrink-0">
+                    Reset
+                </a>
+            @endif
+        </form>
 
         <button
             type="button"
@@ -77,7 +96,11 @@
                     @empty
                         <tr>
                             <td colspan="3" class="py-8 text-center text-stone-400">
-                                Belum ada varian ras kucing yang didaftarkan.
+                                @if(request('search'))
+                                    Tidak ada varian ras kucing yang cocok dengan pencarian "{{ request('search') }}".
+                                @else
+                                    Belum ada varian ras kucing yang didaftarkan.
+                                @endif
                             </td>
                         </tr>
                     @endforelse

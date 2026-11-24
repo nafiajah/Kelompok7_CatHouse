@@ -8,10 +8,17 @@ use Illuminate\Http\Request;
 
 class VariantController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $variants = Variant::withCount('dataKucing')->orderBy('jenis')->get();
-        return view('admin.variants.index', compact('variants'));
+        $search = $request->query('search');
+        $query = Variant::withCount('dataKucing')->orderBy('jenis');
+
+        if ($search) {
+            $query->where('jenis', 'like', "%{$search}%");
+        }
+
+        $variants = $query->get();
+        return view('admin.variants.index', compact('variants', 'search'));
     }
 
     public function store(Request $request)
