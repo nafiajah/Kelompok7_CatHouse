@@ -8,10 +8,17 @@ use Illuminate\Http\Request;
 
 class SessionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $sessions = Session::withCount('reservations')->orderBy('id')->get();
-        return view('admin.sessions.index', compact('sessions'));
+        $search = $request->query('search');
+        $query = Session::withCount('reservations')->orderBy('id');
+
+        if ($search) {
+            $query->where('jam_sesi', 'like', "%{$search}%");
+        }
+
+        $sessions = $query->get();
+        return view('admin.sessions.index', compact('sessions', 'search'));
     }
 
     public function store(Request $request)

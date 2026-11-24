@@ -60,6 +60,11 @@
     </script>
     <style>
         html,
+        body {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+        html,
         body,
         * {
             -ms-overflow-style: none;

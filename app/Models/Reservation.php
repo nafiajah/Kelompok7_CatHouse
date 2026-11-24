@@ -13,12 +13,30 @@ class Reservation extends Model
     protected $fillable = [
         'id_users',
         'id_sesi',
+        'nama_pemesan',
+        'email_pemesan',
+        'no_telp_pemesan',
         'jumlah_tamu',
         'total_harga',
         'tanggal_reservasi',
         'waktu_reservasi',
         'status_konfirmasi',
     ];
+
+    public function getNamaPemesanAttribute($value)
+    {
+        return $value ?: ($this->user ? $this->user->nama_lengkap : 'Tamu Cat House');
+    }
+
+    public function getEmailPemesanAttribute($value)
+    {
+        return $value ?: ($this->user ? $this->user->email : '-');
+    }
+
+    public function getNoTelpPemesanAttribute($value)
+    {
+        return $value ?: ($this->user ? $this->user->no_telp : '-');
+    }
 
     public function user()
     {

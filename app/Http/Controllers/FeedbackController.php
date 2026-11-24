@@ -10,20 +10,13 @@ class FeedbackController extends Controller
 {
     public function create(Request $request)
     {
-        if (!Auth::check()) {
-            $request->session()->put('url.intended', route('feedback.create'));
-        }
-
         return view('feedbacks.create');
     }
 
     public function store(Request $request)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-
         $validated = $request->validate([
+            'nama_lengkap' => 'nullable|string|max:100',
             'bintang' => 'required|integer|min:1|max:5',
             'teks_saran' => 'required|string|min:5|max:1000',
         ], [
@@ -34,8 +27,13 @@ class FeedbackController extends Controller
             'teks_saran.min' => 'Ulasan minimal 5 karakter.',
         ]);
 
+        $namaPengirim = Auth::check()
+            ? (Auth::user()->nama_lengkap ?: Auth::user()->username)
+            : ($request->filled('nama_lengkap') ? trim($request->input('nama_lengkap')) : 'Pengunjung');
+
         Feedback::create([
             'id_user' => Auth::id(),
+            'nama_pengirim' => $namaPengirim,
             'tanggal_saran' => now(),
             'teks_saran' => $validated['teks_saran'],
             'bintang' => $validated['bintang'],

@@ -7,6 +7,7 @@ use App\Models\Session;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
 {
@@ -263,32 +264,43 @@ class ReservationController extends Controller
                 ->with('error', "Maaf, sesi {$session->jam_sesi} pada tanggal {$validated['tanggal_reservasi']} sudah lewat. Silakan pilih sesi jam berikutnya atau tanggal lain.");
         }
 
-        $existingGuests = (int) Reservation::where('id_sesi', $session->id)
-            ->where('tanggal_reservasi', $validated['tanggal_reservasi'])
-            ->sum('jumlah_tamu');
-
-        if (($existingGuests + $validated['jumlah_tamu']) > $session->token_sesi) {
-            $remaining = max(0, $session->token_sesi - $existingGuests);
-            return back()->withInput()->withErrors([
-                'jumlah_tamu' => "Maaf, kuota untuk sesi {$session->jam_sesi} pada tanggal {$validated['tanggal_reservasi']} hanya tersisa {$remaining} orang.",
-            ]);
-        }
-
         $hargaPerTamu = self::getHargaPerTamu($validated['tanggal_reservasi']);
         $totalHarga = $validated['jumlah_tamu'] * $hargaPerTamu;
 
         try {
-            $reservation = Reservation::create([
-                'id_users' => Auth::id(),
-                'id_sesi' => $session->id,
-                'jumlah_tamu' => $validated['jumlah_tamu'],
-                'total_harga' => $totalHarga,
-                'tanggal_reservasi' => $validated['tanggal_reservasi'],
-                'waktu_reservasi' => $waktu,
-            ]);
+            $reservation = DB::transaction(function () use ($validated, $session, $waktu, $totalHarga) {
+                // Lock the session and existing reservations to prevent race conditions & overbooking
+                $currentSession = Session::lockForUpdate()->findOrFail($session->id);
+                $existingGuests = (int) Reservation::where('id_sesi', $currentSession->id)
+                    ->where('tanggal_reservasi', $validated['tanggal_reservasi'])
+                    ->lockForUpdate()
+                    ->sum('jumlah_tamu');
+
+                if (($existingGuests + $validated['jumlah_tamu']) > $currentSession->token_sesi) {
+                    $remaining = max(0, $currentSession->token_sesi - $existingGuests);
+                    throw new \DomainException("Maaf, kuota untuk sesi {$currentSession->jam_sesi} pada tanggal {$validated['tanggal_reservasi']} hanya tersisa {$remaining} orang.");
+                }
+
+                return Reservation::create([
+                    'id_users' => Auth::id(),
+                    'id_sesi' => $currentSession->id,
+                    'nama_pemesan' => $validated['nama_lengkap'],
+                    'email_pemesan' => $validated['email'],
+                    'no_telp_pemesan' => $validated['no_telp'],
+                    'jumlah_tamu' => $validated['jumlah_tamu'],
+                    'total_harga' => $totalHarga,
+                    'tanggal_reservasi' => $validated['tanggal_reservasi'],
+                    'waktu_reservasi' => $waktu,
+                    'status_konfirmasi' => 'belum',
+                ]);
+            });
 
             return redirect()->route('reservasi.show', $reservation->id)
                 ->with('success', 'Reservasi berhasil dibuat!');
+        } catch (\DomainException $e) {
+            return back()->withInput()->withErrors([
+                'jumlah_tamu' => $e->getMessage(),
+            ]);
         } catch (\Exception $e) {
             return back()->withInput()->with('error', 'Terjadi kesalahan saat memproses reservasi: ' . $e->getMessage());
         }

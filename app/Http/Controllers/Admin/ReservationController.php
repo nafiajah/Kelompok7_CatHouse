@@ -30,12 +30,17 @@ class ReservationController extends Controller
                 if ($digitsOnly !== '') {
                     $q->where('id', (int) $digitsOnly)
                       ->orWhereRaw('CAST(id AS CHAR) LIKE ?', ["%{$digitsOnly}%"]);
-                } else {
-
-                    $q->whereHas('user', function ($uq) use ($search) {
-                        $uq->where('nama_lengkap', 'like', "%{$search}%");
-                    });
                 }
+
+                $q->orWhere('nama_pemesan', 'like', "%{$search}%")
+                  ->orWhere('email_pemesan', 'like', "%{$search}%")
+                  ->orWhere('no_telp_pemesan', 'like', "%{$search}%")
+                  ->orWhereHas('user', function ($uq) use ($search) {
+                      $uq->where('nama_lengkap', 'like', "%{$search}%")
+                        ->orWhere('username', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('no_telp', 'like', "%{$search}%");
+                  });
             });
         }
 

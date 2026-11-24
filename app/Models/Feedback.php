@@ -12,6 +12,7 @@ class Feedback extends Model
 
     protected $fillable = [
         'id_user',
+        'nama_pengirim',
         'tanggal_saran',
         'teks_saran',
         'bintang',

@@ -16,8 +16,10 @@ class CatController extends Controller
         $query = DataKucing::with('variant');
 
         if ($search) {
-            $query->where('nama_kucing', 'like', "%{$search}%")
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_kucing', 'like', "%{$search}%")
                   ->orWhere('deskripsi', 'like', "%{$search}%");
+            });
         }
 
         $cats = $query->orderBy('nama_kucing')->paginate(10)->withQueryString();

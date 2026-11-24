@@ -23,13 +23,14 @@ Route::get('/reservasi', [ReservationController::class, 'create'])->name('reserv
 Route::get('/reservasi/availability', [ReservationController::class, 'availability'])->name('reservasi.availability');
 
 Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
+Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('/logout-idle', function (\Illuminate\Http\Request $request) {
+Route::match(['get', 'post'], '/logout-idle', function (\Illuminate\Http\Request $request) {
     if (\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->role === 'user') {
         \Illuminate\Support\Facades\Auth::logout();
         $request->session()->invalidate();
@@ -44,8 +45,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/reservasi', [ReservationController::class, 'store'])->name('reservasi.store');
     Route::get('/reservasi/{id}', [ReservationController::class, 'show'])->name('reservasi.show');
     Route::get('/riwayat-reservasi', [ReservationController::class, 'history'])->name('reservasi.history');
-
-    Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 });
 
 Route::get('/Lulu', function () {
@@ -93,5 +92,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::patch('/feedbacks/{id}/toggle', [AdminFeedbackController::class, 'toggleStatus'])->name('feedbacks.toggle');
     Route::delete('/feedbacks/{id}', [AdminFeedbackController::class, 'destroy'])->name('feedbacks.destroy');
 
+    Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+    Route::put('/users/{id}', [AdminUserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('users.destroy');
 });
 
