@@ -6,7 +6,7 @@
     <title>@yield('title', 'Admin Dashboard - Cat House')</title>
     <link rel="icon" type="image/png" href="{{ asset('images/admin-cat-logo.png') }}">
 
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}?v={{ filemtime(public_path('css/admin.css')) }}">
+    <link rel="stylesheet" href="/css/admin.css?v={{ time() }}">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 

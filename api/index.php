@@ -1,5 +1,10 @@
 <?php
 
+// Pastikan HTTPS aktif saat di belakang proxy Vercel
+if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+    $_SERVER['HTTPS'] = 'on';
+}
+
 // Pastikan direktori sementara tersedia di /tmp untuk Vercel Serverless
 $storageDirs = [
     '/tmp/storage/framework/views',

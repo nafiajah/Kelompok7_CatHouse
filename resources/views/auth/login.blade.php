@@ -3,7 +3,7 @@
 @section('title', 'Login - CAT HOUSE')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/style.css') }}?v={{ time() }}">
+<link rel="stylesheet" href="/css/style.css?v={{ time() }}">
 @endsection
 
 @section('content')
