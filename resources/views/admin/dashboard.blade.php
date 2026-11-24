@@ -3,28 +3,6 @@
 @section('title', 'Dashboard - Admin Cat House')
 @section('page_title', 'Dashboard')
 
-@section('styles')
-<style>
-    .dashboard-scroll {
-        scrollbar-width: thin;
-        scrollbar-color: #D6CBC5 transparent;
-    }
-    .dashboard-scroll::-webkit-scrollbar {
-        width: 6px;
-    }
-    .dashboard-scroll::-webkit-scrollbar-track {
-        background: transparent;
-    }
-    .dashboard-scroll::-webkit-scrollbar-thumb {
-        background-color: #D6CBC5;
-        border-radius: 9999px;
-    }
-    .dashboard-scroll::-webkit-scrollbar-thumb:hover {
-        background-color: #B8ABA4;
-    }
-</style>
-@endsection
-
 @section('content')
 <div class="space-y-6">
 

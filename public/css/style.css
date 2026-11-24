@@ -168,25 +168,14 @@ body.login-page-body {
   position: relative;
   z-index: 5;
   background-color: var(--bg-main);
-  scrollbar-width: thin;
-  scrollbar-color: rgba(229, 131, 150, 0.4) transparent;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .login-form-section::-webkit-scrollbar {
-  width: 6px;
-}
-
-.login-form-section::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.login-form-section::-webkit-scrollbar-thumb {
-  background-color: rgba(229, 131, 150, 0.4);
-  border-radius: 9999px;
-}
-
-.login-form-section::-webkit-scrollbar-thumb:hover {
-  background-color: var(--btn-primary);
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .login-form-content {

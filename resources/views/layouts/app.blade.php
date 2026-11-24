@@ -59,6 +59,19 @@
         }
     </script>
     <style>
+        html,
+        body,
+        * {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar,
+        *::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #FFFFFF;
