@@ -10,7 +10,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('members', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->unique()->primary();
+            $table->id();
             $table->enum('role', ['admin', 'user'])->default('user');
             $table->string('username', 50)->unique();
             $table->string('password', 255);
