@@ -42,6 +42,10 @@ class DataKucing extends Model
 
     public function getFotoUrlAttribute()
     {
+        if ($this->foto && (str_starts_with($this->foto, 'data:') || str_starts_with($this->foto, 'http://') || str_starts_with($this->foto, 'https://'))) {
+            return $this->foto;
+        }
+
         if ($this->foto) {
             $filename = basename($this->foto);
 

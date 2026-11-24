@@ -34,6 +34,35 @@ class CatController extends Controller
         return view('admin.cats.create', compact('variants'));
     }
 
+    private function handleFileUpload($file, $oldFoto = null): string
+    {
+        $destination = public_path('uploads/cats');
+        $isWritable = false;
+
+        try {
+            if (!File::isDirectory($destination)) {
+                @File::makeDirectory($destination, 0755, true, true);
+            }
+            $isWritable = is_writable($destination);
+        } catch (\Throwable $e) {
+            $isWritable = false;
+        }
+
+        if ($isWritable) {
+            if ($oldFoto && !str_starts_with($oldFoto, 'data:') && File::exists($destination . '/' . $oldFoto)) {
+                @File::delete($destination . '/' . $oldFoto);
+            }
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move($destination, $filename);
+            return $filename;
+        }
+
+        // Serverless fallback (Vercel / read-only filesystem):
+        // Store as Base64 Data URI directly in the database column
+        $mime = $file->getMimeType() ?: 'image/jpeg';
+        return 'data:' . $mime . ';base64,' . base64_encode(file_get_contents($file->getRealPath()));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -53,13 +82,7 @@ class CatController extends Controller
 
         $fotoName = null;
         if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $fotoName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $destination = public_path('uploads/cats');
-            if (!File::isDirectory($destination)) {
-                File::makeDirectory($destination, 0755, true, true);
-            }
-            $file->move($destination, $fotoName);
+            $fotoName = $this->handleFileUpload($request->file('foto'));
         }
 
         DataKucing::create([
@@ -99,18 +122,7 @@ class CatController extends Controller
 
         $fotoName = $cat->foto;
         if ($request->hasFile('foto')) {
-
-            if ($cat->foto && File::exists(public_path('uploads/cats/' . $cat->foto))) {
-                File::delete(public_path('uploads/cats/' . $cat->foto));
-            }
-
-            $file = $request->file('foto');
-            $fotoName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $destination = public_path('uploads/cats');
-            if (!File::isDirectory($destination)) {
-                File::makeDirectory($destination, 0755, true, true);
-            }
-            $file->move($destination, $fotoName);
+            $fotoName = $this->handleFileUpload($request->file('foto'), $cat->foto);
         }
 
         $cat->update([
