@@ -262,7 +262,7 @@
                     </p>
 
                     <div class="flex items-center gap-3 pt-1">
-                        <a href="https://wa.me/6285222883700" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="w-9 h-9 rounded-full bg-[#E58B9C] text-white flex items-center justify-center text-base hover:bg-[#D77487] transition shadow-xs">
+                        <a href="https://wa.me/6285806145361" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="w-9 h-9 rounded-full bg-[#E58B9C] text-white flex items-center justify-center text-base hover:bg-[#D77487] transition shadow-xs">
                             <i class="fa-brands fa-whatsapp"></i>
                         </a>
                         <a href="https://www.instagram.com/cathouse.bukitbintang/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="w-9 h-9 rounded-full bg-[#E58B9C] text-white flex items-center justify-center text-base hover:bg-[#D77487] transition shadow-xs">
@@ -281,14 +281,14 @@
                         <li><a href="{{ route('about') }}" class="hover:text-[#D77487] transition">Tentang Kami</a></li>
                         <li><a href="{{ route('reservasi.create') }}" class="hover:text-[#D77487] transition">Reservasi</a></li>
                         <li><a href="{{ route('cats.index') }}" class="hover:text-[#D77487] transition">Kucing Kami</a></li>
-                        <li><a href="https://wa.me/6285222883700" target="_blank" rel="noopener noreferrer" class="hover:text-[#D77487] transition">Kontak</a></li>
+                        <li><a href="https://wa.me/6285806145361" target="_blank" rel="noopener noreferrer" class="hover:text-[#D77487] transition">Kontak</a></li>
                     </ul>
                 </div>
 
                 <div class="md:col-span-4 space-y-4">
                     <div class="flex items-center gap-2.5 text-xs sm:text-sm font-medium text-[#3F322A]">
                         <i class="fa-solid fa-phone text-[#3F322A]"></i>
-                        <a href="tel:085222883700" class="hover:text-[#D77487] transition">0852-2288-3700</a>
+                        <a href="tel:+6285806145361" class="hover:text-[#D77487] transition">+62 858-0614-5361</a>
                     </div>
                     <a href="https://www.google.com/maps/place/Bukit+Bintang+Park+and+Resort/@-3.4692921,114.9232715,17z/data=!4m6!3m5!1s0x2de67f7693b531fd:0xd769b2a9c59af12c!8m2!3d-3.4690076!4d114.9232077!16s%2Fg%2F11s950dj5h?hl=en-id&entry=ttu&g_ep=EgoyMDI2MTExOC4xIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="text-xs sm:text-sm text-[#3F322A]/90 leading-relaxed block hover:text-[#D77487] transition">
                         Jl. Ir. P. M. Noor, Padang Panjang,<br>
