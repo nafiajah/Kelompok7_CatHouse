@@ -126,7 +126,10 @@
     <div class="bg-white rounded-[20px] border border-stone-300 shadow-2xl w-full max-w-lg overflow-hidden">
 
         <div class="px-6 sm:px-7 py-5 border-b border-stone-300 flex items-center justify-between">
-            <h3 class="text-lg sm:text-xl font-bold text-[#3F322A]">Tambah Data Kucing</h3>
+            <div>
+                <h3 class="text-lg sm:text-xl font-bold text-[#3F322A]">Tambah Data Kucing</h3>
+                <p class="text-[11px] text-stone-500 mt-0.5">Kolom bertanda <span class="text-red-500 font-bold">*</span> wajib diisi.</p>
+            </div>
             <button type="button" onclick="closeCreateCatModal()" class="text-stone-400 hover:text-stone-700 p-1 rounded-lg transition cursor-pointer" aria-label="Tutup">
                 <i class="fa-solid fa-xmark text-base"></i>
             </button>
@@ -147,7 +150,7 @@
 
                 <div>
                     <label for="create_nama_kucing" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
-                        Nama Kucing
+                        Nama Kucing <span class="text-red-500">*</span>
                     </label>
                     <input
                         type="text"
@@ -162,7 +165,7 @@
 
                 <div>
                     <label for="create_id_variant" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
-                        Varian Jenis
+                        Varian Jenis <span class="text-red-500">*</span>
                     </label>
                     <div class="relative">
                         <select
@@ -185,7 +188,7 @@
 
                 <div>
                     <label for="create_deskripsi" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
-                        Deskripsi Ciri &amp; Karakter
+                        Deskripsi Ciri &amp; Karakter <span class="text-red-500">*</span>
                     </label>
                     <textarea
                         name="deskripsi"
@@ -199,7 +202,7 @@
 
                 <div>
                     <label for="create_foto" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
-                        Foto
+                        Foto <span class="text-red-500">*</span>
                     </label>
                     <div class="rounded-lg border border-stone-400 px-3 py-2 bg-white">
                         <input
@@ -209,11 +212,21 @@
                             accept="image/jpeg,image/png,image/jpg,image/webp"
                             required
                             onchange="previewCatImage(this, 'createFotoPreviewWrap', 'createFotoPreview')"
-                            class="w-full text-xs text-stone-600 file:mr-3 file:py-1 file:px-2.5 file:rounded file:border file:border-stone-400 file:text-xs file:font-medium file:bg-stone-100 file:text-stone-700 hover:file:bg-stone-200 cursor-pointer"
+                            class="w-full text-xs text-stone-600 file:mr-3 file:py-1 file:px-2.5 file:rounded file:border file:border-stone-400 file:text-xs file:font-medium file:bg-[#FFDAE1] file:text-[#3F322A] hover:file:bg-[#F8BAC7] transition cursor-pointer"
                         >
                         <div id="createFotoPreviewWrap" class="hidden mt-3">
                             <img id="createFotoPreview" src="" alt="Preview Foto" class="w-16 h-16 rounded-lg object-cover border border-stone-200">
                         </div>
+                    </div>
+                    <div class="mt-2.5 p-3 rounded-xl bg-[#FFF9FA] border border-[#FFDAE1] text-xs text-[#5C4D44] space-y-1">
+                        <p class="font-bold text-[#3F322A] flex items-center gap-1.5 text-xs">
+                            <i class="fa-solid fa-circle-info text-[#E58B9C]"></i> Ketentuan Format &amp; Ukuran Foto:
+                        </p>
+                        <ul class="list-disc pl-5 space-y-0.5 text-[11.5px] text-[#5C4D44]">
+                            <li><strong>Format yang diterima:</strong> JPG, JPEG, PNG, WEBP</li>
+                            <li><strong>Ukuran maksimal:</strong> 3 MB (3.072 KB)</li>
+                            <li><strong>Rekomendasi tampilan:</strong> Rasio 1:1 (persegi) atau 4:5 agar tampil proporsional di website</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -241,7 +254,10 @@
     <div class="bg-white rounded-[20px] border border-stone-300 shadow-2xl w-full max-w-lg overflow-hidden">
 
         <div class="px-6 sm:px-7 py-5 border-b border-stone-300 flex items-center justify-between">
-            <h3 class="text-lg sm:text-xl font-bold text-[#3F322A]">Edit Data Kucing</h3>
+            <div>
+                <h3 class="text-lg sm:text-xl font-bold text-[#3F322A]">Edit Data Kucing</h3>
+                <p class="text-[11px] text-stone-500 mt-0.5">Kolom bertanda <span class="text-red-500 font-bold">*</span> wajib diisi.</p>
+            </div>
             <button type="button" onclick="closeEditCatModal()" class="text-stone-400 hover:text-stone-700 p-1 rounded-lg transition cursor-pointer" aria-label="Tutup">
                 <i class="fa-solid fa-xmark text-base"></i>
             </button>
@@ -265,7 +281,7 @@
 
                 <div>
                     <label for="edit_nama_kucing" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
-                        Nama Kucing
+                        Nama Kucing <span class="text-red-500">*</span>
                     </label>
                     <input
                         type="text"
@@ -279,7 +295,7 @@
 
                 <div>
                     <label for="edit_id_variant" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
-                        Varian Jenis
+                        Varian Jenis <span class="text-red-500">*</span>
                     </label>
                     <div class="relative">
                         <select
@@ -302,7 +318,7 @@
 
                 <div>
                     <label for="edit_deskripsi" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
-                        Deskripsi Ciri &amp; Karakter
+                        Deskripsi Ciri &amp; Karakter <span class="text-red-500">*</span>
                     </label>
                     <textarea
                         name="deskripsi"
@@ -315,7 +331,7 @@
 
                 <div>
                     <label for="edit_foto" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
-                        Foto
+                        Foto <span class="text-xs font-normal text-stone-400 lowercase">(opsional jika tidak diganti)</span>
                     </label>
                     <div class="rounded-lg border border-stone-400 p-3 bg-white flex items-center gap-4">
                         <img
@@ -331,10 +347,20 @@
                                 id="edit_foto"
                                 accept="image/jpeg,image/png,image/jpg,image/webp"
                                 onchange="previewCatImage(this, null, 'editFotoPreview')"
-                                class="w-full text-xs text-stone-600 file:mr-2.5 file:py-1 file:px-2.5 file:rounded file:border file:border-stone-400 file:text-xs file:font-medium file:bg-stone-100 file:text-stone-700 hover:file:bg-stone-200 cursor-pointer"
+                                class="w-full text-xs text-stone-600 file:mr-2.5 file:py-1 file:px-2.5 file:rounded file:border file:border-stone-400 file:text-xs file:font-medium file:bg-[#FFDAE1] file:text-[#3F322A] hover:file:bg-[#F8BAC7] transition cursor-pointer"
                             >
-                            <p class="mt-1 text-[11px] text-stone-400">Kosongkan jika tidak ingin mengganti foto.</p>
+                            <p class="mt-1 text-[11px] text-stone-400">Kosongkan jika tidak ingin mengganti foto saat ini.</p>
                         </div>
+                    </div>
+                    <div class="mt-2.5 p-3 rounded-xl bg-[#FFF9FA] border border-[#FFDAE1] text-xs text-[#5C4D44] space-y-1">
+                        <p class="font-bold text-[#3F322A] flex items-center gap-1.5 text-xs">
+                            <i class="fa-solid fa-circle-info text-[#E58B9C]"></i> Ketentuan Format &amp; Ukuran Foto:
+                        </p>
+                        <ul class="list-disc pl-5 space-y-0.5 text-[11.5px] text-[#5C4D44]">
+                            <li><strong>Format yang diterima:</strong> JPG, JPEG, PNG, WEBP</li>
+                            <li><strong>Ukuran maksimal:</strong> 3 MB (3.072 KB)</li>
+                            <li><strong>Rekomendasi tampilan:</strong> Rasio 1:1 (persegi) atau 4:5 agar tampil proporsional di website</li>
+                        </ul>
                     </div>
                 </div>
             </div>
