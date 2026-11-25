@@ -43,57 +43,72 @@
                         <div class="space-y-5">
 
                         <div>
-                            <label for="nama_lengkap" class="block text-sm font-medium text-[#3F322A] mb-2">
-                                Nama Lengkap
-                            </label>
+                            <div class="flex items-center justify-between mb-2">
+                                <label for="nama_lengkap" class="block text-sm font-medium text-[#3F322A]">
+                                    Nama Lengkap
+                                </label>
+                                <span class="text-[11px] font-semibold text-[#8C7E76] flex items-center gap-1">
+                                    <i class="fa-solid fa-lock text-[10px]"></i> Akun Terhubung
+                                </span>
+                            </div>
                             <input
                                 type="text"
                                 name="nama_lengkap"
                                 id="nama_lengkap"
-                                value="{{ old('nama_lengkap', Auth::user()->nama_lengkap) }}"
+                                value="{{ Auth::user()->nama_lengkap ?: Auth::user()->username }}"
+                                readonly
                                 required
-                                placeholder="Masukan nama lengkap Anda"
-                                class="w-full px-4 py-3 rounded-xl bg-white border border-[#A39A95] text-sm text-[#3F322A] placeholder:text-[#9E9590] shadow-[0_2px_4px_rgba(0,0,0,0.06)] focus:outline-none focus:border-[#E58B9C] focus:ring-2 focus:ring-[#E58B9C]/25 @error('nama_lengkap') border-red-500 @enderror"
+                                class="w-full px-4 py-3 rounded-xl bg-[#F2EAE5] border border-[#BEB4AD] text-sm text-[#5C4D44] cursor-not-allowed select-none shadow-[0_1px_3px_rgba(0,0,0,0.04)] focus:outline-none"
                             >
-                            @error('nama_lengkap')
-                                <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
-                            @enderror
+                            <p class="mt-1.5 text-[11px] text-[#7A6B62] flex items-center gap-1.5">
+                                <i class="fa-solid fa-circle-check text-emerald-600 text-[10px]"></i> Otomatis mengambil data nama dari akun profil Anda
+                            </p>
                         </div>
 
                         <div>
-                            <label for="email" class="block text-sm font-medium text-[#3F322A] mb-2">
-                                Email
-                            </label>
+                            <div class="flex items-center justify-between mb-2">
+                                <label for="email" class="block text-sm font-medium text-[#3F322A]">
+                                    Email
+                                </label>
+                                <span class="text-[11px] font-semibold text-[#8C7E76] flex items-center gap-1">
+                                    <i class="fa-solid fa-lock text-[10px]"></i> Akun Terhubung
+                                </span>
+                            </div>
                             <input
                                 type="email"
                                 name="email"
                                 id="email"
-                                value="{{ old('email', Auth::user()->email) }}"
+                                value="{{ Auth::user()->email }}"
+                                readonly
                                 required
-                                placeholder="Masukan email Anda"
-                                class="w-full px-4 py-3 rounded-xl bg-white border border-[#A39A95] text-sm text-[#3F322A] placeholder:text-[#9E9590] shadow-[0_2px_4px_rgba(0,0,0,0.06)] focus:outline-none focus:border-[#E58B9C] focus:ring-2 focus:ring-[#E58B9C]/25 @error('email') border-red-500 @enderror"
+                                class="w-full px-4 py-3 rounded-xl bg-[#F2EAE5] border border-[#BEB4AD] text-sm text-[#5C4D44] cursor-not-allowed select-none shadow-[0_1px_3px_rgba(0,0,0,0.04)] focus:outline-none"
                             >
-                            @error('email')
-                                <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
-                            @enderror
+                            <p class="mt-1.5 text-[11px] text-[#7A6B62] flex items-center gap-1.5">
+                                <i class="fa-solid fa-circle-check text-emerald-600 text-[10px]"></i> Otomatis mengambil alamat email dari akun profil Anda
+                            </p>
                         </div>
 
                         <div>
-                            <label for="no_telp" class="block text-sm font-medium text-[#3F322A] mb-2">
-                                Nomor HP
-                            </label>
+                            <div class="flex items-center justify-between mb-2">
+                                <label for="no_telp" class="block text-sm font-medium text-[#3F322A]">
+                                    Nomor HP
+                                </label>
+                                <span class="text-[11px] font-semibold text-[#8C7E76] flex items-center gap-1">
+                                    <i class="fa-solid fa-lock text-[10px]"></i> Akun Terhubung
+                                </span>
+                            </div>
                             <input
                                 type="text"
                                 name="no_telp"
                                 id="no_telp"
-                                value="{{ old('no_telp', Auth::user()->no_telp) }}"
+                                value="{{ Auth::user()->no_telp }}"
+                                readonly
                                 required
-                                placeholder="Contoh: 08123456789"
-                                class="w-full px-4 py-3 rounded-xl bg-white border border-[#A39A95] text-sm text-[#3F322A] placeholder:text-[#9E9590] shadow-[0_2px_4px_rgba(0,0,0,0.06)] focus:outline-none focus:border-[#E58B9C] focus:ring-2 focus:ring-[#E58B9C]/25 @error('no_telp') border-red-500 @enderror"
+                                class="w-full px-4 py-3 rounded-xl bg-[#F2EAE5] border border-[#BEB4AD] text-sm text-[#5C4D44] cursor-not-allowed select-none shadow-[0_1px_3px_rgba(0,0,0,0.04)] focus:outline-none"
                             >
-                            @error('no_telp')
-                                <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
-                            @enderror
+                            <p class="mt-1.5 text-[11px] text-[#7A6B62] flex items-center gap-1.5">
+                                <i class="fa-solid fa-circle-check text-emerald-600 text-[10px]"></i> Otomatis mengambil nomor telepon dari akun profil Anda
+                            </p>
                         </div>
 
                         <div>

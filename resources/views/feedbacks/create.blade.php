@@ -33,17 +33,39 @@
                         @csrf
 
                         <div>
-                            <label for="nama_lengkap" class="block text-sm font-medium text-[#3F322A] mb-2.5">
-                                Nama Lengkap
-                            </label>
-                            <input
-                                type="text"
-                                name="nama_lengkap"
-                                id="nama_lengkap"
-                                value="{{ old('nama_lengkap', Auth::check() ? Auth::user()->nama_lengkap : '') }}"
-                                placeholder="Masukan nama lengkap Anda"
-                                class="w-full px-4 py-2.5 rounded-xl bg-white border border-[#9E9590] text-sm text-[#3F322A] placeholder:text-[#9E9590] shadow-[0_2px_4px_rgba(0,0,0,0.06)] focus:outline-none focus:border-[#E58B9C] focus:ring-2 focus:ring-[#E58B9C]/25"
-                            >
+                            <div class="flex items-center justify-between mb-2">
+                                <label for="nama_lengkap" class="block text-sm font-medium text-[#3F322A]">
+                                    Nama Lengkap
+                                </label>
+                                @auth
+                                    <span class="text-[11px] font-semibold text-[#8C7E76] flex items-center gap-1">
+                                        <i class="fa-solid fa-lock text-[10px]"></i> Akun Terhubung
+                                    </span>
+                                @endauth
+                            </div>
+
+                            @auth
+                                <input
+                                    type="text"
+                                    name="nama_lengkap"
+                                    id="nama_lengkap"
+                                    value="{{ Auth::user()->nama_lengkap ?: Auth::user()->username }}"
+                                    readonly
+                                    class="w-full px-4 py-2.5 rounded-xl bg-[#F2EAE5] border border-[#BEB4AD] text-sm text-[#5C4D44] cursor-not-allowed select-none shadow-[0_1px_3px_rgba(0,0,0,0.04)] focus:outline-none"
+                                >
+                                <p class="mt-1.5 text-[11px] text-[#7A6B62] flex items-center gap-1.5">
+                                    <i class="fa-solid fa-circle-check text-emerald-600 text-[10px]"></i> Otomatis menggunakan nama dari akun login Anda
+                                </p>
+                            @else
+                                <input
+                                    type="text"
+                                    name="nama_lengkap"
+                                    id="nama_lengkap"
+                                    value="{{ old('nama_lengkap') }}"
+                                    placeholder="Masukan nama lengkap Anda"
+                                    class="w-full px-4 py-2.5 rounded-xl bg-white border border-[#9E9590] text-sm text-[#3F322A] placeholder:text-[#9E9590] shadow-[0_2px_4px_rgba(0,0,0,0.06)] focus:outline-none focus:border-[#E58B9C] focus:ring-2 focus:ring-[#E58B9C]/25"
+                                >
+                            @endauth
                         </div>
 
                         <hr class="border-t border-[#7A6E68] my-5">

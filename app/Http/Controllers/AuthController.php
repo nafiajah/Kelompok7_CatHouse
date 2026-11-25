@@ -68,7 +68,7 @@ class AuthController extends Controller
             'password' => 'required|string|min:6',
             'email' => 'required|email|max:50|unique:' . $userTable . ',email',
             'alamat' => 'nullable|string|max:100',
-            'no_telp' => 'required|string|max:50',
+            'no_telp' => ['required', 'string', 'regex:/^[0-9]+$/', 'min:8', 'max:20'],
             'nama_lengkap' => 'nullable|string|max:50',
         ], [
             'username.required' => 'Username wajib diisi.',
@@ -79,6 +79,9 @@ class AuthController extends Controller
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah terdaftar.',
             'no_telp.required' => 'Nomor telepon wajib diisi.',
+            'no_telp.regex' => 'Nomor telepon hanya boleh berisi angka (tidak boleh huruf atau simbol).',
+            'no_telp.min' => 'Nomor telepon minimal 8 digit angka.',
+            'no_telp.max' => 'Nomor telepon maksimal 20 digit angka.',
         ]);
 
         $user = User::create([

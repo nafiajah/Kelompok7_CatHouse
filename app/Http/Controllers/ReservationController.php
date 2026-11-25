@@ -283,9 +283,9 @@ class ReservationController extends Controller
                 return Reservation::create([
                     'id_users' => Auth::id(),
                     'id_sesi' => $currentSession->id,
-                    'nama_pemesan' => $validated['nama_lengkap'],
-                    'email_pemesan' => $validated['email'],
-                    'no_telp_pemesan' => $validated['no_telp'],
+                    'nama_pemesan' => Auth::user()->nama_lengkap ?: $validated['nama_lengkap'],
+                    'email_pemesan' => Auth::user()->email ?: $validated['email'],
+                    'no_telp_pemesan' => Auth::user()->no_telp ?: $validated['no_telp'],
                     'jumlah_tamu' => $validated['jumlah_tamu'],
                     'total_harga' => $totalHarga,
                     'tanggal_reservasi' => $validated['tanggal_reservasi'],

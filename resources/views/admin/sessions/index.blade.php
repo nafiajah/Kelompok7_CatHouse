@@ -122,7 +122,10 @@
 <div id="createSessionModal" class="fixed inset-0 z-50 bg-black/45 backdrop-blur-[2px] hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-[20px] border border-stone-300 shadow-2xl w-full max-w-md overflow-hidden">
         <div class="px-6 sm:px-7 py-5 border-b border-stone-300 flex items-center justify-between">
-            <h3 class="text-lg sm:text-xl font-bold text-[#3F322A]">Tambah Sesi Kunjungan</h3>
+            <div>
+                <h3 class="text-lg sm:text-xl font-bold text-[#3F322A]">Tambah Sesi Kunjungan</h3>
+                <p class="text-[11px] text-stone-500 mt-0.5">Kolom bertanda <span class="text-red-500 font-bold">*</span> wajib diisi.</p>
+            </div>
             <button type="button" onclick="closeCreateSessionModal()" class="text-stone-400 hover:text-stone-700 p-1 rounded-lg transition cursor-pointer" aria-label="Tutup">
                 <i class="fa-solid fa-xmark text-base"></i>
             </button>
@@ -143,7 +146,7 @@
 
                 <div>
                     <label for="create_jam_sesi" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
-                        Rentang Jam Sesi
+                        Rentang Jam Sesi <span class="text-red-500">*</span>
                     </label>
                     <input
                         type="text"
@@ -159,7 +162,7 @@
 
                 <div>
                     <label for="create_token_sesi" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
-                        Token Kuota Pengunjung
+                        Token Kuota Pengunjung <span class="text-red-500">*</span>
                     </label>
                     <input
                         type="number"
@@ -198,7 +201,10 @@
 <div id="editSessionModal" class="fixed inset-0 z-50 bg-black/45 backdrop-blur-[2px] hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-[20px] border border-stone-300 shadow-2xl w-full max-w-md overflow-hidden">
         <div class="px-6 sm:px-7 py-5 border-b border-stone-300 flex items-center justify-between">
-            <h3 class="text-lg sm:text-xl font-bold text-[#3F322A]">Edit Sesi Kunjungan</h3>
+            <div>
+                <h3 class="text-lg sm:text-xl font-bold text-[#3F322A]">Edit Sesi Kunjungan</h3>
+                <p class="text-[11px] text-stone-500 mt-0.5">Kolom bertanda <span class="text-red-500 font-bold">*</span> wajib diisi.</p>
+            </div>
             <button type="button" onclick="closeEditSessionModal()" class="text-stone-400 hover:text-stone-700 p-1 rounded-lg transition cursor-pointer" aria-label="Tutup">
                 <i class="fa-solid fa-xmark text-base"></i>
             </button>
@@ -221,7 +227,7 @@
 
                 <div>
                     <label for="edit_jam_sesi" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
-                        Rentang Jam Sesi
+                        Rentang Jam Sesi <span class="text-red-500">*</span>
                     </label>
                     <input
                         type="text"
@@ -235,7 +241,7 @@
 
                 <div>
                     <label for="edit_token_sesi" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
-                        Token Kuota (Orang)
+                        Token Kuota (Orang) <span class="text-red-500">*</span>
                     </label>
                     <input
                         type="number"

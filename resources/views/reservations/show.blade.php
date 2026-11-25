@@ -135,18 +135,32 @@ $kodeReservasi = '#CPY-' . str_pad($reservation->id, 5, '0', STR_PAD_LEFT);
                     </div>
                 </div>
 
-                <div class="rounded-xl bg-[#DCE8E9] border border-[#9EB8BB] px-5 py-4 text-center space-y-1">
-                    <p class="text-xs sm:text-sm text-[#8F9D9E]">
-                        Pastikan anda benar-benar telah membaca
-                        <button
-                            type="button"
-                            id="snkTrigger"
-                            class="underline decoration-dotted underline-offset-4 font-semibold text-[#5A8388] hover:text-[#2E221E] transition cursor-pointer"
-                        >S&amp;K yang berlaku</button>
-                    </p>
-                    <p class="text-xs sm:text-sm font-medium text-[#2E221E]">
-                        Tunjukkan bukti reservasi ini kepada staff yang bertugas
-                    </p>
+                <div class="rounded-2xl bg-[#EDF4F5] border border-[#9EB8BB] p-5 sm:p-6 space-y-3">
+                    <div class="flex items-center gap-2 pb-2.5 border-b border-[#9EB8BB]/70">
+                        <i class="fa-solid fa-shield-halved text-[#4D767A] text-sm sm:text-base"></i>
+                        <h3 class="text-xs sm:text-sm font-bold uppercase tracking-wide text-[#2E221E]">
+                            Syarat &amp; Ketentuan Kunjungan
+                        </h3>
+                    </div>
+
+                    <ul class="space-y-2.5 text-xs sm:text-[13px] text-[#2E221E] leading-relaxed">
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-circle-check text-emerald-700 text-xs mt-0.5 shrink-0"></i>
+                            <span>Harap datang <strong>15 menit lebih awal</strong> dari jadwal sesi Anda, keterlambatan dapat mengurangi durasi sesi Anda.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-circle-check text-emerald-700 text-xs mt-0.5 shrink-0"></i>
+                            <span>Reservasi <strong>tidak dapat dijadwalkan ulang (reschedule)</strong>.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-circle-check text-emerald-700 text-xs mt-0.5 shrink-0"></i>
+                            <span>Reservasi yang dibatalkan tanpa konfirmasi akan dikenai denda.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-circle-check text-emerald-700 text-xs mt-0.5 shrink-0"></i>
+                            <span><strong>Tunjukkan bukti reservasi ini</strong> kepada staff yang bertugas saat kedatangan.</span>
+                        </li>
+                    </ul>
                 </div>
 
                 <div class="pt-3 pb-2 grid grid-cols-1 sm:grid-cols-3 gap-4 print:hidden">
@@ -187,83 +201,4 @@ $kodeReservasi = '#CPY-' . str_pad($reservation->id, 5, '0', STR_PAD_LEFT);
 
     </div>
 </section>
-
-<div
-    id="snkModal"
-    class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/45 backdrop-blur-[2px] opacity-0 pointer-events-none transition-all duration-200 print:hidden"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="snkModalTitle"
->
-    <div
-        id="snkModalCard"
-        class="relative w-full max-w-md bg-[#A9C4C7] border border-[#5E7F83] rounded-[22px] shadow-2xl p-6 sm:p-7 text-[#2E221E] transform scale-95 transition-all duration-200"
-    >
-
-        <button
-            type="button"
-            id="snkCloseBtn"
-            aria-label="Tutup Syarat dan Ketentuan"
-            class="absolute top-3.5 right-3.5 w-8 h-8 rounded-full bg-white/75 hover:bg-white text-[#3F322A] flex items-center justify-center shadow-2xs transition cursor-pointer"
-        >
-            <i class="fa-solid fa-xmark text-sm"></i>
-        </button>
-
-        <div class="flex items-center justify-center gap-2 pb-3 border-b border-[#3F322A]/45 pr-6">
-            <i class="fa-solid fa-shield-halved text-[#5C4D44] text-base"></i>
-            <h3 id="snkModalTitle" class="text-sm sm:text-base font-semibold text-[#2E221E]">
-                Syarat dan ketentuan
-            </h3>
-        </div>
-
-        <ul class="mt-4 pl-5 list-disc space-y-2.5 text-xs sm:text-sm leading-relaxed text-[#2E221E]">
-            <li>Harap datang 15 menit lebih awal dari jadwal sesi Anda, keterlambatan dapat mengurangi durasi sesi Anda.</li>
-            <li>Tidak dapat dijadwalkan ulang (reschedule).</li>
-            <li>Reservasi yang dibatalkan tanpa konfirmasi akan dikenai denda.</li>
-        </ul>
-    </div>
-</div>
-@endsection
-
-@section('scripts')
-<script>
-    (function () {
-        const trigger = document.getElementById('snkTrigger');
-        const modal = document.getElementById('snkModal');
-        const card = document.getElementById('snkModalCard');
-        const closeBtn = document.getElementById('snkCloseBtn');
-
-        if (!trigger || !modal || !card || !closeBtn) return;
-
-        function openSnkModal() {
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            modal.classList.add('opacity-100', 'pointer-events-auto');
-            card.classList.remove('scale-95');
-            card.classList.add('scale-100');
-        }
-
-        function closeSnkModal() {
-            modal.classList.remove('opacity-100', 'pointer-events-auto');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            card.classList.remove('scale-100');
-            card.classList.add('scale-95');
-        }
-
-        trigger.addEventListener('click', openSnkModal);
-
-        closeBtn.addEventListener('click', closeSnkModal);
-
-        modal.addEventListener('click', function (e) {
-            if (e.target === modal) {
-                closeSnkModal();
-            }
-        });
-
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && modal.classList.contains('opacity-100')) {
-                closeSnkModal();
-            }
-        });
-    })();
-</script>
 @endsection

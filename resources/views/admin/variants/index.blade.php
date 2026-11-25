@@ -134,9 +134,12 @@
                 @endif
 
                 <div>
-                    <label for="create_jenis" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
-                        Nama / Jenis Kucing
-                    </label>
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label for="create_jenis" class="block text-xs sm:text-sm font-bold text-[#3F322A]">
+                            Nama / Jenis Kucing <span class="text-red-500">*</span>
+                        </label>
+                        <span class="text-[10px] text-red-500 font-semibold">* Wajib diisi</span>
+                    </div>
                     <input
                         type="text"
                         name="jenis"
@@ -193,9 +196,12 @@
                 @endif
 
                 <div>
-                    <label for="edit_jenis" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
-                        Nama / Jenis Kucing
-                    </label>
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label for="edit_jenis" class="block text-xs sm:text-sm font-bold text-[#3F322A]">
+                            Nama / Jenis Kucing <span class="text-red-500">*</span>
+                        </label>
+                        <span class="text-[10px] text-red-500 font-semibold">* Wajib diisi</span>
+                    </div>
                     <input
                         type="text"
                         name="jenis"

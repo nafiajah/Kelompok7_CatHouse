@@ -139,7 +139,10 @@
 <div id="editUserModal" class="fixed inset-0 z-50 bg-black/45 backdrop-blur-[2px] hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-[20px] border border-stone-300 shadow-2xl w-full max-w-lg overflow-hidden">
         <div class="px-6 sm:px-7 py-5 border-b border-stone-300 flex items-center justify-between">
-            <h3 class="text-lg sm:text-xl font-bold text-[#3F322A]">Edit Data Pengguna</h3>
+            <div>
+                <h3 class="text-lg sm:text-xl font-bold text-[#3F322A]">Edit Data Pengguna</h3>
+                <p class="text-[11px] text-stone-500 mt-0.5">Kolom bertanda <span class="text-red-500 font-bold">*</span> wajib diisi.</p>
+            </div>
             <button type="button" onclick="closeEditUserModal()" class="text-stone-400 hover:text-stone-700 p-1 rounded-lg transition cursor-pointer" aria-label="Tutup">
                 <i class="fa-solid fa-xmark text-base"></i>
             </button>
@@ -162,7 +165,7 @@
 
                 <div>
                     <label for="edit_nama" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
-                        Nama Lengkap
+                        Nama Lengkap <span class="text-red-500">*</span>
                     </label>
                     <input
                         type="text"
@@ -176,7 +179,7 @@
 
                 <div>
                     <label for="edit_email" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
-                        Email
+                        Email <span class="text-red-500">*</span>
                     </label>
                     <input
                         type="email"
@@ -190,7 +193,7 @@
 
                 <div>
                     <label for="edit_telp" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
-                        No. Telepon
+                        No. Telepon <span class="text-red-500">*</span>
                     </label>
                     <input
                         type="text"
@@ -204,7 +207,7 @@
 
                 <div>
                     <label for="edit_role" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
-                        Role Akun
+                        Role Akun <span class="text-red-500">*</span>
                     </label>
                     <div class="relative">
                         <select
@@ -224,7 +227,7 @@
 
                 <div>
                     <label for="edit_password" class="block text-xs sm:text-sm font-bold text-[#3F322A] mb-1.5">
-                        Password Baru (Opsional)
+                        Password Baru <span class="text-xs font-normal text-stone-400">(Opsional jika tidak ingin diubah)</span>
                     </label>
                     <input
                         type="password"

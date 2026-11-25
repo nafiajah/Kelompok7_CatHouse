@@ -167,7 +167,11 @@
                         <div class="phone-prefix-box">+62</div>
                         <div class="phone-input-wrapper">
                             <input
-                                type="text"
+                                type="tel"
+                                inputmode="numeric"
+                                pattern="[0-9]*"
+                                maxlength="20"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                 name="no_telp"
                                 id="no_telp"
                                 value="{{ old('no_telp') }}"
@@ -180,6 +184,7 @@
                             </span>
                         </div>
                     </div>
+                    <span style="font-size: 11px; color: #7A6B62; margin-top: 4px; display: block;">Hanya masukkan angka (0-9).</span>
                     @error('no_telp')
                         <p class="error-message">{{ $message }}</p>
                     @enderror
@@ -206,6 +211,27 @@
     const togglePasswordBtn = document.getElementById('togglePasswordBtn');
     const passwordInput = document.getElementById('password');
     const passwordToggleImg = document.getElementById('passwordToggleImg');
+    const noTelpInput = document.getElementById('no_telp');
+
+    if (noTelpInput) {
+        noTelpInput.addEventListener('keypress', function (e) {
+            if (!/[0-9]/.test(e.key)) {
+                e.preventDefault();
+            }
+        });
+        noTelpInput.addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+        noTelpInput.addEventListener('paste', function (e) {
+            e.preventDefault();
+            const text = (e.clipboardData || window.clipboardData).getData('text') || '';
+            const numericText = text.replace(/[^0-9]/g, '');
+            const start = this.selectionStart;
+            const end = this.selectionEnd;
+            this.value = this.value.substring(0, start) + numericText + this.value.substring(end);
+            this.selectionStart = this.selectionEnd = start + numericText.length;
+        });
+    }
 
     if (togglePasswordBtn && passwordInput && passwordToggleImg) {
         togglePasswordBtn.addEventListener('click', function (e) {
